@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:icon="@drawable/ic_action_home"
+            android:title="Home" />
+    </group>
+
+    <item android:title="My Items">
+        <menu>
+            <item
+                android:id="@+id/listed"
+                android:icon="@drawable/ic_menu_listed_items"
+                android:title="Listings" />
+            <item
+                android:id="@+id/item_history"
+                android:icon="@drawable/ic_menu_delivery_history"
+                android:title="Completed" />
+        </menu>
+    </item>
+
+    <item android:title="Deliveries">
+        <menu>
+            <item
+                android:id="@+id/current_deliveries"
+                android:icon="@drawable/ic_menu_in_transit"
+                android:title="Current" />
+            <item
+                android:id="@+id/history"
+                android:icon="@drawable/ic_menu_delivery_history"
+                android:title="History" />
+        </menu>
+    </item>
+
+</menu>
