@@ -36,7 +36,9 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -50,6 +52,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      */
     private static final int REQUEST_READ_CONTACTS = 0;
     public static final String AUTH_TOKEN_EXTRA = "authToken";
+
+    final Firebase ref = new Firebase("https://emissary.firebaseio.com");
 
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -72,7 +76,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_login);
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
@@ -303,16 +306,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void login(String email, String password){
-        Firebase ref = new Firebase("https://emissary.firebaseio.com");
         ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
+
             @Override
             public void onAuthenticated(AuthData authData) {
                 showProgress(false);
+                // Authentication just completed successfully :)
+                Map<String, String> map = new HashMap<String, String>();
+                map.put("provider", authData.getProvider());
+                if(authData.getProviderData().containsKey("displayName")) {
+                    map.put("displayName", authData.getProviderData().get("displayName").toString());
+                }
+                ref.child("users").child(authData.getUid()).setValue(map);
 
-                String token = authData.getToken();
-                Intent intentWithToken = new Intent(LoginActivity.this, HomeActivity.class);
-                intentWithToken.putExtra(AUTH_TOKEN_EXTRA, token);
-                startActivity(intentWithToken);
+                Intent result = new Intent(LoginActivity.this, HomeActivity.class);
+                setResult(HomeActivity.RESULT_OK, result);
+                result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
+                finish();
             }
             @Override
             public void onAuthenticationError(FirebaseError firebaseError) {

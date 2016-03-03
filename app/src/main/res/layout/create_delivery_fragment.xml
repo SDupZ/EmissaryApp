@@ -1,0 +1,429 @@
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity$PlaceholderFragment"
+    android:background="#f5f5f5">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- ~~~~~~~~~~~~~Delivery Details Card~~~~~~~~~~~~~ -->
+            <android.support.v7.widget.CardView
+                android:id="@+id/delivery_details_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="2dp"
+                card_view:contentPadding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_action_box"/>
+                        <TextView
+                            android:paddingLeft="16dp"
+                            style="@style/DialogMainHeading"
+                            android:text="Delivery Details"/>
+                    </LinearLayout>
+
+
+                    <TextView
+                        style="@style/DialogSubHeadingOne"
+                        android:text="Delivery Name"
+                        />
+                    <EditText
+                        android:hint="E.g. Small Box"
+                        android:id="@+id/create_delivery_name"
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                    <TextView
+                        style="@style/DialogSubHeadingOne"
+                        android:text="Driver Notes"
+                        />
+
+                    <EditText
+                        android:id="@+id/create_delivery_notes"
+                        android:hint="E.g. Please keep dry and upright."
+                        android:layout_marginBottom="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"/>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <!-- ~~~~~~~~~~~~~Pickup Details Card~~~~~~~~~~~~~ -->
+            <android.support.v7.widget.CardView
+                android:id="@+id/pickup_details_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                card_view:cardCornerRadius="2dp"
+                card_view:contentPadding="16dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/title_1">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_action_calendar_day"/>
+                        <TextView
+                            android:paddingLeft="16dp"
+                            style="@style/DialogMainHeading"
+                            android:layout_centerHorizontal="true"
+                            android:text="Pickup Details"/>
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/title_2"
+                        android:layout_below="@+id/title_1">
+                        <TextView
+                            style="@style/DialogSubHeadingOne"
+                            android:layout_gravity="center"
+                            android:text="Pickup Date"/>
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_below="@+id/title_2"
+                        android:id="@+id/create_delivery_pickup_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/black"
+                        android:text="Today"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/title_3"
+                        android:layout_below="@+id/create_delivery_pickup_date">
+
+                        <TextView
+                            android:layout_gravity="center"
+                            style="@style/DialogSubHeadingOne"
+                            android:text="Pickup Time"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/title_4"
+                        android:layout_below="@+id/title_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/black"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        android:paddingLeft="20dp"
+                        android:text="Allow time range"/>
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/specific_time_toggle_pickup"
+                        android:layout_below="@+id/title_3"
+                        android:layout_alignParentRight="true"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null" />
+
+                    <TextView
+                        android:layout_below="@+id/title_4"
+                        android:id="@+id/create_delivery_pickup_time_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingBottom="20dp"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/black"
+                        android:text="10:47pm"/>
+
+                    <TextView
+                        android:layout_below="@+id/title_4"
+                        android:layout_toRightOf="@+id/create_delivery_pickup_time_one"
+                        android:id="@+id/title_5"
+                        android:paddingBottom="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/black"
+                        android:layout_centerHorizontal="true"
+                        android:text=" - "
+                        android:visibility="invisible"/>
+                    <TextView
+                        android:layout_below="@+id/title_4"
+                        android:layout_toRightOf="@+id/title_5"
+                        android:id="@+id/create_delivery_pickup_time_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="20dp"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/black"
+                        android:layout_centerHorizontal="true"
+                        android:text="10:42pm"
+                        android:visibility="invisible"/>
+
+                    <LinearLayout
+                        android:layout_below="@+id/create_delivery_pickup_time_one"
+                        android:id="@+id/title_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/DialogSubHeadingOne"
+                            android:text="Pickup Location"
+                            android:layout_gravity="center"/>
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_below="@+id/title_6"
+                        android:id="@+id/create_delivery_pickup_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/black"
+                        android:text="Tap to select"/>
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <!-- ~~~~~~~~~~~~~Dropoff Card~~~~~~~~~~~~~ -->
+            <android.support.v7.widget.CardView
+                android:id="@+id/dropoff_details_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                card_view:cardCornerRadius="2dp"
+                card_view:contentPadding="16dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/title_dropoff_1">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_action_calendar_day"/>
+                        <TextView
+                            android:paddingLeft="16dp"
+                            style="@style/DialogMainHeading"
+                            android:layout_centerHorizontal="true"
+                            android:text="Drop-off Details"/>
+                    </LinearLayout>
+
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/title_dropoff_2"
+                        android:layout_below="@+id/title_dropoff_1">
+                        <TextView
+                            style="@style/DialogSubHeadingOne"
+                            android:layout_gravity="center"
+                            android:text="Drop-off Date"/>
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_below="@+id/title_dropoff_2"
+                        android:id="@+id/create_delivery_dropoff_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/black"
+                        android:text="Today"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:id="@+id/title_dropoff_3"
+                        android:layout_below="@+id/create_delivery_dropoff_date">
+
+                        <TextView
+                            android:layout_gravity="center"
+                            style="@style/DialogSubHeadingOne"
+                            android:text="Drop-off Time"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/title_dropoff_4"
+                        android:layout_below="@+id/title_dropoff_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/black"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        android:paddingLeft="20dp"
+                        android:text="Allow time range"/>
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/specific_time_toggle_dropff"
+                        android:layout_below="@+id/title_dropoff_3"
+                        android:layout_alignParentRight="true"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@null" />
+
+                    <TextView
+                        android:layout_below="@+id/title_dropoff_4"
+                        android:id="@+id/create_delivery_dropoff_time_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingBottom="20dp"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/black"
+                        android:text="10:47pm"/>
+
+                    <TextView
+                        android:layout_below="@+id/title_dropoff_4"
+                        android:layout_toRightOf="@+id/create_delivery_dropoff_time_one"
+                        android:id="@+id/title_dropoff_5"
+                        android:paddingBottom="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/black"
+                        android:layout_centerHorizontal="true"
+                        android:text=" - "
+                        android:visibility="invisible"/>
+                    <TextView
+                        android:layout_below="@+id/title_dropoff_4"
+                        android:layout_toRightOf="@+id/title_dropoff_5"
+                        android:id="@+id/create_delivery_dropoff_time_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="20dp"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/black"
+                        android:layout_centerHorizontal="true"
+                        android:text="10:42pm"
+                        android:visibility="invisible"/>
+
+                    <LinearLayout
+                        android:layout_below="@+id/create_delivery_dropoff_time_one"
+                        android:id="@+id/title_dropoff_6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/DialogSubHeadingOne"
+                            android:text="Drop-off Location"
+                            android:layout_gravity="center"/>
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_below="@+id/title_dropoff_6"
+                        android:id="@+id/create_delivery_dropoff_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        android:textColor="@android:color/black"
+                        android:text="Tap to select"/>
+
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+             <!-- ~~~~~~~~~~~~~Price Card~~~~~~~~~~~~~ -->
+            <android.support.v7.widget.CardView
+                android:id="@+id/price_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                card_view:cardCornerRadius="2dp"
+                card_view:contentPadding="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/ic_action_creditcard"/>
+                        <TextView
+                            android:paddingLeft="16dp"
+                            style="@style/DialogMainHeading"
+                            android:text="Billing"/>
+                    </LinearLayout>
+
+                    <TextView
+                        style="@style/DialogSubHeadingOne"
+                        android:text="Delivery Price"/>
+
+                    <EditText
+                        android:hint="E.g. $10"
+                        android:id="@+id/create_delivery_price"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton android:id="@+id/fab"
+        android:layout_width="wrap_content" android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end" android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_action_send" />
+
+</android.support.design.widget.CoordinatorLayout>

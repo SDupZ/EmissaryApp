@@ -6,32 +6,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.firebase.client.AuthData;
+import com.firebase.client.Firebase;
 
 
 /**
@@ -40,6 +21,7 @@ import java.util.List;
 
 public class HomeActivity extends BaseActivity{
 
+    static final int REQUEST_AUTH_TOKEN = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +30,41 @@ public class HomeActivity extends BaseActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(HomeActivity.this, CreateDeliveryActivity.class);
-                //startActivity(intent);
+                Intent intent = new Intent(HomeActivity.this, CreateDeliveryActivity.class);
+                startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Firebase.setAndroidContext(this);
+
+        final Firebase ref = new Firebase("https://emissary.firebaseio.com");
+        ref.addAuthStateListener(new Firebase.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(AuthData authData) {
+                if (authData == null) {
+                    Intent intentWithToken = new Intent(HomeActivity.this, LoginActivity.class);
+                    startActivityForResult(intentWithToken, REQUEST_AUTH_TOKEN);
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == REQUEST_AUTH_TOKEN) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                // The user picked a contact.
+                // The Intent's data Uri identifies which contact was selected.
+                // Do something with the contact here (bigger example below)
+                Log.d("EMISSARY", "Logged IN");
+            }
+        }
     }
 
     protected int getLayoutResource(){
