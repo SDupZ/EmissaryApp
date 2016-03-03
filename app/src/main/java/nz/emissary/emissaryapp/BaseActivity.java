@@ -43,13 +43,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         headerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                /// / Handle the camera action
-                /*Intent intent = new Intent(getApplicationContext(), ViewAccountActivity.class);
-                startActivity(intent);*/
-
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                 drawer.closeDrawer(GravityCompat.START);
+
+                /// / Handle the camera action
+                Intent intent = new Intent(getApplicationContext(), ViewAccountActivity.class);
+                startActivity(intent);
             }
         });
         navigationView.setNavigationItemSelectedListener(this);
@@ -99,8 +98,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         int id = item.getItemId();
 
         if (id == R.id.home) {
-            //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            //startActivity(intent);
+            Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(intent);
         } else if (id == R.id.listed) {
             //Intent intent = new Intent(getApplicationContext(), ViewMyListingsActivity.class);
             //startActivity(intent);
