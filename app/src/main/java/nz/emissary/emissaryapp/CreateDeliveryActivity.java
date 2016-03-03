@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -28,6 +29,8 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Simon on 3/03/2016.
@@ -301,6 +304,15 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     String dropOffLocation = dropOffLocationTextView.getText().toString();
                     String notes = deliveryNotes.getText().toString();
 
+
+                    Firebase ref = new Firebase("https://emissary.firebaseio.com");
+                    Firebase postRef = ref.child("deliveries");
+                    Map<String, String> post1 = new HashMap<String, String>();
+                    post1.put("name", name);
+                    post1.put("pickupLocation", pickupLocation);
+                    post1.put("dropOffLocation", dropOffLocation);
+                    post1.put("notes", notes);
+                    postRef.push().setValue(post1);
                 }
             });
             return rootView;
