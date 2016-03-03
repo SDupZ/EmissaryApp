@@ -34,8 +34,6 @@ public class ViewItemActivity extends BaseActivity implements View.OnClickListen
 
             //----------------Accept a delivery---------------
             acceptDeliveryButton.setOnClickListener(this);
-
-
         }
     }
 
