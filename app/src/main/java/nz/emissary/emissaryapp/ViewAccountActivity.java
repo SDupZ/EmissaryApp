@@ -7,6 +7,8 @@ import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
+
 /**
  * Created by Simon on 3/03/2016.
  */
@@ -27,9 +29,11 @@ public class ViewAccountActivity extends BaseActivity {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Firebase ref = new Firebase("https://emissary.firebaseio.com");
+                ref.unauth();
                 // FLAG_ACTIVITY_CLEAR_TASK only works on API 11, so if the user
                 // logs out on older devices, we'll just exit.
-                /*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                     Intent intent = new Intent(ViewAccountActivity.this,
                             HomeActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -37,7 +41,7 @@ public class ViewAccountActivity extends BaseActivity {
                     startActivity(intent);
                 } else {
                     finish();
-                }*/
+                }
             }
         });
     }
