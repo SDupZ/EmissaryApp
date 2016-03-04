@@ -8,11 +8,17 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.ui.FirebaseRecyclerAdapter;
 
 import nz.emissary.emissaryapp.R;
 
@@ -24,6 +30,8 @@ import nz.emissary.emissaryapp.R;
 public class HomeActivity extends BaseActivity{
 
     static final int REQUEST_AUTH_TOKEN = 0;
+    Firebase ref;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,9 +49,7 @@ public class HomeActivity extends BaseActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        Firebase.setAndroidContext(this);
-
-        final Firebase ref = new Firebase("https://emissary.firebaseio.com");
+        ref = new Firebase("https://emissary.firebaseio.com");
         ref.addAuthStateListener(new Firebase.AuthStateListener() {
             @Override
             public void onAuthStateChanged(AuthData authData) {
@@ -83,7 +89,6 @@ public class HomeActivity extends BaseActivity{
         private static final String ARG_SECTION_NUMBER = "section_number";
 
         private RecyclerView mRecyclerView;
-        private RecyclerView.Adapter mAdapter;
         private RecyclerView.LayoutManager mLayoutManager;
 
         /**
@@ -107,13 +112,55 @@ public class HomeActivity extends BaseActivity{
             View rootView = inflater.inflate(R.layout.delivery_list_fragment, container, false);
 
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
+            mRecyclerView.setHasFixedSize(true);
 
             // use a linear layout manager
             mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
 
+            final Firebase mRef = new Firebase("https://emissary.firebaseio.com/messages");
+
+            FirebaseRecyclerAdapter<String, ViewHolder> adapter =
+                    new FirebaseRecyclerAdapter<String, ViewHolder>(
+                            String.class,
+                            R.layout.delivery_list_view,
+                            ViewHolder.class,
+                            mRef
+                    ) {
+                        @Override
+                        protected void populateViewHolder(ViewHolder viewHolder, String s, int i) {
+                            viewHolder.mDeliveryName.setText(s);
+                            viewHolder.mDeliveryPickupTime.setText("STUB");
+                        }
+                    };
+            mRecyclerView.setAdapter(adapter);
 
             return rootView;
         }
+
+        public static class ViewHolder extends RecyclerView.ViewHolder{
+            Object object;
+            int position;
+
+            public TextView mDeliveryName;
+            public TextView mDeliveryPickupTime;
+
+            public ViewHolder(View v) {
+                super(v);
+                mDeliveryName = (TextView) v.findViewById(R.id.list_item_delivery_name);
+                mDeliveryPickupTime = (TextView) v.findViewById(R.id.list_item_pickup_time);
+
+                v.setClickable(true);
+            }
+
+            public void bindDeal(Object object, int position){
+                this.position = position;
+                this.object = object;
+
+                mDeliveryName.setText("STUB");
+                mDeliveryPickupTime.setText("STUB");
+            }
+        }
+
     }
 }
