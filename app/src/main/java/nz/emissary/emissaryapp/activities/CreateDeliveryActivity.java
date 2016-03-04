@@ -1,4 +1,4 @@
-package nz.emissary.emissaryapp;
+package nz.emissary.emissaryapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +31,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+
+import nz.emissary.emissaryapp.R;
 
 /**
  * Created by Simon on 3/03/2016.

@@ -1,4 +1,4 @@
-package nz.emissary.emissaryapp;
+package nz.emissary.emissaryapp.activities;
 
 import android.content.Intent;
 import android.os.Build;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
+
+import nz.emissary.emissaryapp.R;
 
 /**
  * Created by Simon on 3/03/2016.

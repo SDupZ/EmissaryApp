@@ -5,9 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_create_delivery" tools:context=".CreateDeliveryActivity">
+    tools:showIn="@layout/activity_create_delivery" tools:context=".activities.CreateDeliveryActivity">
 
-    <fragment android:name="nz.emissary.emissaryapp.CreateDeliveryActivity$CreateDeliveryFragment"
+    <fragment android:name="nz.emissary.emissaryapp.activities.CreateDeliveryActivity$CreateDeliveryFragment"
         android:id="@+id/create_delivery_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

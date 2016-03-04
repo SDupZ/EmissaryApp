@@ -1,4 +1,4 @@
-package nz.emissary.emissaryapp;
+package nz.emissary.emissaryapp.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +8,8 @@ import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
 import android.widget.TextView;
+
+import nz.emissary.emissaryapp.R;
 
 /**
  * Created by Simon on 3/03/2016.

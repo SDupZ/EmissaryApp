@@ -1,4 +1,4 @@
-package nz.emissary.emissaryapp;
+package nz.emissary.emissaryapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

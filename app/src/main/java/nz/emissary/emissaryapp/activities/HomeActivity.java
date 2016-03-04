@@ -1,4 +1,4 @@
-package nz.emissary.emissaryapp;
+package nz.emissary.emissaryapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
+
+import nz.emissary.emissaryapp.R;
 
 
 /**

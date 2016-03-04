@@ -1,4 +1,4 @@
-package nz.emissary.emissaryapp;
+package nz.emissary.emissaryapp.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -14,7 +14,6 @@ import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -39,6 +38,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import nz.emissary.emissaryapp.R;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -320,7 +321,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 ref.child("users").child(authData.getUid()).setValue(map);
 
                 Intent result = new Intent(LoginActivity.this, HomeActivity.class);
-                setResult(HomeActivity.RESULT_OK, result);
+                setResult(RESULT_OK, result);
                 result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
                 finish();
             }
