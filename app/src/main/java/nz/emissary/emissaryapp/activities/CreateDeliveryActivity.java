@@ -32,6 +32,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
 
 /**
@@ -306,15 +307,15 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     String dropOffLocation = dropOffLocationTextView.getText().toString();
                     String notes = deliveryNotes.getText().toString();
 
+                    Delivery myDelivery = new Delivery();
+                    myDelivery.setListingName(name);
+                    myDelivery.setPickupLocation(pickupLocation);
+                    myDelivery.setDropoffLocation(dropOffLocation);
+                    myDelivery.setNotes(notes);
 
                     Firebase ref = new Firebase("https://emissary.firebaseio.com");
                     Firebase postRef = ref.child("deliveries");
-                    Map<String, String> post1 = new HashMap<String, String>();
-                    post1.put("name", name);
-                    post1.put("pickupLocation", pickupLocation);
-                    post1.put("dropOffLocation", dropOffLocation);
-                    post1.put("notes", notes);
-                    postRef.push().setValue(post1);
+                    postRef.push().setValue(myDelivery);
                 }
             });
             return rootView;

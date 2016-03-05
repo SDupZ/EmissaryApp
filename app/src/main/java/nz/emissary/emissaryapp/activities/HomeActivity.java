@@ -20,6 +20,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
+import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
 
 
@@ -118,21 +119,25 @@ public class HomeActivity extends BaseActivity{
             mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
 
-            final Firebase mRef = new Firebase("https://emissary.firebaseio.com/messages");
+            final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
 
-            FirebaseRecyclerAdapter<String, ViewHolder> adapter =
-                    new FirebaseRecyclerAdapter<String, ViewHolder>(
-                            String.class,
-                            R.layout.delivery_list_view,
-                            ViewHolder.class,
-                            mRef
-                    ) {
+            FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
+                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.delivery_list_view,ViewHolder.class,mRef){
                         @Override
-                        protected void populateViewHolder(ViewHolder viewHolder, String s, int i) {
-                            viewHolder.mDeliveryName.setText(s);
-                            viewHolder.mDeliveryPickupTime.setText("STUB");
+                        protected void populateViewHolder(ViewHolder viewHolder, Delivery d, int i) {
+                            viewHolder.mDeliveryName.setText(d.getListingName());
+                            viewHolder.mDeliveryPickupTime.setText(d.getNotes());
                         }
                     };
+
+            //This adapter is used to show a progress bar
+            adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+                @Override
+                public void onChanged() {
+                    super.onChanged();
+
+                }
+            });
             mRecyclerView.setAdapter(adapter);
 
             return rootView;

@@ -5,6 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity$PlaceholderFragment">
 
+    <ProgressBar
+        android:id="@+id/updateProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:padding="0dp"
+        android:layout_margin="0dp"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
     <!-- A RecyclerView with some commonly used attributes -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/my_recycler_view"

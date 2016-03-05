@@ -4,38 +4,40 @@ package nz.emissary.emissaryapp;
  * Created by Simon on 3/03/2016.
  */
 public class Delivery {
-    private String uID;
-    private User originalLister;
+    private String uid;
+    //private User originalLister;
     private String listingName;
     private String notes;
 
     private String pickupLocation;
     private String dropoffLocation;
-    private String expiryDaty;
+    //private String expiryDate;
 
-    private User driver;
-    private Boolean hasDriver;
+    //private User driver;
+    //private Boolean hasDriver;
 
-    private long createdAt;
+    //private long createdAt;
 
     public Delivery(){
     }
 
     public String getID() {
-        return uID;
+        return uid;
     }
 
-    public void setID(String ID) {
-        this.uID = ID;
+
+    public void setID(String id) {
+        this.uid = id;
     }
 
-    public User getOriginalLister() {
+    /*public User getOriginalLister() {
         return originalLister;
-    }
+    }*/
 
+    /*
     public void setOriginalLister(User originalLister) {
         this.originalLister = originalLister;
-    }
+    }*/
 
     public String getListingName() {
         return listingName;
@@ -69,12 +71,13 @@ public class Delivery {
         this.dropoffLocation = dropoffLocation;
     }
 
-    public String getExpiryDaty() {
-        return expiryDaty;
+    /*
+    public String getExpiryDate() {
+        return expiryDate;
     }
 
-    public void setExpiryDaty(String expiryDaty) {
-        this.expiryDaty = expiryDaty;
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
     }
 
     public User getDriver() {
@@ -99,5 +102,5 @@ public class Delivery {
 
     public void setCreatedAt(long createdAt) {
         this.createdAt = createdAt;
-    }
+    }*/
 }
