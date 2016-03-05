@@ -14,10 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
 import nz.emissary.emissaryapp.Delivery;
@@ -123,12 +120,33 @@ public class HomeActivity extends BaseActivity{
 
             FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
                     new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.delivery_list_view,ViewHolder.class,mRef){
+
                         @Override
-                        protected void populateViewHolder(ViewHolder viewHolder, Delivery d, int i) {
+                        protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
                             viewHolder.mDeliveryName.setText(d.getListingName());
                             viewHolder.mDeliveryPickupTime.setText(d.getNotes());
+
+                            viewHolder.mView.setOnTouchListener(new View.OnTouchListener() {
+                                @Override
+                                public boolean onTouch(View v, MotionEvent event) {
+                                    if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+                                        v.setSelected(false);
+                                        return true;
+                                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                                        Log.d("Emissary", "Position" + i);
+                                        v.setSelected(false);
+                                        return true;
+                                    } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                                        v.setSelected(true);
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            });
                         }
+
                     };
+
 
             //This adapter is used to show a progress bar
             adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
@@ -144,26 +162,18 @@ public class HomeActivity extends BaseActivity{
         }
 
         public static class ViewHolder extends RecyclerView.ViewHolder{
-            Object object;
-            int position;
+            View mView;
 
             public TextView mDeliveryName;
             public TextView mDeliveryPickupTime;
 
             public ViewHolder(View v) {
                 super(v);
+                mView = v;
                 mDeliveryName = (TextView) v.findViewById(R.id.list_item_delivery_name);
                 mDeliveryPickupTime = (TextView) v.findViewById(R.id.list_item_pickup_time);
 
                 v.setClickable(true);
-            }
-
-            public void bindDeal(Object object, int position){
-                this.position = position;
-                this.object = object;
-
-                mDeliveryName.setText("STUB");
-                mDeliveryPickupTime.setText("STUB");
             }
         }
 
