@@ -296,6 +296,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                 }
             });
 
+            final Firebase ref = new Firebase("https://emissary.firebaseio.com");
 
             final FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
             fab.setOnClickListener(new View.OnClickListener() {
@@ -312,6 +313,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     myDelivery.setPickupLocation(pickupLocation);
                     myDelivery.setDropoffLocation(dropOffLocation);
                     myDelivery.setNotes(notes);
+                    myDelivery.setOriginalLister(ref.getAuth().getUid());
 
                     Firebase ref = new Firebase("https://emissary.firebaseio.com");
                     Firebase postRef = ref.child("deliveries");

@@ -5,7 +5,7 @@ package nz.emissary.emissaryapp;
  */
 public class Delivery {
     private String uid;
-    private User originalLister;
+    private String originalLister;
     private String listingName;
     private String notes;
 
@@ -30,11 +30,11 @@ public class Delivery {
         this.uid = id;
     }
 
-    public User getOriginalLister() {
+    public String getOriginalLister() {
         return originalLister;
     }
 
-    public void setOriginalLister(User originalLister) {
+    public void setOriginalLister(String originalLister) {
         this.originalLister = originalLister;
     }
 

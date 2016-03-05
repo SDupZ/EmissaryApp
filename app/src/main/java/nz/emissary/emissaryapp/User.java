@@ -14,12 +14,12 @@ public class User {
     private Boolean isDriver;
     private Boolean emailVerified;
 
-    private ArrayList<Delivery> currentListings;
-    private ArrayList<Delivery> previousListings;
+    private ArrayList<String> currentListings;
+    private ArrayList<String> previousListings;
     private int listerRating;
 
-    private ArrayList<Delivery> currentDeliveries;
-    private ArrayList<Delivery> previousDeliveries;
+    private ArrayList<String> currentDeliveries;
+    private ArrayList<String> previousDeliveries;
     private ArrayList<String> availableVehicles;
     private int driverRating;
 
@@ -83,19 +83,19 @@ public class User {
         this.emailVerified = emailVerified;
     }
 
-    public ArrayList<Delivery> getCurrentListings() {
+    public ArrayList<String> getCurrentListings() {
         return currentListings;
     }
 
-    public void setCurrentListings(ArrayList<Delivery> currentListings) {
+    public void setCurrentListings(ArrayList<String> currentListings) {
         this.currentListings = currentListings;
     }
 
-    public ArrayList<Delivery> getPreviousListings() {
+    public ArrayList<String> getPreviousListings() {
         return previousListings;
     }
 
-    public void setPreviousListings(ArrayList<Delivery> previousListings) {
+    public void setPreviousListings(ArrayList<String> previousListings) {
         this.previousListings = previousListings;
     }
 
@@ -107,19 +107,19 @@ public class User {
         this.listerRating = listerRating;
     }
 
-    public ArrayList<Delivery> getCurrentDeliveries() {
+    public ArrayList<String> getCurrentDeliveries() {
         return currentDeliveries;
     }
 
-    public void setCurrentDeliveries(ArrayList<Delivery> currentDeliveries) {
+    public void setCurrentDeliveries(ArrayList<String> currentDeliveries) {
         this.currentDeliveries = currentDeliveries;
     }
 
-    public ArrayList<Delivery> getPreviousDeliveries() {
+    public ArrayList<String> getPreviousDeliveries() {
         return previousDeliveries;
     }
 
-    public void setPreviousDeliveries(ArrayList<Delivery> previousDeliveries) {
+    public void setPreviousDeliveries(ArrayList<String> previousDeliveries) {
         this.previousDeliveries = previousDeliveries;
     }
 
