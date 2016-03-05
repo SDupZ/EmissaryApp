@@ -117,10 +117,8 @@ public class HomeActivity extends BaseActivity{
             mRecyclerView.setLayoutManager(mLayoutManager);
 
             final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
-
-            FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
+            final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
                     new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.delivery_list_view,ViewHolder.class,mRef){
-
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
                             viewHolder.mDeliveryName.setText(d.getListingName());
@@ -133,8 +131,11 @@ public class HomeActivity extends BaseActivity{
                                         v.setSelected(false);
                                         return true;
                                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                                        Log.d("Emissary", "Position" + i);
                                         v.setSelected(false);
+                                        Intent intent = new Intent(v.getContext(), ViewItemActivity.class)
+                                                .putExtra("object_id", getRef(i).getKey());
+                                        v.getContext().startActivity(intent);
+
                                         return true;
                                     } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
                                         v.setSelected(true);

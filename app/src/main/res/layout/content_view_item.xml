@@ -28,12 +28,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
-    <android.support.v7.widget.AppCompatButton
+    <Button
         android:id="@+id/accept_delivery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Deliver this item!"
-        android:visibility="invisible"
-        android:textColor="@android:color/white"/>
+        android:textStyle="bold"
+        style="@style/Widget.AppCompat.Button.Colored"/>
 
 </LinearLayout>
