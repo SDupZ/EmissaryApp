@@ -30,6 +30,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -349,6 +350,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     mEmailSignInButton.setText(R.string.action_sign_in);
                     mSignupLink.setText("No account yet? Create one");
                     signup = false;
+                    Toast.makeText(LoginActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override

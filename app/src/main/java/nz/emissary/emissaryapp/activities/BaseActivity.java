@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.firebase.client.Firebase;
+
 import nz.emissary.emissaryapp.R;
 
 /**
@@ -28,6 +30,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Firebase mRef = new Firebase("https://emissary.firebaseio.com");
         setContentView(getLayoutResource());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -55,6 +59,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         username = (TextView) headerLayout.findViewById(R.id.username);
         email = (TextView) headerLayout.findViewById(R.id.email);
+
+
+        email.setText(mRef.getAuth().getProviderData().get("email").toString());
     }
 
     protected abstract int getLayoutResource();
