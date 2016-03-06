@@ -43,6 +43,7 @@
             android:name=".activities.CreateDeliveryActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.HomeActivity"
             android:launchMode="singleTask">
         </activity>
 
