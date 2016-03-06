@@ -363,7 +363,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 @Override
                 public void onAuthenticated(AuthData authData) {
-                    showProgress(false);
                     // Authentication just completed successfully :)
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("provider", authData.getProvider());
