@@ -17,11 +17,20 @@ import com.firebase.client.ValueEventListener;
 
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
+import nz.emissary.emissaryapp.User;
 
 /**
  * Created by Simon on 3/03/2016.
  */
 public class ViewItemActivity extends BaseActivity implements View.OnClickListener{
+
+    private String itemId;
+    private Firebase mRef;
+    private Firebase currentFirebaseDelivery;
+    private Delivery currentDelivery;
+
+    private Firebase currentFirebaseUser;
+    private User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,21 +48,37 @@ public class ViewItemActivity extends BaseActivity implements View.OnClickListen
 
 
             //----------------Load the object from the local database---------------
-            String objectID = intent.getStringExtra("object_id");
+            itemId = intent.getStringExtra("object_id");
 
             //----------------Accept a delivery---------------
             acceptDeliveryButton.setOnClickListener(this);
 
-            Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries/" + objectID);
-            mRef.addValueEventListener(new ValueEventListener() {
+
+            mRef = new Firebase("https://emissary.firebaseio.com");
+            currentFirebaseDelivery = new Firebase("https://emissary.firebaseio.com/deliveries/" + itemId);
+
+            currentFirebaseDelivery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Delivery delivery = dataSnapshot.getValue(Delivery.class);
+                    currentDelivery = dataSnapshot.getValue(Delivery.class);
 
-                    notesView.setText(delivery.getNotes());
-                    nameView.setText(delivery.getListingName());
-                    pickupLocationView.setText(delivery.getPickupLocation());
-                    dropOffLocationView.setText(delivery.getDropoffLocation());
+                    notesView.setText(currentDelivery.getNotes());
+                    nameView.setText(currentDelivery.getListingName());
+                    pickupLocationView.setText(currentDelivery.getPickupLocation());
+                    dropOffLocationView.setText(currentDelivery.getDropoffLocation());
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+
+            currentFirebaseUser = mRef.child("users").child(mRef.getAuth().getUid());
+            currentFirebaseUser.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    currentUser = dataSnapshot.getValue(User.class);
                 }
 
                 @Override
@@ -78,7 +103,12 @@ public class ViewItemActivity extends BaseActivity implements View.OnClickListen
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                
+                currentDelivery.setDriver(mRef.getAuth().getUid());
+                currentDelivery.setHasDriver(true);
+                currentFirebaseDelivery.setValue(currentDelivery);
+
+                currentUser.acceptDelivery(itemId);
+                currentFirebaseUser.setValue(currentUser);
             }
         });
         builder.setNegativeButton("Cancel", null);

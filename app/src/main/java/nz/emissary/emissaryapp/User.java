@@ -1,6 +1,7 @@
 package nz.emissary.emissaryapp;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Simon on 3/03/2016.
@@ -14,18 +15,43 @@ public class User {
     private Boolean isDriver;
     private Boolean emailVerified;
 
-    private ArrayList<String> currentListings;
-    private ArrayList<String> previousListings;
+    private String provider;
+    private String lastLoginDate;
+
+    private List<String> currentListings;
+    private List<String> previousListings;
     private int listerRating;
 
-    private ArrayList<String> currentDeliveries;
-    private ArrayList<String> previousDeliveries;
-    private ArrayList<String> availableVehicles;
+    private List<String> currentDeliveries;
+    private List<String> previousDeliveries;
+    private List<String> availableVehicles;
     private int driverRating;
 
-    private long createdAt;
+    public User(){
+        currentDeliveries = new ArrayList<String>();
+        previousDeliveries  = new ArrayList<String>();
 
-    public User(){}
+        currentListings = new ArrayList<String>();
+        previousListings =  new ArrayList<String>();
+
+        availableVehicles = new ArrayList<String>();
+    }
+
+    public String getProvider() {
+        return provider;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public String getLastLoginDate() {
+        return lastLoginDate;
+    }
+
+    public void setLastLoginDate(String lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
+    }
 
     public String getuID() {
         return uID;
@@ -83,52 +109,12 @@ public class User {
         this.emailVerified = emailVerified;
     }
 
-    public ArrayList<String> getCurrentListings() {
-        return currentListings;
-    }
-
-    public void setCurrentListings(ArrayList<String> currentListings) {
-        this.currentListings = currentListings;
-    }
-
-    public ArrayList<String> getPreviousListings() {
-        return previousListings;
-    }
-
-    public void setPreviousListings(ArrayList<String> previousListings) {
-        this.previousListings = previousListings;
-    }
-
     public int getListerRating() {
         return listerRating;
     }
 
     public void setListerRating(int listerRating) {
         this.listerRating = listerRating;
-    }
-
-    public ArrayList<String> getCurrentDeliveries() {
-        return currentDeliveries;
-    }
-
-    public void setCurrentDeliveries(ArrayList<String> currentDeliveries) {
-        this.currentDeliveries = currentDeliveries;
-    }
-
-    public ArrayList<String> getPreviousDeliveries() {
-        return previousDeliveries;
-    }
-
-    public void setPreviousDeliveries(ArrayList<String> previousDeliveries) {
-        this.previousDeliveries = previousDeliveries;
-    }
-
-    public ArrayList<String> getAvailableVehicles() {
-        return availableVehicles;
-    }
-
-    public void setAvailableVehicles(ArrayList<String> availableVehicles) {
-        this.availableVehicles = availableVehicles;
     }
 
     public int getDriverRating() {
@@ -139,11 +125,68 @@ public class User {
         this.driverRating = driverRating;
     }
 
-    public long getCreatedAt() {
-        return createdAt;
+    //**********************************************************************************************
+    //Current Listings
+
+    public List<String> getCurrentListings() {
+        return currentListings;
     }
 
-    public void setCreatedAt(long createdAt) {
-        this.createdAt = createdAt;
+    public void setCurrentListings(List<String> currentListings) {
+        this.currentListings = currentListings;
+    }
+
+    public List<String> getPreviousListings() {
+        return previousListings;
+    }
+
+    public void setPreviousListings(List<String> previousListings) {
+        this.previousListings = previousListings;
+    }
+
+    public void addNewListing(String deliveryId){
+        this.currentListings.add(deliveryId);
+    }
+
+    public void listingCompleted(String deliveryId){
+        this.currentDeliveries.remove(deliveryId);
+        this.previousDeliveries.add(deliveryId);
+    }
+
+    //**********************************************************************************************
+    //Deliveries
+    public List<String> getCurrentDeliveries() {
+        return currentDeliveries;
+    }
+
+    public void setCurrentDeliveries(List<String> currentDeliveries) {
+        this.currentDeliveries = currentDeliveries;
+    }
+
+    public List<String> getPreviousDeliveries() {
+        return previousDeliveries;
+    }
+
+    public void setPreviousDeliveries(List<String> previousDeliveries) {
+        this.previousDeliveries = previousDeliveries;
+    }
+
+    public void acceptDelivery(String deliveryId){
+        this.currentDeliveries.add(deliveryId);
+    }
+
+    public void finishDelivery(String deliveryId){
+        this.currentDeliveries.remove(deliveryId);
+        this.previousDeliveries.add(deliveryId);
+    }
+
+    //**********************************************************************************************
+    //Available Vehicles
+    public List<String> getAvailableVehicles() {
+        return availableVehicles;
+    }
+
+    public void setAvailableVehicles(List<String> availableVehicles) {
+        this.availableVehicles = availableVehicles;
     }
 }

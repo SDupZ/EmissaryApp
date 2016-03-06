@@ -33,8 +33,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 import nz.emissary.emissaryapp.R;
+import nz.emissary.emissaryapp.User;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -74,6 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private TextView mSignupLink;
     private Button mEmailSignInButton;
 
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -364,13 +368,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 @Override
                 public void onAuthenticated(AuthData authData) {
                     // Authentication just completed successfully :)
-                    Map<String, String> map = new HashMap<String, String>();
-                    map.put("provider", authData.getProvider());
-                    if (authData.getProviderData().containsKey("displayName")) {
-                        map.put("displayName", authData.getProviderData().get("displayName").toString());
+
+                    Firebase firebaseUser = ref.child("users/" + authData.getUid());
+                    firebaseUser.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            user = snapshot.getValue(User.class);
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+                            System.out.println("The read failed: " + firebaseError.getMessage());
+                        }
+                    });
+
+                    if (user == null){
+                        user = new User();
+                        user.setEmail(authData.getProviderData().get("email").toString());
                     }
-                    map.put("lastLoginDate", "" + System.currentTimeMillis() / 1000.0);
-                    ref.child("users").child(authData.getUid()).setValue(map);
+                    user.setLastLoginDate("" + System.currentTimeMillis() / 1000.0);
+                    user.setProvider(authData.getProvider());
+
+                    firebaseUser.setValue(user);
 
                     Intent result = new Intent(LoginActivity.this, HomeActivity.class);
                     setResult(RESULT_OK, result);
