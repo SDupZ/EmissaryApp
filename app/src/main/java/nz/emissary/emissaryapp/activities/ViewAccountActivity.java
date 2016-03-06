@@ -5,8 +5,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
 import nz.emissary.emissaryapp.R;
@@ -18,15 +20,20 @@ public class ViewAccountActivity extends BaseActivity {
 
     TextView usernameView;
     TextView emailView;
-    AppCompatButton logoutButton;
+    Button logoutButton;
+
+    Firebase mRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mRef = new Firebase("https://emissary.firebaseio.com");
 
         usernameView = (TextView) findViewById(R.id.username);
         emailView = (TextView) findViewById(R.id.email);
-        logoutButton = (AppCompatButton) findViewById(R.id.logout_button);
+        logoutButton = (Button) findViewById(R.id.logout_button);
+
+        emailView.setText(mRef.getAuth().getProviderData().get("email").toString());
 
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
