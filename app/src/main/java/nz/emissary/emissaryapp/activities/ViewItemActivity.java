@@ -78,7 +78,7 @@ public class ViewItemActivity extends BaseActivity implements View.OnClickListen
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                
             }
         });
         builder.setNegativeButton("Cancel", null);

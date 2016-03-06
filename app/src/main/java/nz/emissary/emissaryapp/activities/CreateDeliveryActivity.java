@@ -314,6 +314,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     myDelivery.setDropoffLocation(dropOffLocation);
                     myDelivery.setNotes(notes);
                     myDelivery.setOriginalLister(ref.getAuth().getUid());
+                    myDelivery.setCreatedAt(System.currentTimeMillis()/1000.0);
 
                     Firebase ref = new Firebase("https://emissary.firebaseio.com");
                     Firebase postRef = ref.child("deliveries");

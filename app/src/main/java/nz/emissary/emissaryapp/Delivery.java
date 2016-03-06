@@ -13,10 +13,10 @@ public class Delivery {
     private String dropoffLocation;
     //private String expiryDate;
 
-    //private User driver;
-    //private Boolean hasDriver;
+    private String driver;
+    private Boolean hasDriver;
 
-    //private long createdAt;
+    private double createdAt;
 
     public Delivery(){
     }
@@ -77,13 +77,13 @@ public class Delivery {
 
     public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
-    }
+    }*/
 
-    public User getDriver() {
+    public String getDriver() {
         return driver;
     }
 
-    public void setDriver(User driver) {
+    public void setDriver(String driver) {
         this.driver = driver;
     }
 
@@ -95,11 +95,11 @@ public class Delivery {
         this.hasDriver = hasDriver;
     }
 
-    public long getCreatedAt() {
+    public double getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(long createdAt) {
+    public void setCreatedAt(double createdAt) {
         this.createdAt = createdAt;
-    }*/
+    }
 }
