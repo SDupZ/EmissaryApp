@@ -53,17 +53,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    private static final int REQUEST_SIGNUP = 1;
     public static final String AUTH_TOKEN_EXTRA = "authToken";
 
     final Firebase ref = new Firebase("https://emissary.firebaseio.com");
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -72,14 +66,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     // UI references.
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText mPasswordConfirmView;
     private View mProgressView;
     private View mLoginFormView;
+    private boolean signup;
+    private TextView mSignupLink;
+    private Button mEmailSignInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+        signup = false;
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -95,7 +94,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        mPasswordConfirmView = (EditText) findViewById(R.id.password_confirm);
+
+        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -103,8 +104,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        mSignupLink = (TextView) findViewById(R.id.link_signup);
+        mSignupLink.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mPasswordConfirmView.setVisibility(View.VISIBLE);
+                mEmailSignInButton.setText(R.string.action_signup);
+                mSignupLink.setText("Welcome to Emissary!");
+                signup = true;
+            }
+        });
+
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("EMISSARY", "SOMETHING");
+        if (requestCode == REQUEST_SIGNUP) {
+            Log.d("EMISSARY", "ENDED");
+            if (resultCode == RESULT_OK) {
+                Log.d("EMISSARY", "OPLK");
+            }
+        }
     }
 
     private void populateAutoComplete() {
@@ -169,6 +193,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
+        String passwordConfirm = mPasswordConfirmView.getText().toString();
 
         boolean cancel = false;
         View focusView = null;
@@ -177,6 +202,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
+            cancel = true;
+        }
+
+        // Check in passwords match.
+        if (signup && !password.equals(passwordConfirm)){
+            mPasswordConfirmView.setError(getString(R.string.error_password_mismatch));
+            focusView = mPasswordConfirmView;
             cancel = true;
         }
 
@@ -308,94 +340,54 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private void login(String email, String password){
-        ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
-
-            @Override
-            public void onAuthenticated(AuthData authData) {
-                showProgress(false);
-                // Authentication just completed successfully :)
-                Map<String, String> map = new HashMap<String, String>();
-                map.put("provider", authData.getProvider());
-                if(authData.getProviderData().containsKey("displayName")) {
-                    map.put("displayName", authData.getProviderData().get("displayName").toString());
+        if (signup){
+            ref.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
+                @Override
+                public void onSuccess(Map<String, Object> result) {
+                    showProgress(false);
+                    mPasswordConfirmView.setVisibility(View.GONE);
+                    mEmailSignInButton.setText(R.string.action_sign_in);
+                    mSignupLink.setText("No account yet? Create one");
+                    signup = false;
                 }
-                map.put("lastLoginDate", "" + System.currentTimeMillis()/1000.0);
-                ref.child("users").child(authData.getUid()).setValue(map);
 
-                Intent result = new Intent(LoginActivity.this, HomeActivity.class);
-                setResult(RESULT_OK, result);
-                result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
-                finish();
-            }
-            @Override
-            public void onAuthenticationError(FirebaseError firebaseError) {
-                showProgress(false);
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-                // there was an error
-                Log.d("EmissaryAppDEBUG", "Cannot login user. " + firebaseError);
-            }
-        });
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    /*
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
-
-        private final String mEmail;
-        private final String mPassword;
-
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
+                @Override
+                public void onError(FirebaseError firebaseError) {
+                    // there was an error
                 }
-            }
+            });
+        }else {
+            ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
 
-            // TODO: register the new account here.
-            return true;
-        }
+                @Override
+                public void onAuthenticated(AuthData authData) {
+                    showProgress(false);
+                    // Authentication just completed successfully :)
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("provider", authData.getProvider());
+                    if (authData.getProviderData().containsKey("displayName")) {
+                        map.put("displayName", authData.getProviderData().get("displayName").toString());
+                    }
+                    map.put("lastLoginDate", "" + System.currentTimeMillis() / 1000.0);
+                    ref.child("users").child(authData.getUid()).setValue(map);
 
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
+                    Intent result = new Intent(LoginActivity.this, HomeActivity.class);
+                    setResult(RESULT_OK, result);
+                    result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
+                    finish();
+                }
 
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
+                @Override
+                public void onAuthenticationError(FirebaseError firebaseError) {
+                    showProgress(false);
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                    // there was an error
+                    Log.d("EmissaryAppDEBUG", "Cannot login user. " + firebaseError);
+                }
+            });
         }
     }
-    */
 }
+
 

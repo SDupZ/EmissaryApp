@@ -53,7 +53,7 @@ public class HomeActivity extends BaseActivity{
             public void onAuthStateChanged(AuthData authData) {
                 if (authData == null) {
                     Intent intentWithToken = new Intent(HomeActivity.this, LoginActivity.class);
-                    startActivityForResult(intentWithToken, REQUEST_AUTH_TOKEN);
+                    startActivity(intentWithToken);
                 }
             }
         });
