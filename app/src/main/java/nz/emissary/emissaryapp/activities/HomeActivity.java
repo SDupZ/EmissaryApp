@@ -121,7 +121,7 @@ public class HomeActivity extends BaseActivity{
             mRecyclerView.setLayoutManager(mLayoutManager);
 
             final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
-            Query queryRef = mRef.orderByChild("hasDriver").equalTo(false);
+            Query queryRef = mRef.orderByChild("status").equalTo(0);
 
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
                     new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.delivery_list_view,ViewHolder.class,queryRef){

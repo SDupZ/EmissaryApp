@@ -53,7 +53,6 @@ public class ViewItemActivity extends BaseActivity implements View.OnClickListen
             //----------------Accept a delivery---------------
             acceptDeliveryButton.setOnClickListener(this);
 
-
             mRef = new Firebase("https://emissary.firebaseio.com");
             currentFirebaseDelivery = new Firebase("https://emissary.firebaseio.com/deliveries/" + itemId);
 
@@ -61,11 +60,14 @@ public class ViewItemActivity extends BaseActivity implements View.OnClickListen
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentDelivery = dataSnapshot.getValue(Delivery.class);
-
                     notesView.setText(currentDelivery.getNotes());
                     nameView.setText(currentDelivery.getListingName());
                     pickupLocationView.setText(currentDelivery.getPickupLocation());
                     dropOffLocationView.setText(currentDelivery.getDropoffLocation());
+
+                    if (!currentDelivery.getOriginalLister().equals(mRef.getAuth().getUid())){
+                        acceptDeliveryButton.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 @Override
@@ -104,7 +106,7 @@ public class ViewItemActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 currentDelivery.setDriver(mRef.getAuth().getUid());
-                currentDelivery.setHasDriver(true);
+                currentDelivery.setStatus(1);
 
                 currentFirebaseDelivery.setValue(currentDelivery);
 

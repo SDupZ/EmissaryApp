@@ -14,12 +14,12 @@ public class Delivery {
     //private String expiryDate;
 
     private String driver;
-    private Boolean hasDriver;
+    private int status;
 
     private double createdAt;
 
     public Delivery(){
-        hasDriver = false;
+        status = 0;
     }
 
     public String getID() {
@@ -88,12 +88,12 @@ public class Delivery {
         this.driver = driver;
     }
 
-    public Boolean getHasDriver() {
-        return hasDriver;
+    public int getStatus() {
+        return status;
     }
 
-    public void setHasDriver(Boolean hasDriver) {
-        this.hasDriver = hasDriver;
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public double getCreatedAt() {
