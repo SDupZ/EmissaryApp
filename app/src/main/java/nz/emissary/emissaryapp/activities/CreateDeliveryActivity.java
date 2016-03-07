@@ -338,12 +338,19 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     Firebase newPostRef = postRef.push();
                     newPostRef.setValue(myDelivery);
 
-                    currentUser.addNewListing(newPostRef.getKey());
-                    currentFirebaseUser.setValue(currentUser);
+                    final String deliveryId = newPostRef.getKey();
+                    currentUser.addNewListing(deliveryId);
+                    currentFirebaseUser.setValue(currentUser, new Firebase.CompletionListener(){
+                        @Override
+                        public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                            Intent result = new Intent(getActivity(), HomeActivity.class);
+                            result.putExtra("DELIVERY_ID", deliveryId);
+                            getActivity().setResult(RESULT_OK, result);
+                            getActivity().finish();
+                        }
+                    });
                 }
             });
-
-
 
             return rootView;
         }

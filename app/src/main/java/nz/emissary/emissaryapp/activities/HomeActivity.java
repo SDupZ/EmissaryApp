@@ -2,7 +2,9 @@ package nz.emissary.emissaryapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,18 +34,20 @@ import nz.emissary.emissaryapp.R;
 public class HomeActivity extends BaseActivity{
 
     static final int REQUEST_AUTH_TOKEN = 0;
+    static final int CREATE_DELIVERY = 1;
     Firebase ref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, CreateDeliveryActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, CREATE_DELIVERY);
             }
         });
     }
@@ -74,6 +78,10 @@ public class HomeActivity extends BaseActivity{
                 // Do something with the contact here (bigger example below)
                 Log.d("EMISSARY", "Logged IN");
             }
+        }else if (requestCode == CREATE_DELIVERY){
+            String newDeliveryId = data.getStringExtra("DELIVERY_ID");
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.home_coordinator_layout), "New delivery created!", Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
     }
 
