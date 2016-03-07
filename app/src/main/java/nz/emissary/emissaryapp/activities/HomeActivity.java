@@ -14,7 +14,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.Query;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
 import nz.emissary.emissaryapp.Delivery;
@@ -117,8 +121,10 @@ public class HomeActivity extends BaseActivity{
             mRecyclerView.setLayoutManager(mLayoutManager);
 
             final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
+            Query queryRef = mRef.orderByChild("hasDriver").equalTo(false);
+
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
-                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.delivery_list_view,ViewHolder.class,mRef){
+                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.delivery_list_view,ViewHolder.class,queryRef){
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
                             viewHolder.mDeliveryName.setText(d.getListingName());

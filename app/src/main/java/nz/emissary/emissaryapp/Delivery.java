@@ -19,6 +19,7 @@ public class Delivery {
     private double createdAt;
 
     public Delivery(){
+        hasDriver = false;
     }
 
     public String getID() {

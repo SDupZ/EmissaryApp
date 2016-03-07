@@ -105,6 +105,7 @@ public class ViewItemActivity extends BaseActivity implements View.OnClickListen
             public void onClick(DialogInterface dialog, int which) {
                 currentDelivery.setDriver(mRef.getAuth().getUid());
                 currentDelivery.setHasDriver(true);
+
                 currentFirebaseDelivery.setValue(currentDelivery);
 
                 currentUser.acceptDelivery(itemId);
