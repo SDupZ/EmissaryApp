@@ -15,7 +15,10 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -34,6 +37,7 @@ import java.util.Map;
 
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
+import nz.emissary.emissaryapp.User;
 
 /**
  * Created by Simon on 3/03/2016.
@@ -113,6 +117,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
         int timeDialog;     // 1 = pickup, 2 = dropoff
         int dateDialog;     // 1 = pickup time one, 2 = pickup time two, 3 = dropoff time one, ...
 
+        User currentUser;
         /**
          * Returns a new instance of this fragment for the given section
          * number.
@@ -298,6 +303,19 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
 
             final Firebase ref = new Firebase("https://emissary.firebaseio.com");
 
+            final Firebase currentFirebaseUser = ref.child("users").child(ref.getAuth().getUid());
+            currentFirebaseUser.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    currentUser = dataSnapshot.getValue(User.class);
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+
             final FloatingActionButton fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -314,13 +332,19 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     myDelivery.setDropoffLocation(dropOffLocation);
                     myDelivery.setNotes(notes);
                     myDelivery.setOriginalLister(ref.getAuth().getUid());
-                    myDelivery.setCreatedAt(System.currentTimeMillis()/1000.0);
+                    myDelivery.setCreatedAt(System.currentTimeMillis() / 1000.0);
 
-                    Firebase ref = new Firebase("https://emissary.firebaseio.com");
                     Firebase postRef = ref.child("deliveries");
-                    postRef.push().setValue(myDelivery);
+                    Firebase newPostRef = postRef.push();
+                    newPostRef.setValue(myDelivery);
+
+                    currentUser.addNewListing(newPostRef.getKey());
+                    currentFirebaseUser.setValue(currentUser);
                 }
             });
+
+
+
             return rootView;
         }
 
