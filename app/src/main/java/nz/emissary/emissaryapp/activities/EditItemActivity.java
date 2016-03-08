@@ -100,7 +100,7 @@ public class EditItemActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         AlertDialog.Builder builder =
                 new AlertDialog.Builder(EditItemActivity.this, R.style.MyAlertDialogStyle);
-        builder.setTitle("Driver Confirmation");
+        builder.setTitle("Remove this listing");
         builder.setMessage(getResources().getString(R.string.cancel_dialog));
         builder.setPositiveButton("DELETE", new DialogInterface.OnClickListener() {
             @Override
