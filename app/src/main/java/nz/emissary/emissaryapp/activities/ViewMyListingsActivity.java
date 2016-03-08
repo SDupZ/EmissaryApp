@@ -1,6 +1,8 @@
 package nz.emissary.emissaryapp.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -69,9 +71,16 @@ public class ViewMyListingsActivity extends BaseActivity{
             Query queryRef = mRef.orderByChild("originalLister").equalTo(mRef.getAuth().getUid());
 
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
-                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.delivery_list_view,ViewHolder.class,queryRef){
+                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listings_list_view,ViewHolder.class,queryRef){
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
+
+                            if (d.getStatus() == Constants.STATUS_ACCEPTED){
+                                viewHolder.mView.findViewById(R.id.list_view_root).setBackground(getResources().getDrawable(R.drawable.selector_row_accepted));
+                            }else if (d.getStatus() == Constants.STATUS_DELIVERED){
+                                viewHolder.mView.findViewById(R.id.list_view_root).setBackground(getResources().getDrawable(R.drawable.selector_row_delivered));
+                            }
+
                             viewHolder.mDeliveryName.setText(d.getListingName());
                             viewHolder.mDeliveryPickupTime.setText(d.getNotes());
 
