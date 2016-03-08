@@ -27,6 +27,10 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="CustomAccentOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/colorCancelButton</item>
+    </style>
+
 
     <style name="DialogMainHeading" parent="@android:style/TextAppearance.Medium">
         <item name="android:paddingTop">20dp</item>

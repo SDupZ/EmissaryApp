@@ -25,5 +25,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="confirm_dialog">You will be responsible for the safe delivery of the listed item
     according to our guildlines.</string>
+    <string name="cancel_dialog">This will DELETE you listing. Are you sure?</string>
 
 </resources>

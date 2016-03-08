@@ -79,6 +79,8 @@ public class ViewMyListingsActivity extends BaseActivity{
                                 viewHolder.mView.findViewById(R.id.list_view_root).setBackground(getResources().getDrawable(R.drawable.selector_row_accepted));
                             }else if (d.getStatus() == Constants.STATUS_DELIVERED){
                                 viewHolder.mView.findViewById(R.id.list_view_root).setBackground(getResources().getDrawable(R.drawable.selector_row_delivered));
+                            }else if (d.getStatus() == Constants.STATUS_CANCELLED){
+                                viewHolder.mView.findViewById(R.id.list_view_root).setBackground(getResources().getDrawable(R.drawable.selector_row_cancelled));
                             }
 
                             viewHolder.mDeliveryName.setText(d.getListingName());
@@ -92,7 +94,7 @@ public class ViewMyListingsActivity extends BaseActivity{
                                         return true;
                                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
                                         v.setSelected(false);
-                                        Intent intent = new Intent(v.getContext(), ViewItemActivity.class)
+                                        Intent intent = new Intent(v.getContext(), EditItemActivity.class)
                                                 .putExtra("object_id", getRef(i).getKey());
                                         v.getContext().startActivity(intent);
 
