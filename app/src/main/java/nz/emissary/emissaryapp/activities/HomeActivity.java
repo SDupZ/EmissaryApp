@@ -23,6 +23,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
+import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
 
@@ -129,7 +130,7 @@ public class HomeActivity extends BaseActivity{
             mRecyclerView.setLayoutManager(mLayoutManager);
 
             final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
-            Query queryRef = mRef.orderByChild("status").equalTo(0);
+            Query queryRef = mRef.orderByChild("status").equalTo(Constants.STATUS_LISTED);
 
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
                     new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.delivery_list_view,ViewHolder.class,queryRef){

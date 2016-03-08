@@ -15,6 +15,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.User;
@@ -106,7 +107,7 @@ public class ViewItemActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 currentDelivery.setDriver(mRef.getAuth().getUid());
-                currentDelivery.setStatus(1);
+                currentDelivery.setStatus(Constants.STATUS_ACCEPTED);
 
                 currentFirebaseDelivery.setValue(currentDelivery);
 

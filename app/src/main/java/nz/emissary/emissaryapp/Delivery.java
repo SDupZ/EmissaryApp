@@ -19,7 +19,7 @@ public class Delivery {
     private double createdAt;
 
     public Delivery(){
-        status = 0;
+        status = Constants.STATUS_LISTED;
     }
 
     public String getID() {
