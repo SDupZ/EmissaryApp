@@ -2,24 +2,16 @@ package nz.emissary.emissaryapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.firebase.client.AuthData;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
@@ -27,71 +19,18 @@ import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
 
-
 /**
- * Created by Simon on 1/03/2016.
+ * Created by Simon on 8/03/2016.
  */
-
-public class HomeActivity extends BaseActivity{
-
-    static final int REQUEST_AUTH_TOKEN = 0;
-    static final int CREATE_DELIVERY = 1;
-    Firebase ref;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, CreateDeliveryActivity.class);
-                startActivityForResult(intent, CREATE_DELIVERY);
-            }
-        });
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        ref = new Firebase("https://emissary.firebaseio.com");
-        ref.addAuthStateListener(new Firebase.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(AuthData authData) {
-                if (authData == null) {
-                    Intent intentWithToken = new Intent(HomeActivity.this, LoginActivity.class);
-                    startActivity(intentWithToken);
-                }
-            }
-        });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == REQUEST_AUTH_TOKEN) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                // The user picked a contact.
-                // The Intent's data Uri identifies which contact was selected.
-                // Do something with the contact here (bigger example below)
-                Log.d("EMISSARY", "Logged IN");
-            }
-        }else if (requestCode == CREATE_DELIVERY){
-            String newDeliveryId = data.getStringExtra("DELIVERY_ID");
-            Snackbar snackbar = Snackbar.make(findViewById(R.id.home_coordinator_layout), "New delivery created!", Snackbar.LENGTH_LONG);
-            snackbar.show();
-        }
-    }
+public class ViewMyListingsActivity extends BaseActivity{
 
     protected int getLayoutResource(){
-        return R.layout.activity_home;
+        return R.layout.activity_view_my_listings;
     }
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //MyListingsFragment fragment
-    public static class DeliveryListFragment extends Fragment {
+    //DeliveryListFragment fragment
+    public static class MyListingsFragment extends Fragment {
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -104,14 +43,14 @@ public class HomeActivity extends BaseActivity{
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static DeliveryListFragment newInstance(int sectionNumber) {
-            DeliveryListFragment fragment = new DeliveryListFragment();
+        public static MyListingsFragment newInstance(int sectionNumber) {
+            MyListingsFragment fragment = new MyListingsFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
             return fragment;
         }
 
-        public DeliveryListFragment() {
+        public MyListingsFragment() {
         }
 
         @Override
@@ -127,7 +66,7 @@ public class HomeActivity extends BaseActivity{
             mRecyclerView.setLayoutManager(mLayoutManager);
 
             final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
-            Query queryRef = mRef.orderByChild("status").equalTo(Constants.STATUS_LISTED);
+            Query queryRef = mRef.orderByChild("originalLister").equalTo(mRef.getAuth().getUid());
 
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
                     new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.delivery_list_view,ViewHolder.class,queryRef){
