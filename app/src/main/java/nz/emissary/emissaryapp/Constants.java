@@ -5,8 +5,8 @@ package nz.emissary.emissaryapp;
  */
 public class Constants {
     public static int STATUS_LISTED         = 0;
-    public static int STATUS_ACCEPTED       = 10;
-    public static int STATUS_PICKED_UP      = 20;
-    public static int STATUS_DELIVERED     = 30;
+    public static int STATUS_ACCEPTED       = 100;
+    public static int STATUS_PICKED_UP      = 200;
+    public static int STATUS_DELIVERED      = 300;
     public static int STATUS_CANCELLED      = -1;
 }
