@@ -148,7 +148,7 @@ public class User {
         this.currentListings.add(deliveryId);
     }
 
-    public void listingCompleted(String deliveryId){
+    public void finishListing(String deliveryId){
         this.currentDeliveries.remove(deliveryId);
         this.previousDeliveries.add(deliveryId);
     }

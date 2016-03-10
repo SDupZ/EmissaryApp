@@ -109,7 +109,7 @@ public class EditItemActivity extends BaseActivity implements View.OnClickListen
 
                 currentFirebaseDelivery.setValue(currentDelivery);
 
-                currentUser.acceptDelivery(itemId);
+                currentUser.finishDelivery(itemId);
                 currentFirebaseUser.setValue(currentUser);
             }
         });
