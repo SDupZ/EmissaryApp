@@ -70,8 +70,8 @@ public class ViewMyListingsActivity extends BaseActivity{
             final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
             Query queryRef = mRef.orderByChild("originalLister").equalTo(mRef.getAuth().getUid());
 
-            final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
-                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listings_list_view,ViewHolder.class,queryRef){
+            final nz.emissary.emissaryapp.FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
+                    new nz.emissary.emissaryapp.FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listings_list_view,ViewHolder.class,queryRef){
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
 
