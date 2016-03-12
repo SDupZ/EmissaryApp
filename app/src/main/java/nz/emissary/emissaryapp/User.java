@@ -149,8 +149,8 @@ public class User {
     }
 
     public void finishListing(String deliveryId){
-        this.currentDeliveries.remove(deliveryId);
-        this.previousDeliveries.add(deliveryId);
+        this.currentListings.remove(deliveryId);
+        this.previousListings.add(deliveryId);
     }
 
     //**********************************************************************************************

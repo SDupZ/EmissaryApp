@@ -29,6 +29,9 @@ public class EditItemActivity extends BaseActivity implements View.OnClickListen
     private Firebase currentFirebaseDelivery;
     private Delivery currentDelivery;
 
+    private Firebase currentFirebaseDriver;
+    private User currentDriver;
+
     private Firebase currentFirebaseUser;
     private User currentUser;
 
@@ -68,6 +71,22 @@ public class EditItemActivity extends BaseActivity implements View.OnClickListen
                     if (!currentDelivery.getOriginalLister().equals(mRef.getAuth().getUid())){
                         acceptDeliveryButton.setVisibility(View.VISIBLE);
                     }
+
+                    //A driver has accepted this job
+                    if (currentDelivery.getDriver() !=  null ){
+                        currentFirebaseDriver = mRef.child("users").child(currentDelivery.getDriver());
+                        currentFirebaseDriver.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                currentDriver = dataSnapshot.getValue(User.class);
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+
+                            }
+                        });
+                    }
                 }
 
                 @Override
@@ -88,6 +107,7 @@ public class EditItemActivity extends BaseActivity implements View.OnClickListen
 
                 }
             });
+
         }
     }
 
@@ -108,9 +128,13 @@ public class EditItemActivity extends BaseActivity implements View.OnClickListen
                 currentDelivery.setStatus(Constants.STATUS_CANCELLED);
 
                 currentFirebaseDelivery.setValue(currentDelivery);
-
-                currentUser.finishDelivery(itemId);
+                currentUser.finishListing(itemId);
                 currentFirebaseUser.setValue(currentUser);
+
+                if (currentDelivery.getDriver() != null) {
+                    currentDriver.finishDelivery(itemId);
+                    currentFirebaseDriver.setValue(currentDriver);
+                }
             }
         });
         builder.setNegativeButton("Go back to safety", null);
