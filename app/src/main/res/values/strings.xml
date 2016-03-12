@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EmissaryApp</string>
+    <string name="app_name">Emissary</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
