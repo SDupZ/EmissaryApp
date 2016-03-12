@@ -51,14 +51,16 @@
             android:name=".activities.ViewAccountActivity"
             android:label="My Account"
             android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:parentActivityName=".activities.HomeActivity">
         </activity>
 
         <activity
             android:name=".activities.ViewItemActivity"
             android:label="View Item"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.HomeActivity">
         </activity>
 
         <activity
@@ -78,14 +80,16 @@
             android:name=".activities.EditItemActivity"
             android:label="Your listing"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.ViewMyListingsActivity">
         </activity>
 
         <activity
             android:name=".activities.DriverEditItemActivity"
             android:label="Your listing"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.ViewMyDeliveriesActivity">
         </activity>
 
     </application>

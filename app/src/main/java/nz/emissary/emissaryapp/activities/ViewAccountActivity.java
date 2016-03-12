@@ -3,12 +3,12 @@ package nz.emissary.emissaryapp.activities;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatButton;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
 import nz.emissary.emissaryapp.R;
@@ -16,7 +16,7 @@ import nz.emissary.emissaryapp.R;
 /**
  * Created by Simon on 3/03/2016.
  */
-public class ViewAccountActivity extends BaseActivity {
+public class ViewAccountActivity extends AppCompatActivity {
 
     TextView usernameView;
     TextView emailView;
@@ -27,6 +27,14 @@ public class ViewAccountActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_account);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
         mRef = new Firebase("https://emissary.firebaseio.com");
 
         usernameView = (TextView) findViewById(R.id.username);
@@ -53,10 +61,5 @@ public class ViewAccountActivity extends BaseActivity {
                 }
             }
         });
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_view_account;
     }
 }
