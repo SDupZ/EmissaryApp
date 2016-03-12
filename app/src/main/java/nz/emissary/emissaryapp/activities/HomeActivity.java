@@ -86,8 +86,10 @@ public class HomeActivity extends BaseActivity{
                 Log.d("EMISSARY", "Logged IN");
             }
         }else if (requestCode == CREATE_DELIVERY){
-            Snackbar snackbar = Snackbar.make(findViewById(R.id.home_coordinator_layout), "New delivery created!", Snackbar.LENGTH_LONG);
-            snackbar.show();
+            if (resultCode == RESULT_OK) {
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.home_coordinator_layout), "New delivery created!", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
         }
     }
 
