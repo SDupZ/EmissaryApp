@@ -40,6 +40,13 @@ public class HomeActivity extends BaseActivity{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ref = new Firebase("https://emissary.firebaseio.com");
+
+        if (ref.getAuth() == null){
+            Intent intentWithToken = new Intent(HomeActivity.this, LoginActivity.class);
+            startActivity(intentWithToken);
+        }
+
         super.onCreate(savedInstanceState);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

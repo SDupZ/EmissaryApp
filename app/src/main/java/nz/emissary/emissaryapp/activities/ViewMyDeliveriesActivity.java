@@ -15,6 +15,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.Query;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
+import org.xmlpull.v1.sax2.Driver;
+
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
@@ -92,7 +94,7 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                                         return true;
                                     } else if (event.getAction() == MotionEvent.ACTION_UP) {
                                         v.setSelected(false);
-                                        Intent intent = new Intent(v.getContext(), EditItemActivity.class)
+                                        Intent intent = new Intent(v.getContext(), DriverEditItemActivity.class)
                                                 .putExtra("object_id", getRef(i).getKey());
                                         v.getContext().startActivity(intent);
 

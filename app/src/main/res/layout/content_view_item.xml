@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_home" tools:context=".activities.ViewAccountActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <TextView
         android:id="@+id/item_name"
@@ -31,7 +30,7 @@
     <Button
         android:id="@+id/accept_delivery"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/button_size"
         android:text="Deliver this item!"
         android:visibility="invisible"
         android:textStyle="bold"
