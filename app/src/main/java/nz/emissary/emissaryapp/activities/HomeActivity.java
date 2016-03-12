@@ -79,7 +79,6 @@ public class HomeActivity extends BaseActivity{
                 Log.d("EMISSARY", "Logged IN");
             }
         }else if (requestCode == CREATE_DELIVERY){
-            String newDeliveryId = data.getStringExtra("DELIVERY_ID");
             Snackbar snackbar = Snackbar.make(findViewById(R.id.home_coordinator_layout), "New delivery created!", Snackbar.LENGTH_LONG);
             snackbar.show();
         }
