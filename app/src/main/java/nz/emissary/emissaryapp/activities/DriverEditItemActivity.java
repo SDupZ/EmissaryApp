@@ -1,10 +1,9 @@
 package nz.emissary.emissaryapp.activities;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -14,7 +13,6 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.User;
@@ -22,7 +20,7 @@ import nz.emissary.emissaryapp.User;
 /**
  * Created by Simon on 3/03/2016.
  */
-public class DriverEditItemActivity extends BaseActivity implements View.OnClickListener{
+public class DriverEditItemActivity extends AppCompatActivity implements View.OnClickListener{
 
     private String itemId;
     private Firebase mRef;
@@ -38,6 +36,12 @@ public class DriverEditItemActivity extends BaseActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_driver_edit);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Intent intent = getIntent();
         if(intent != null && intent.hasExtra("object_id")) {
@@ -89,11 +93,6 @@ public class DriverEditItemActivity extends BaseActivity implements View.OnClick
             });
 
         }
-    }
-
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.activity_driver_edit_item;
     }
 
     @Override
