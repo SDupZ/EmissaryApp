@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
@@ -107,6 +108,7 @@ public class HomeActivity extends BaseActivity{
 
         private RecyclerView mRecyclerView;
         private RecyclerView.LayoutManager mLayoutManager;
+        private ProgressBar progressBar;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -127,6 +129,7 @@ public class HomeActivity extends BaseActivity{
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.delivery_list_fragment, container, false);
 
+            progressBar = (ProgressBar) rootView.findViewById(R.id.updateProgressBar);
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
             mRecyclerView.setHasFixedSize(true);
 
@@ -144,6 +147,15 @@ public class HomeActivity extends BaseActivity{
                             viewHolder.mDeliveryName.setText(d.getListingName());
                             viewHolder.mDeliveryPickupTime.setText(d.getNotes());
 
+                            viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(v.getContext(), ViewItemActivity.class)
+                                            .putExtra("object_id", getRef(i).getKey());
+                                    v.getContext().startActivity(intent);
+                                }
+                            });
+                            /*
                             viewHolder.mView.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
@@ -163,20 +175,21 @@ public class HomeActivity extends BaseActivity{
                                     }
                                     return false;
                                 }
-                            });
+                            });*/
                         }
 
                     };
 
-
-            //This adapter is used to show a progress bar
             adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-                @Override
-                public void onChanged() {
-                    super.onChanged();
 
+                @Override
+                public void onItemRangeInserted(int positionStart, int itemCount) {
+                    super.onItemRangeInserted(positionStart, itemCount);
+                    progressBar.setVisibility(View.GONE);
+                    adapter.unregisterAdapterDataObserver(this);
                 }
             });
+
             mRecyclerView.setAdapter(adapter);
 
             return rootView;
@@ -191,6 +204,12 @@ public class HomeActivity extends BaseActivity{
             public ViewHolder(View v) {
                 super(v);
                 mView = v;
+                mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
                 mDeliveryName = (TextView) v.findViewById(R.id.list_item_delivery_name);
                 mDeliveryPickupTime = (TextView) v.findViewById(R.id.list_item_pickup_time);
 
