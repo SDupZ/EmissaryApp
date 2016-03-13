@@ -31,6 +31,10 @@
         <item name="colorAccent">@color/colorCancelButton</item>
     </style>
 
+    <style name="RegisterButtonOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="colorAccent">@color/colorRegisterButton</item>
+    </style>
+
 
     <style name="DialogMainHeading" parent="@android:style/TextAppearance.Medium">
         <item name="android:paddingTop">20dp</item>

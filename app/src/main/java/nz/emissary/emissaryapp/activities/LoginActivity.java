@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private EditText mPasswordConfirmView;
 
-    private TextView mSignupLink;
+    private Button mSignupLink;
     private Button mEmailSignInButton;
     private LinearLayout nameLayout;
 
@@ -121,17 +121,26 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-        mSignupLink = (TextView) findViewById(R.id.link_signup);
+        mSignupLink = (Button) findViewById(R.id.link_signup);
         mSignupLink.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                nameLayout.setVisibility(View.VISIBLE);
-                mPasswordConfirmView.setVisibility(View.VISIBLE);
-                mEmailSignInButton.setText(R.string.action_signup);
-                mSignupLink.setText("Welcome to Emissary!");
-                mFirstName.requestFocus();
-                signup = true;
+                if (!signup) {
+                    nameLayout.setVisibility(View.VISIBLE);
+                    mPasswordConfirmView.setVisibility(View.VISIBLE);
+                    mEmailSignInButton.setText(R.string.action_signup);
+                    mSignupLink.setText("Return to login");
+                    mFirstName.requestFocus();
+                    signup = true;
+                }else{
+                    nameLayout.setVisibility(View.GONE);
+                    mPasswordConfirmView.setVisibility(View.GONE);
+                    mEmailSignInButton.setText(R.string.action_sign_in);
+                    mSignupLink.setText("Register");
+                    mEmailView.requestFocus();
+                    signup = false;
+                }
             }
         });
 
@@ -404,7 +413,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     nameLayout.setVisibility(View.GONE);
                     mPasswordConfirmView.setVisibility(View.GONE);
                     mEmailSignInButton.setText(R.string.action_sign_in);
-                    mSignupLink.setText("No account yet? Create one");
+                    mSignupLink.setText("Register");
                     signup = false;
                     Toast.makeText(LoginActivity.this, "Account created!", Toast.LENGTH_SHORT).show();
                 }

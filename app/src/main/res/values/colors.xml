@@ -9,4 +9,5 @@
     <color name="colorCancelled">#FFCDD2</color>
 
     <color name="colorCancelButton">#B71C1C</color>
+    <color name="colorRegisterButton">#B71C1C</color>
 </resources>
