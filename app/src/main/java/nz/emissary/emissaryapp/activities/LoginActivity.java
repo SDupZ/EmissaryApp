@@ -29,6 +29,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -71,11 +72,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private EditText mPasswordConfirmView;
+
+    private TextView mSignupLink;
+    private Button mEmailSignInButton;
+    private LinearLayout nameLayout;
+
+    private AutoCompleteTextView mFirstName;
+    private AutoCompleteTextView mLastName;
+
     private View mProgressView;
     private View mLoginFormView;
     private boolean signup;
-    private TextView mSignupLink;
-    private Button mEmailSignInButton;
+
+
 
     private User user;
     @Override
@@ -85,6 +94,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
         signup = false;
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mFirstName = (AutoCompleteTextView) findViewById(R.id.first_name);
+        mLastName = (AutoCompleteTextView) findViewById(R.id.last_name);
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -100,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
 
         mPasswordConfirmView = (EditText) findViewById(R.id.password_confirm);
+        nameLayout = (LinearLayout) findViewById(R.id.name_fields);
 
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -114,9 +126,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             @Override
             public void onClick(View v) {
+                nameLayout.setVisibility(View.VISIBLE);
                 mPasswordConfirmView.setVisibility(View.VISIBLE);
                 mEmailSignInButton.setText(R.string.action_signup);
                 mSignupLink.setText("Welcome to Emissary!");
+                mFirstName.requestFocus();
                 signup = true;
             }
         });
@@ -200,6 +214,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String password = mPasswordView.getText().toString();
         String passwordConfirm = mPasswordConfirmView.getText().toString();
 
+        String firstName = mFirstName.getText().toString();
+        String lastName = mLastName.getText().toString();
+
         boolean cancel = false;
         View focusView = null;
 
@@ -228,6 +245,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
+        //Check for first and lastname
+        if (signup && TextUtils.isEmpty(firstName)){
+            mFirstName.setError(getString(R.string.error_field_required));
+            focusView = mFirstName;
+            cancel = true;
+        }
+        if (signup && TextUtils.isEmpty(firstName)){
+            mLastName.setError(getString(R.string.error_field_required));
+            focusView = mLastName;
+            cancel = true;
+        }
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -239,7 +268,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             //mAuthTask = new UserLoginTask(email, password);
             //mAuthTask.execute((Void) null);
 
-            login(email, password);
+            login(email, password, firstName, lastName);
         }
     }
 
@@ -344,12 +373,35 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    private void login(String email, String password){
+    private void login(final String email, String password, final String firstName, final String lastName){
         if (signup){
             ref.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
                 @Override
                 public void onSuccess(Map<String, Object> result) {
+                    String uid = result.get("uid").toString();
+
+                    Firebase firebaseUser = ref.child("users/" + uid);
+                    firebaseUser.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot snapshot) {
+                            user = snapshot.getValue(User.class);
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+                            System.out.println("The read failed: " + firebaseError.getMessage());
+                        }
+                    });
+
+                    user = new User();
+                    user.setEmail(email);
+                    user.setFirstName(firstName);
+                    user.setLastName(lastName);
+
+                    firebaseUser.setValue(user);
+
                     showProgress(false);
+                    nameLayout.setVisibility(View.GONE);
                     mPasswordConfirmView.setVisibility(View.GONE);
                     mEmailSignInButton.setText(R.string.action_sign_in);
                     mSignupLink.setText("No account yet? Create one");
@@ -382,10 +434,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         }
                     });
 
-                    if (user == null){
-                        user = new User();
-                        user.setEmail(authData.getProviderData().get("email").toString());
-                    }
                     user.setLastLoginDate("" + System.currentTimeMillis() / 1000.0);
                     user.setProvider(authData.getProvider());
 

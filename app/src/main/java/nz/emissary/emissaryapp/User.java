@@ -8,8 +8,9 @@ import java.util.List;
  */
 public class User {
     private String uID;
-    private String name;
-    private String username;
+
+    private String firstName;
+    private String lastName;
     private String phone;
     private String email;
     private Boolean isDriver;
@@ -61,21 +62,22 @@ public class User {
         this.uID = uID;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
+
 
     public String getPhone() {
         return phone;
