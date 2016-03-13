@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.firebase.client.Firebase;
@@ -37,7 +38,7 @@ public class ViewMyListingsActivity extends BaseActivity{
          * The fragment argument representing the section number for this
          * fragment.
          */
-
+        private ProgressBar progressBar;
         private RecyclerView mRecyclerView;
         private RecyclerView.LayoutManager mLayoutManager;
 
@@ -59,6 +60,8 @@ public class ViewMyListingsActivity extends BaseActivity{
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.delivery_list_fragment, container, false);
+
+            progressBar = (ProgressBar) rootView.findViewById(R.id.updateProgressBar);
 
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
             mRecyclerView.setHasFixedSize(true);
@@ -86,6 +89,16 @@ public class ViewMyListingsActivity extends BaseActivity{
                             viewHolder.mDeliveryName.setText(d.getListingName());
                             viewHolder.mDeliveryPickupTime.setText(d.getNotes());
 
+                            viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(v.getContext(), EditItemActivity.class)
+                                            .putExtra("object_id", getRef(i).getKey());
+                                    v.getContext().startActivity(intent);
+                                }
+                            });
+
+                            /*
                             viewHolder.mView.setOnTouchListener(new View.OnTouchListener() {
                                 @Override
                                 public boolean onTouch(View v, MotionEvent event) {
@@ -105,7 +118,7 @@ public class ViewMyListingsActivity extends BaseActivity{
                                     }
                                     return false;
                                 }
-                            });
+                            });*/
                         }
 
                     };
@@ -113,10 +126,12 @@ public class ViewMyListingsActivity extends BaseActivity{
 
             //This adapter is used to show a progress bar
             adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
-                @Override
-                public void onChanged() {
-                    super.onChanged();
 
+                @Override
+                public void onItemRangeInserted(int positionStart, int itemCount) {
+                    super.onItemRangeInserted(positionStart, itemCount);
+                    progressBar.setVisibility(View.GONE);
+                    adapter.unregisterAdapterDataObserver(this);
                 }
             });
             mRecyclerView.setAdapter(adapter);
