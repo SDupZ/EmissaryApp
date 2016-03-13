@@ -12,6 +12,6 @@
         android:topRightRadius="0dp" />
 
     <stroke android:width="5px"
-        android:color="@color/colorCancelled"/>
+        android:color="@color/colorAccepted"/>
 
 </shape>
