@@ -17,6 +17,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."</string>
 
+    <string name="listing_remove">Take down this listing</string>
+
     <string name="action_settings">Settings</string>
     <string name="title_activity_create_delivery">List a new delivery</string>
     <string name="title_activity_login">Sign in</string>

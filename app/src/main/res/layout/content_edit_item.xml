@@ -34,7 +34,7 @@
         android:id="@+id/accept_delivery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Cancel this delivery"
+        android:text="@string/listing_remove"
         android:textStyle="bold"
         android:theme="@style/CustomAccentOverlay"
         android:layout_alignParentBottom="true"

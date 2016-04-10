@@ -13,7 +13,7 @@ import nz.emissary.emissaryapp.R;
 
 public class SplashActivity extends Activity implements View.OnTouchListener{
 
-    private final int SPLASH_DISPLAY_LENGTH = 15000;
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
