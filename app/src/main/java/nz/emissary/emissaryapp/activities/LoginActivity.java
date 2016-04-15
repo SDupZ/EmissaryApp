@@ -427,31 +427,29 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             ref.authWithPassword(email, password, new Firebase.AuthResultHandler() {
 
                 @Override
-                public void onAuthenticated(AuthData authData) {
+                public void onAuthenticated(final AuthData authData) {
                     // Authentication just completed successfully :)
 
-                    Firebase firebaseUser = ref.child("users/" + authData.getUid());
+                    final Firebase firebaseUser = ref.child("users/" + authData.getUid());
                     firebaseUser.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             user = snapshot.getValue(User.class);
+                            user.setLastLoginDate("" + System.currentTimeMillis() / 1000.0);
+                            user.setProvider(authData.getProvider());
+
+                            firebaseUser.setValue(user);
+
+                            Intent result = new Intent(LoginActivity.this, HomeActivity.class);
+                            setResult(RESULT_OK, result);
+                            result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
+                            finish();
                         }
 
                         @Override
                         public void onCancelled(FirebaseError firebaseError) {
-                            System.out.println("The read failed: " + firebaseError.getMessage());
                         }
                     });
-
-                    user.setLastLoginDate("" + System.currentTimeMillis() / 1000.0);
-                    user.setProvider(authData.getProvider());
-
-                    firebaseUser.setValue(user);
-
-                    Intent result = new Intent(LoginActivity.this, HomeActivity.class);
-                    setResult(RESULT_OK, result);
-                    result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
-                    finish();
                 }
 
                 @Override
