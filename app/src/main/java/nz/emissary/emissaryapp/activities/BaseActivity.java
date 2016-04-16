@@ -51,6 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
         headerLayout.setOnClickListener(new View.OnClickListener() {
             @Override
