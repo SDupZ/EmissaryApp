@@ -28,7 +28,6 @@ public class SplashActivity extends Activity implements View.OnTouchListener{
         TextView tv = (TextView) findViewById(R.id.logo_text_drawable);
         Typeface face = Typeface.createFromAsset(getAssets(),
                 "fonts/emissary_font_main.ttf");
-
         tv.setTypeface(face);
 
         new Handler().postDelayed(new Runnable() {

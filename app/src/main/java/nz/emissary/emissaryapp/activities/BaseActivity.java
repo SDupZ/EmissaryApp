@@ -1,6 +1,7 @@
 package nz.emissary.emissaryapp.activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -36,6 +37,12 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
+
+        TextView tv = (TextView) findViewById(R.id.toolbar_title);
+        Typeface face = Typeface.createFromAsset(getAssets(),
+                "fonts/emissary_font_main.ttf");
+
+        tv.setTypeface(face);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
