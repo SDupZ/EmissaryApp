@@ -3,6 +3,8 @@ package nz.emissary.emissaryapp.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialog;
@@ -61,6 +63,9 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
             final TextView pickupTimeView = ((TextView)findViewById(R.id.item_pickup_time));
 
             final Button acceptDeliveryButton = (Button) findViewById(R.id.accept_delivery);
+            final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+            fab.setOnClickListener(this);
 
 
             //----------------Load the object from the local database---------------
@@ -77,6 +82,7 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentDelivery = dataSnapshot.getValue(Delivery.class);
                     //nameView.setText(currentDelivery.getListingName());
+                    ((CollapsingToolbarLayout) findViewById(R.id.toolbar_layout)).setTitle(currentDelivery.getListingName());
                     toolbar.setTitle(currentDelivery.getListingName());
                     notesView.setText(currentDelivery.getNotes());
                     pickupLocationView.setText(currentDelivery.getPickupLocation());
@@ -87,6 +93,7 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
 
                     if (!currentDelivery.getOriginalLister().equals(mRef.getAuth().getUid())){
                         acceptDeliveryButton.setVisibility(View.VISIBLE);
+                        fab.setVisibility(View.VISIBLE);
                     }
                 }
 
