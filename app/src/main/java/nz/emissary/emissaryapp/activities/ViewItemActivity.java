@@ -40,7 +40,7 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
 
         setContentView(R.layout.activity_view_item);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -70,8 +70,9 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentDelivery = dataSnapshot.getValue(Delivery.class);
+                    //nameView.setText(currentDelivery.getListingName());
+                    toolbar.setTitle(currentDelivery.getListingName());
                     notesView.setText(currentDelivery.getNotes());
-                    nameView.setText(currentDelivery.getListingName());
                     pickupLocationView.setText(currentDelivery.getPickupLocation());
                     dropOffLocationView.setText(currentDelivery.getDropoffLocation());
 
