@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
-    
+
     <!-- ~~~~~~~~~~~~~Delivery Details Card~~~~~~~~~~~~~ -->
     <android.support.v7.widget.CardView
         android:id="@+id/delivery_details_card"
@@ -38,9 +38,9 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <!-- ~~~~~~~~~~~~~Delivery Details Card~~~~~~~~~~~~~ -->
+    <!-- ~~~~~~~~~~~~~Time Details Card~~~~~~~~~~~~~ -->
     <android.support.v7.widget.CardView
-        android:id="@+id/delivery_location_card"
+        android:id="@+id/delivery_time_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="2dp"
@@ -61,6 +61,68 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/title_2">
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_action_clock"/>
+                <TextView
+                    android:paddingLeft="16dp"
+                    style="@style/DialogMainHeading"
+                    android:layout_centerHorizontal="true"
+                    android:text="Date and Time"/>
+            </LinearLayout>
+
+            <TextView
+                style="@style/DialogSubHeadingOne"
+                android:text="Pickup Time"/>
+
+            <TextView
+                android:id="@+id/item_pickup_time"
+                tools:text="Today - 4pm"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+
+            <TextView
+                style="@style/DialogSubHeadingOne"
+                android:text="Droppoff Time"/>
+
+            <TextView
+                android:id="@+id/item_dropoff_time"
+                tools:text="Today - 6pm"
+                android:layout_marginBottom="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"/>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <!-- ~~~~~~~~~~~~~Delivery Details Card~~~~~~~~~~~~~ -->
+    <android.support.v7.widget.CardView
+        android:id="@+id/delivery_location_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="2dp"
+        card_view:contentPadding="16dp"
+        android:layout_below="@id/delivery_time_card"
+
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/location_title">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

@@ -114,6 +114,9 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
         TextView dropoffTimeTwoTextView;
         TextView dropOffLocationTextView;
 
+        int pickupYear, pickupMonth, pickupDay, pickupHourOfDay, pickupMinute, pickupSecond;
+        int dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDay, dropoffMinute, dropoffSecond;
+
         int timeDialog;     // 1 = pickup, 2 = dropoff
         int dateDialog;     // 1 = pickup time one, 2 = pickup time two, 3 = dropoff time one, ...
 
@@ -189,6 +192,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
                 }
             });
+
             dropoffDateTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -326,12 +330,23 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     String dropOffLocation = dropOffLocationTextView.getText().toString();
                     String notes = deliveryNotes.getText().toString();
 
+                    Calendar cal1 = Calendar.getInstance();
+                    cal1.set(pickupYear, pickupMonth, pickupDay, pickupHourOfDay, pickupMinute, pickupSecond);
+
+                    Calendar cal2 = Calendar.getInstance();
+                    cal2.set(dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDay, dropoffMinute, dropoffSecond);
+
+                    String pickupTime = "" + cal1.getTimeInMillis();
+                    String dropoffTime = "" + cal2.getTimeInMillis();
+
                     Delivery myDelivery = new Delivery();
                     myDelivery.setListingName(name);
                     myDelivery.setPickupLocation(pickupLocation);
                     myDelivery.setDropoffLocation(dropOffLocation);
                     myDelivery.setNotes(notes);
                     myDelivery.setOriginalLister(ref.getAuth().getUid());
+                    myDelivery.setPickupTime(pickupTime);
+                    myDelivery.setDropoffTime(dropoffTime);
                     myDelivery.setCreatedAt(System.currentTimeMillis() / 1000.0);
 
                     Firebase postRef = ref.child("deliveries");
@@ -369,8 +384,14 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
 
             if (dateDialog == 1) {
                 pickupDateTextView.setText(dateText);
+                pickupYear = year;
+                pickupMonth = monthOfYear;
+                pickupDay = dayOfMonth;
             }else{
                 dropoffDateTextView.setText(dateText);
+                dropoffYear = year;
+                dropoffMonth = monthOfYear;
+                dropoffDay = dayOfMonth;
             }
         }
 
@@ -385,10 +406,16 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             dateString = (hourOfDay >= 12) ? (dateString + "pm") : (dateString + "am");
             if (timeDialog == 1) {
                 pickupTimeOneTextView.setText(dateString);
+                pickupHourOfDay = hourOfDay;
+                pickupMinute = minute;
+                pickupSecond = second;
             }else if (timeDialog == 2){
                 pickupTimeTwoTextView.setText(dateString);
             }else if (timeDialog == 3){
                 dropoffTimeOneTextView.setText(dateString);
+                dropoffHourOfDay = hourOfDay;
+                dropoffMinute = minute;
+                dropoffSecond = second;
             }else if (timeDialog == 4){
                 dropoffTimeTwoTextView.setText(dateString);
             }

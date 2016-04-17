@@ -16,6 +16,10 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
@@ -53,6 +57,8 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
             final TextView pickupLocationView = ((TextView)findViewById(R.id.item_pickup_location));
             final TextView dropOffLocationView = ((TextView)findViewById(R.id.item_drop_off_location));
             final TextView notesView = ((TextView)findViewById(R.id.item_notes));
+            final TextView dropoffTimeView = ((TextView)findViewById(R.id.item_dropoff_time));
+            final TextView pickupTimeView = ((TextView)findViewById(R.id.item_pickup_time));
 
             final Button acceptDeliveryButton = (Button) findViewById(R.id.accept_delivery);
 
@@ -75,6 +81,9 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                     notesView.setText(currentDelivery.getNotes());
                     pickupLocationView.setText(currentDelivery.getPickupLocation());
                     dropOffLocationView.setText(currentDelivery.getDropoffLocation());
+
+                    dropoffTimeView.setText(convertTime( Long.parseLong(currentDelivery.getDropoffTime())));
+                    pickupTimeView.setText(convertTime( Long.parseLong(currentDelivery.getPickupTime())));
 
                     if (!currentDelivery.getOriginalLister().equals(mRef.getAuth().getUid())){
                         acceptDeliveryButton.setVisibility(View.VISIBLE);
@@ -100,6 +109,12 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                 }
             });
         }
+    }
+
+    public String convertTime(long time){
+        Date date = new Date(time);
+        Format format = new SimpleDateFormat("yyyy/MM/dd - HH:mm");
+        return format.format(date);
     }
 
     @Override

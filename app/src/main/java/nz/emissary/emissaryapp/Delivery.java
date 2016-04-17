@@ -11,6 +11,10 @@ public class Delivery {
 
     private String pickupLocation;
     private String dropoffLocation;
+
+    private String pickupTime;
+    private String dropoffTime;
+
     //private String expiryDate;
 
     private String driver;
@@ -71,14 +75,21 @@ public class Delivery {
         this.dropoffLocation = dropoffLocation;
     }
 
-    /*
-    public String getExpiryDate() {
-        return expiryDate;
+    public String getPickupTime() {
+        return pickupTime;
     }
 
-    public void setExpiryDate(String expiryDate) {
-        this.expiryDate = expiryDate;
-    }*/
+    public void setPickupTime(String pickupTime) {
+        this.pickupTime = pickupTime;
+    }
+
+    public String getDropoffTime() {
+        return dropoffTime;
+    }
+
+    public void setDropoffTime(String dropoffTime) {
+        this.dropoffTime = dropoffTime;
+    }
 
     public String getDriver() {
         return driver;
