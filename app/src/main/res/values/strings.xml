@@ -36,4 +36,15 @@
     <string name="status_picked_up">The driver has picked up your item.</string>
     <string name="status_delivered">The delivery has completed successfully.</string>
     <string name="status_unknown">Status unknown at this time.</string>
+
+    <string name="status_listed_driver">This item has no driver associated with it. Accept this listing from the home page again to claim it.</string>
+    <string name="status_accepted_driver">You have accepted this delivery. Mark item as picked up when you have picked up the item.</string>
+    <string name="status_picked_up_driver">You have picked up the item. Mark this item as delivered when you have completed the delivery</string>
+    <string name="status_delivered_driver">You have completed the delivery successfully!</string>
+    <string name="status_unknown_driver">Status unknown at this time.</string>
+
+    <string name="driver_button_picked_up">Mark as picked up</string>
+    <string name="driver_button_complete">Delivery Complete</string>
+    <string name="update_status_dialog_title">Update delivery status</string>
+    <string name="driver_update_confirm">The new status will become: </string>
 </resources>

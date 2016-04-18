@@ -62,6 +62,7 @@ public class ViewItemStatusActivity extends AppCompatActivity{
             final TextView notesView = ((TextView)findViewById(R.id.item_notes));
             final TextView dropoffTimeView = ((TextView)findViewById(R.id.item_dropoff_time));
             final TextView pickupTimeView = ((TextView)findViewById(R.id.item_pickup_time));
+
             final TextView itemStatusView = ((TextView) findViewById(R.id.item_status_description));
             final CardView deliveryStatusCard = ((CardView) findViewById(R.id.delivery_status_card));
 
@@ -82,12 +83,12 @@ public class ViewItemStatusActivity extends AppCompatActivity{
                     pickupLocationView.setText(currentDelivery.getPickupLocation());
                     dropOffLocationView.setText(currentDelivery.getDropoffLocation());
 
-                    dropoffTimeView.setText(convertTime( Long.parseLong(currentDelivery.getDropoffTime())));
-                    pickupTimeView.setText(convertTime( Long.parseLong(currentDelivery.getPickupTime())));
+                    dropoffTimeView.setText(Constants.convertTime( Long.parseLong(currentDelivery.getDropoffTime())));
+                    pickupTimeView.setText(Constants.convertTime( Long.parseLong(currentDelivery.getPickupTime())));
 
-                    itemStatusView.setText(getStatusDescription(currentDelivery.getStatus()));
+                    itemStatusView.setText(Constants.getStatusDescription(currentDelivery.getStatus(), getApplicationContext(), false));
 
-                    Drawable cardBackground = getStatusBackgroundDrawable(currentDelivery.getStatus());
+                    Drawable cardBackground = Constants.getStatusBackgroundDrawable(currentDelivery.getStatus(), getApplicationContext());
                     if (cardBackground != null)
                         deliveryStatusCard.setBackground(cardBackground);
                 }
@@ -112,47 +113,4 @@ public class ViewItemStatusActivity extends AppCompatActivity{
             });
         }
     }
-
-    public String convertTime(long time){
-        Date date = new Date(time);
-        Format format = new SimpleDateFormat("yyyy/MM/dd - HH:mm");
-        return format.format(date);
-    }
-
-    public String getStatusDescription(int status){
-        switch (status){
-            case 0:
-                return getResources().getString(R.string.status_listed);
-            case 100:
-                return getResources().getString(R.string.status_accepted);
-            case 200:
-                return getResources().getString(R.string.status_picked_up);
-            case 300:
-                return getResources().getString(R.string.status_delivered);
-            default:
-                return getResources().getString(R.string.status_unknown);
-
-        }
-    }
-
-    //Note returns null if background should not change
-    public Drawable getStatusBackgroundDrawable(int status){
-        switch (status){
-            case 0:
-                return null;
-            case 100:
-                return ContextCompat.getDrawable(this, R.drawable.selector_row_accepted);
-            case 200:
-                return ContextCompat.getDrawable(this, R.drawable.selector_row_accepted);
-            case 300:
-                return ContextCompat.getDrawable(this, R.drawable.selector_row_delivered);
-            case -1:
-                return ContextCompat.getDrawable(this, R.drawable.selector_row_cancelled);
-            default:
-                return null;
-
-        }
-    }
-
-
 }

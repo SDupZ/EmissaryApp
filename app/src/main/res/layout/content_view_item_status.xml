@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- ~~~~~~~~~~~~~Delivery Details Card~~~~~~~~~~~~~ -->
+        <!-- ~~~~~~~~~~~~~Delivery Status Card~~~~~~~~~~~~~ -->
         <android.support.v7.widget.CardView
             android:id="@+id/delivery_status_card"
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
 
                 <TextView
                     android:id="@+id/item_status_description"
-                    tools:text="Keep dry"
+                    tools:text="Accepted"
                     android:layout_marginBottom="20dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
