@@ -71,6 +71,8 @@ public class DriverEditItemActivity extends AppCompatActivity{
             final TextView itemStatusView = ((TextView) findViewById(R.id.item_status_description));
             final CardView deliveryStatusCard = ((CardView) findViewById(R.id.delivery_status_card));
 
+            final TextView driverMessageView = ((TextView) findViewById(R.id.item_driver_message));
+
             final Button driverUpdateStatusButton = (Button) findViewById(R.id.driver_update_status_button);
 
             final EditText messageFromDriverView = (EditText) findViewById(R.id.message_for_lister);
@@ -115,6 +117,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
                             driverUpdateStatusButton.setEnabled(true);
                             break;
                     }
+                    driverMessageView.setText(currentDelivery.getMessageFromDriver());                    
                 }
 
                 @Override
@@ -179,6 +182,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
                 public void onClick(View v) {
                     currentDelivery.setMessageFromDriver(messageFromDriverView.getText().toString());
                     currentFirebaseDelivery.setValue(currentDelivery);
+                    messageFromDriverView.setText("");
                 }
             });
 
