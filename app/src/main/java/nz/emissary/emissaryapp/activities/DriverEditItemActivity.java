@@ -79,8 +79,6 @@ public class DriverEditItemActivity extends AppCompatActivity{
             driverUpdateStatusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    driverUpdateStatusButton.setEnabled(false);
-
                     AlertDialog.Builder builder =
                             new AlertDialog.Builder(DriverEditItemActivity.this, R.style.MyAlertDialogStyle);
                     builder.setTitle(R.string.update_status_dialog_title);
@@ -96,6 +94,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
                     builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            driverUpdateStatusButton.setEnabled(false);
                             switch (deliveryStatus){
                                 case (Constants.STATUS_ACCEPTED):
                                     currentDelivery.setStatus(Constants.STATUS_PICKED_UP);
@@ -107,12 +106,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
                             currentFirebaseDelivery.setValue(currentDelivery);
                         }
                     });
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            driverUpdateStatusButton.setEnabled(false);
-                        }
-                    });
+                    builder.setNegativeButton("Cancel", null);
 
                     AppCompatDialog dialog = builder.create();
                     dialog.show();
