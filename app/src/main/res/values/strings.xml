@@ -30,4 +30,10 @@
     according to our guildlines.</string>
     <string name="cancel_dialog">Are you sure?</string>
 
+
+    <string name="status_listed">Item listed publicly. Waiting for driver acceptance...</string>
+    <string name="status_accepted">A driver has accepted your delivery!</string>
+    <string name="status_picked_up">The driver has picked up your item.</string>
+    <string name="status_delivered">The delivery has completed successfully.</string>
+    <string name="status_unknown">Status unknown at this time.</string>
 </resources>

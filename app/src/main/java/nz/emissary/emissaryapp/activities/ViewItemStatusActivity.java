@@ -2,12 +2,14 @@ package nz.emissary.emissaryapp.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +32,7 @@ import nz.emissary.emissaryapp.User;
 /**
  * Created by Simon on 3/03/2016.
  */
-public class ViewItemActivity extends AppCompatActivity implements View.OnClickListener{
+public class ViewItemStatusActivity extends AppCompatActivity{
 
     private String itemId;
     private Firebase mRef;
@@ -44,7 +46,7 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_view_item);
+        setContentView(R.layout.activity_view_item_status);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -55,20 +57,16 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
         Intent intent = getIntent();
         if(intent != null && intent.hasExtra("object_id")) {
 
-            final TextView nameView = ((TextView)findViewById(R.id.item_name));
             final TextView pickupLocationView = ((TextView)findViewById(R.id.item_pickup_location));
             final TextView dropOffLocationView = ((TextView)findViewById(R.id.item_drop_off_location));
             final TextView notesView = ((TextView)findViewById(R.id.item_notes));
             final TextView dropoffTimeView = ((TextView)findViewById(R.id.item_dropoff_time));
             final TextView pickupTimeView = ((TextView)findViewById(R.id.item_pickup_time));
-
-            final Button acceptDeliveryButton = (Button) findViewById(R.id.accept_delivery);
+            final TextView itemStatusView = ((TextView) findViewById(R.id.item_status_description));
+            final CardView deliveryStatusCard = ((CardView) findViewById(R.id.delivery_status_card));
 
             //----------------Load the object from the local database---------------
             itemId = intent.getStringExtra("object_id");
-
-            //----------------Accept a delivery---------------
-            acceptDeliveryButton.setOnClickListener(this);
 
             mRef = new Firebase("https://emissary.firebaseio.com");
             currentFirebaseDelivery = new Firebase("https://emissary.firebaseio.com/deliveries/" + itemId);
@@ -87,9 +85,11 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                     dropoffTimeView.setText(convertTime( Long.parseLong(currentDelivery.getDropoffTime())));
                     pickupTimeView.setText(convertTime( Long.parseLong(currentDelivery.getPickupTime())));
 
-                    if (!currentDelivery.getOriginalLister().equals(mRef.getAuth().getUid())){
-                        acceptDeliveryButton.setVisibility(View.VISIBLE);
-                    }
+                    itemStatusView.setText(getStatusDescription(currentDelivery.getStatus()));
+
+                    Drawable cardBackground = getStatusBackgroundDrawable(currentDelivery.getStatus());
+                    if (cardBackground != null)
+                        deliveryStatusCard.setBackground(cardBackground);
                 }
 
                 @Override
@@ -119,28 +119,40 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
         return format.format(date);
     }
 
-    @Override
-    public void onClick(View v) {
-        AlertDialog.Builder builder =
-                new AlertDialog.Builder(ViewItemActivity.this, R.style.MyAlertDialogStyle);
-        builder.setTitle("Driver Confirmation");
-        builder.setMessage(getResources().getString(R.string.confirm_dialog));
-        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                currentDelivery.setDriver(mRef.getAuth().getUid());
-                currentDelivery.setStatus(Constants.STATUS_ACCEPTED);
+    public String getStatusDescription(int status){
+        switch (status){
+            case 0:
+                return getResources().getString(R.string.status_listed);
+            case 100:
+                return getResources().getString(R.string.status_accepted);
+            case 200:
+                return getResources().getString(R.string.status_picked_up);
+            case 300:
+                return getResources().getString(R.string.status_delivered);
+            default:
+                return getResources().getString(R.string.status_unknown);
 
-                currentFirebaseDelivery.setValue(currentDelivery);
-
-                currentUser.acceptDelivery(itemId);
-                currentFirebaseUser.setValue(currentUser);
-            }
-        });
-        builder.setNegativeButton("Cancel", null);
-
-        AppCompatDialog dialog = builder.create();
-        dialog.show();
+        }
     }
+
+    //Note returns null if background should not change
+    public Drawable getStatusBackgroundDrawable(int status){
+        switch (status){
+            case 0:
+                return null;
+            case 100:
+                return ContextCompat.getDrawable(this, R.drawable.selector_row_accepted);
+            case 200:
+                return ContextCompat.getDrawable(this, R.drawable.selector_row_accepted);
+            case 300:
+                return ContextCompat.getDrawable(this, R.drawable.selector_row_delivered);
+            case -1:
+                return ContextCompat.getDrawable(this, R.drawable.selector_row_cancelled);
+            default:
+                return null;
+
+        }
+    }
+
 
 }

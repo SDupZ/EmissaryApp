@@ -92,7 +92,7 @@ public class ViewMyListingsActivity extends BaseActivity{
                             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent intent = new Intent(v.getContext(), EditItemActivity.class)
+                                    Intent intent = new Intent(v.getContext(), ViewItemStatusActivity.class)
                                             .putExtra("object_id", getRef(i).getKey());
                                     v.getContext().startActivity(intent);
                                 }

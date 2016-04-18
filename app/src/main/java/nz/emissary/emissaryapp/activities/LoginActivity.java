@@ -42,6 +42,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +86,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private boolean signup;
+
+    private int count = 0;
 
     protected Toolbar toolbar;
 
@@ -447,11 +450,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             user = snapshot.getValue(User.class);
-                            user.setLastLoginDate("" + System.currentTimeMillis() / 1000.0);
-                            user.setProvider(authData.getProvider());
-
+                            //user.setProvider(authData.getProvider());
+                            //user.setLastLoginDate("" + System.currentTimeMillis() / 1000.0);
                             firebaseUser.setValue(user);
-
                             Intent result = new Intent(LoginActivity.this, HomeActivity.class);
                             setResult(RESULT_OK, result);
                             result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
