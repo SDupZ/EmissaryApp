@@ -62,7 +62,7 @@ public class Constants {
             case 100:
                 return ContextCompat.getDrawable(context, R.drawable.selector_row_accepted);
             case 200:
-                return ContextCompat.getDrawable(context, R.drawable.selector_row_accepted);
+                return ContextCompat.getDrawable(context, R.drawable.selector_row_picked_up);
             case 300:
                 return ContextCompat.getDrawable(context, R.drawable.selector_row_delivered);
             case -1:

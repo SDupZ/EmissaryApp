@@ -8,8 +8,10 @@
     <color name="colorHeaderEnd">#0D2029</color>
 
     <color name="colorAccepted">#E3F2FD</color>
+    <color name="colorPickedup">#E3F2FD</color>
     <color name="colorDelivered">#DCEDC8</color>
     <color name="colorCancelled">#B71C1C</color>
+
 
     <color name="colorCancelButton">#B71C1C</color>
     <color name="colorRegisterButton">#B71C1C</color>

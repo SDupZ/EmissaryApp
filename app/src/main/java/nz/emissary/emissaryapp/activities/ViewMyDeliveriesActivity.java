@@ -79,13 +79,7 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
 
-                            if (d.getStatus() == Constants.STATUS_ACCEPTED){
-                                viewHolder.mView.findViewById(R.id.list_view_root).setBackground(getResources().getDrawable(R.drawable.selector_row_accepted));
-                            }else if (d.getStatus() == Constants.STATUS_DELIVERED){
-                                viewHolder.mView.findViewById(R.id.list_view_root).setBackground(getResources().getDrawable(R.drawable.selector_row_delivered));
-                            }else if (d.getStatus() == Constants.STATUS_CANCELLED){
-                                viewHolder.mView.findViewById(R.id.list_view_root).setBackground(getResources().getDrawable(R.drawable.selector_row_cancelled));
-                            }
+                            viewHolder.mView.findViewById(R.id.list_view_root).setBackground(Constants.getStatusBackgroundDrawable(d.getStatus(), getContext()));
 
                             viewHolder.mDeliveryName.setText(d.getListingName());
                             viewHolder.mDeliveryPickupTime.setText(d.getNotes());
