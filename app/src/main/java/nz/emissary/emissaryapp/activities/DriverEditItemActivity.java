@@ -107,7 +107,12 @@ public class DriverEditItemActivity extends AppCompatActivity{
                             currentFirebaseDelivery.setValue(currentDelivery);
                         }
                     });
-                    builder.setNegativeButton("Cancel", null);
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            driverUpdateStatusButton.setEnabled(false);
+                        }
+                    });
 
                     AppCompatDialog dialog = builder.create();
                     dialog.show();
