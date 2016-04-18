@@ -15,6 +15,8 @@ public class Delivery {
     private String pickupTime;
     private String dropoffTime;
 
+    private String messageFromDriver;
+
     //private String expiryDate;
 
     private String driver;
@@ -29,7 +31,6 @@ public class Delivery {
     public String getID() {
         return uid;
     }
-
 
     public void setID(String id) {
         this.uid = id;
@@ -71,8 +72,14 @@ public class Delivery {
         return dropoffLocation;
     }
 
-    public void setDropoffLocation(String dropoffLocation) {
-        this.dropoffLocation = dropoffLocation;
+    public void setDropoffLocation(String dropoffLocation) { this.dropoffLocation = dropoffLocation;}
+
+    public String getMessageFromDriver() {
+        return messageFromDriver;
+    }
+
+    public void setMessageFromDriver(String messageFromDriver) {
+        this.messageFromDriver = messageFromDriver;
     }
 
     public String getPickupTime() {

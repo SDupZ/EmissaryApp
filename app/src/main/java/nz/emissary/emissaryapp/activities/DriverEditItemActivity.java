@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialog;
@@ -12,6 +13,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
@@ -71,47 +73,11 @@ public class DriverEditItemActivity extends AppCompatActivity{
 
             final Button driverUpdateStatusButton = (Button) findViewById(R.id.driver_update_status_button);
 
+            final EditText messageFromDriverView = (EditText) findViewById(R.id.message_for_lister);
+            final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
             //----------------Load the object from the local database---------------
             itemId = intent.getStringExtra("object_id");
-
-            //----------------Accept a delivery---------------
-            driverUpdateStatusButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder builder =
-                            new AlertDialog.Builder(DriverEditItemActivity.this, R.style.MyAlertDialogStyle);
-                    builder.setTitle(R.string.update_status_dialog_title);
-
-                    String message = "";
-                    if (deliveryStatus == Constants.STATUS_ACCEPTED) {
-                        message = "" + getResources().getString(R.string.driver_update_confirm) + "\n\n\"" + Constants.getStatusDescription(Constants.STATUS_PICKED_UP, getApplicationContext(), false) + "\"";
-                    }else if(deliveryStatus == Constants.STATUS_PICKED_UP){
-                        message = "" + getResources().getString(R.string.driver_update_confirm) + "\n\n\""+ Constants.getStatusDescription(Constants.STATUS_DELIVERED, getApplicationContext(), false) + "\"";
-                    }
-
-                    builder.setMessage(message);
-                    builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            driverUpdateStatusButton.setEnabled(false);
-                            switch (deliveryStatus){
-                                case (Constants.STATUS_ACCEPTED):
-                                    currentDelivery.setStatus(Constants.STATUS_PICKED_UP);
-                                    break;
-                                case Constants.STATUS_PICKED_UP:
-                                    currentDelivery.setStatus(Constants.STATUS_DELIVERED);
-                                    break;
-                            }
-                            currentFirebaseDelivery.setValue(currentDelivery);
-                        }
-                    });
-                    builder.setNegativeButton("Cancel", null);
-
-                    AppCompatDialog dialog = builder.create();
-                    dialog.show();
-                }
-            });
 
             mRef = new Firebase("https://emissary.firebaseio.com");
             currentFirebaseDelivery = new Firebase("https://emissary.firebaseio.com/deliveries/" + itemId);
@@ -167,6 +133,52 @@ public class DriverEditItemActivity extends AppCompatActivity{
                 @Override
                 public void onCancelled(FirebaseError firebaseError) {
 
+                }
+            });
+
+            //----------------Accept a delivery---------------
+            driverUpdateStatusButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(DriverEditItemActivity.this, R.style.MyAlertDialogStyle);
+                    builder.setTitle(R.string.update_status_dialog_title);
+
+                    String message = "";
+                    if (deliveryStatus == Constants.STATUS_ACCEPTED) {
+                        message = "" + getResources().getString(R.string.driver_update_confirm) + "\n\n\"" + Constants.getStatusDescription(Constants.STATUS_PICKED_UP, getApplicationContext(), false) + "\"";
+                    }else if(deliveryStatus == Constants.STATUS_PICKED_UP){
+                        message = "" + getResources().getString(R.string.driver_update_confirm) + "\n\n\""+ Constants.getStatusDescription(Constants.STATUS_DELIVERED, getApplicationContext(), false) + "\"";
+                    }
+
+                    builder.setMessage(message);
+                    builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            driverUpdateStatusButton.setEnabled(false);
+                            switch (deliveryStatus){
+                                case (Constants.STATUS_ACCEPTED):
+                                    currentDelivery.setStatus(Constants.STATUS_PICKED_UP);
+                                    break;
+                                case Constants.STATUS_PICKED_UP:
+                                    currentDelivery.setStatus(Constants.STATUS_DELIVERED);
+                                    break;
+                            }
+                            currentFirebaseDelivery.setValue(currentDelivery);
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", null);
+
+                    AppCompatDialog dialog = builder.create();
+                    dialog.show();
+                }
+            });
+
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    currentDelivery.setMessageFromDriver(messageFromDriverView.getText().toString());
+                    currentFirebaseDelivery.setValue(currentDelivery);
                 }
             });
 

@@ -78,7 +78,10 @@ public class ViewMyListingsActivity extends BaseActivity{
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
 
-                            viewHolder.mView.findViewById(R.id.list_view_root).setBackground(Constants.getStatusBackgroundDrawable(d.getStatus(), getContext()));
+                            Drawable background = Constants.getStatusBackgroundDrawable(d.getStatus(), getContext());
+                            if (background != null) {
+                                viewHolder.mView.findViewById(R.id.list_view_root).setBackground(background);
+                            }
 
                             viewHolder.mDeliveryName.setText(d.getListingName());
                             viewHolder.mDeliveryPickupTime.setText(d.getNotes());

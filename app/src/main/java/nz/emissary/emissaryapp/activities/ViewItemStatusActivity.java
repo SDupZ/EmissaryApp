@@ -66,6 +66,9 @@ public class ViewItemStatusActivity extends AppCompatActivity{
             final TextView itemStatusView = ((TextView) findViewById(R.id.item_status_description));
             final CardView deliveryStatusCard = ((CardView) findViewById(R.id.delivery_status_card));
 
+            final TextView messageTitleView = ((TextView) findViewById(R.id.item_driver_message_title));
+            final TextView messageView = ((TextView) findViewById(R.id.item_driver_message));
+
             //----------------Load the object from the local database---------------
             itemId = intent.getStringExtra("object_id");
 
@@ -91,6 +94,13 @@ public class ViewItemStatusActivity extends AppCompatActivity{
                     Drawable cardBackground = Constants.getStatusBackgroundDrawable(currentDelivery.getStatus(), getApplicationContext());
                     if (cardBackground != null)
                         deliveryStatusCard.setBackground(cardBackground);
+
+                    String messageFromDriver = currentDelivery.getMessageFromDriver();
+                    if (messageFromDriver != null && messageFromDriver != ""){
+                        messageView.setText(messageFromDriver);
+                        messageTitleView.setVisibility(View.VISIBLE);
+                        messageView.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 @Override
