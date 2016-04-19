@@ -47,4 +47,6 @@
     <string name="driver_button_complete">Delivery Complete</string>
     <string name="update_status_dialog_title">Update delivery status</string>
     <string name="driver_update_confirm">The new status will become: </string>
+
+    <string name="reset_email_dialog_title">Enter your email to reset your password</string>
 </resources>

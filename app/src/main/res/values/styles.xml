@@ -19,9 +19,18 @@
         <!-- Used for the buttons -->
         <item name="colorAccent">@color/colorAccent</item>
         <!-- Used for the title and text -->
-        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
         <!-- Used for the background -->
         <item name="android:background">@color/colorPrimary</item>
+    </style>
+
+    <style name="MyAlertDialogStyle2" parent="Theme.AppCompat.Dialog.Alert">
+        <!-- Used for the buttons -->
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Used for the title and text -->
+        <item name="android:textColorPrimary">@color/colorPrimaryDark</item>
+        <!-- Used for the background -->
+        <item name="android:background">@android:color/white</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
