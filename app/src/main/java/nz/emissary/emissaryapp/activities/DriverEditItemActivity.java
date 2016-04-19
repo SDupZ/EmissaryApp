@@ -2,15 +2,19 @@ package nz.emissary.emissaryapp.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +50,8 @@ public class DriverEditItemActivity extends AppCompatActivity{
     private Firebase currentFirebaseUser;
     private User currentUser;
 
+    private String prevMsg;
+
     private int deliveryStatus;
 
     @Override
@@ -55,6 +61,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        prevMsg = "";
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -84,12 +91,34 @@ public class DriverEditItemActivity extends AppCompatActivity{
             mRef = new Firebase("https://emissary.firebaseio.com");
             currentFirebaseDelivery = new Firebase("https://emissary.firebaseio.com/deliveries/" + itemId);
 
+            messageFromDriverView.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    fab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{ContextCompat.getColor(getApplicationContext(), R.color.colorAccent)}));
+                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_action_send));
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+
             currentFirebaseDelivery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentDelivery = dataSnapshot.getValue(Delivery.class);
-
                     deliveryStatus = currentDelivery.getStatus();
+
+                    if (!toolbar.getTitle().equals("Your listing") && prevMsg != currentDelivery.getMessageFromDriver()){
+                        fab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{ContextCompat.getColor(getApplicationContext(), R.color.colorFabDone)}));
+                        fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_done));
+                    }
 
                     ((CollapsingToolbarLayout) findViewById(R.id.toolbar_layout)).setTitle(currentDelivery.getListingName());
                     toolbar.setTitle(currentDelivery.getListingName());
@@ -117,7 +146,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
                             driverUpdateStatusButton.setEnabled(true);
                             break;
                     }
-                    driverMessageView.setText(currentDelivery.getMessageFromDriver());                    
+                    driverMessageView.setText(currentDelivery.getMessageFromDriver());
                 }
 
                 @Override
@@ -180,9 +209,12 @@ public class DriverEditItemActivity extends AppCompatActivity{
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    currentDelivery.setMessageFromDriver(messageFromDriverView.getText().toString());
+                    String newMsg = messageFromDriverView.getText().toString();
+                    prevMsg = newMsg;
+                    currentDelivery.setMessageFromDriver(newMsg);
                     currentFirebaseDelivery.setValue(currentDelivery);
                     messageFromDriverView.setText("");
+
                 }
             });
 
