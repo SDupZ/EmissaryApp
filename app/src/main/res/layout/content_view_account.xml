@@ -131,7 +131,7 @@
                 android:paddingBottom="20dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:text="+64 21 1687456"/>
+                tools:text="123 456 789"/>
 
             <TextView
                 android:layout_below="@id/phone"

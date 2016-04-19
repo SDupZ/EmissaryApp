@@ -85,6 +85,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private Button mEmailSignInButton;
     private TextView mForgotPasswordLink;
     private LinearLayout nameLayout;
+    private EditText mPhoneView;
 
     private AutoCompleteTextView mFirstName;
     private AutoCompleteTextView mLastName;
@@ -133,6 +134,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         mPasswordConfirmView = (EditText) findViewById(R.id.password_confirm);
         nameLayout = (LinearLayout) findViewById(R.id.name_fields);
+
+        mPhoneView = (EditText) findViewById(R.id.phone);
 
         mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
@@ -186,6 +189,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onClick(View v) {
                 if (!signup) {
+                    mPhoneView.setVisibility(View.VISIBLE);
                     nameLayout.setVisibility(View.VISIBLE);
                     mPasswordConfirmView.setVisibility(View.VISIBLE);
                     mEmailSignInButton.setText(R.string.action_signup);
@@ -193,6 +197,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     mFirstName.requestFocus();
                     signup = true;
                 }else{
+                    mPhoneView.setVisibility(View.GONE);
                     nameLayout.setVisibility(View.GONE);
                     mPasswordConfirmView.setVisibility(View.GONE);
                     mEmailSignInButton.setText(R.string.action_sign_in);
@@ -282,6 +287,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String password = mPasswordView.getText().toString();
         String passwordConfirm = mPasswordConfirmView.getText().toString();
 
+        String phone = mPhoneView.getText().toString();
+
         String firstName = mFirstName.getText().toString();
         String lastName = mLastName.getText().toString();
 
@@ -299,6 +306,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if (signup && !password.equals(passwordConfirm)){
             mPasswordConfirmView.setError(getString(R.string.error_password_mismatch));
             focusView = mPasswordConfirmView;
+            cancel = true;
+        }
+
+        // Check for a phone number
+        if (signup && TextUtils.isEmpty(phone)){
+            mPhoneView.setError(getString(R.string.error_field_required));
+            focusView = mPhoneView;
             cancel = true;
         }
 
@@ -336,7 +350,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             //mAuthTask = new UserLoginTask(email, password);
             //mAuthTask.execute((Void) null);
 
-            login(email, password, firstName, lastName);
+            login(email, password, firstName, lastName, phone);
         }
     }
 
@@ -441,7 +455,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         int IS_PRIMARY = 1;
     }
 
-    private void login(final String email, String password, final String firstName, final String lastName){
+    private void login(final String email, String password, final String firstName, final String lastName, final String phone){
         if (signup){
             ref.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
                 @Override
@@ -465,10 +479,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     user.setEmail(email);
                     user.setFirstName(firstName);
                     user.setLastName(lastName);
+                    user.setPhone(phone);
 
                     firebaseUser.setValue(user);
 
                     showProgress(false);
+                    mPhoneView.setVisibility(View.GONE);
                     nameLayout.setVisibility(View.GONE);
                     mPasswordConfirmView.setVisibility(View.GONE);
                     mEmailSignInButton.setText(R.string.action_sign_in);

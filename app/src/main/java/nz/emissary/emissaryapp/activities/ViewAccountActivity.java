@@ -40,8 +40,9 @@ public class ViewAccountActivity extends AppCompatActivity {
 
     TextView usernameView;
     TextView emailView;
-    TextView firstName;
-    TextView lastName;
+    TextView firstNameView;
+    TextView lastNameView;
+    TextView phoneView;
 
     TextView changePasswordView;
 
@@ -67,10 +68,11 @@ public class ViewAccountActivity extends AppCompatActivity {
         usernameView = (TextView) findViewById(R.id.username);
         emailView = (TextView) findViewById(R.id.email);
         logoutButton = (Button) findViewById(R.id.logout_button);
-        firstName = (TextView) findViewById(R.id.first_name);
-        lastName = (TextView) findViewById(R.id.last_name);
+        firstNameView = (TextView) findViewById(R.id.first_name);
+        lastNameView = (TextView) findViewById(R.id.last_name);
         changePasswordView = (TextView) findViewById(R.id.password_change);
         progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
+        phoneView = (TextView) findViewById(R.id.phone);
 
         emailView.setText(mRef.getAuth().getProviderData().get("email").toString());
 
@@ -79,8 +81,9 @@ public class ViewAccountActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 user = dataSnapshot.getValue(User.class);
-                firstName.setText(user.getFirstName());
-                lastName.setText(user.getLastName());
+                firstNameView.setText(user.getFirstName());
+                lastNameView.setText(user.getLastName());
+                phoneView.setText(user.getPhone());
             }
 
             @Override
