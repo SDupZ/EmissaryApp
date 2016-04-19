@@ -121,16 +121,13 @@ public class ContactUsActivity extends AppCompatActivity {
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendMessageButton.setEnabled(false);
                 final String messageDescription = problemDescription.getText().toString();
                 if (messageDescription == null || messageDescription.equals("")){
                     problemDescription.setError("Describe the issue");
                     problemDescription.requestFocus();
-                    sendMessageButton.setEnabled(true);
                 }else if(messageDescription.toString().length() < Constants.MINIMUM_MESSAGE_REQUEST_LENGTH) {
                     problemDescription.setError("Please be detailed with your description");
                     problemDescription.requestFocus();
-                    sendMessageButton.setEnabled(true);
                 }else{
                     AlertDialog.Builder builder =
                             new AlertDialog.Builder(ContactUsActivity.this, R.style.MyAlertDialogStyle);
@@ -153,7 +150,6 @@ public class ContactUsActivity extends AppCompatActivity {
                                 t.show();
                                 problemDescription.setText("");
                                 spinner.setSelection(0);
-                                sendMessageButton.setEnabled(true);
                             }
                         });
                         }

@@ -79,7 +79,7 @@
                 <TextView
                     android:paddingLeft="16dp"
                     style="@style/DialogMainHeading"
-                    android:text="Urgent Requests"/>
+                    android:text="Request for Assistance"/>
 
                 <TextView
                     android:layout_height="wrap_content"
