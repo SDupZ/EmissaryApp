@@ -41,6 +41,12 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
     private User currentUser;
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
