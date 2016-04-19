@@ -65,6 +65,7 @@
 
         <activity
             android:name=".activities.ContactUsActivity"
+            android:label="Contact Us"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"
             android:parentActivityName=".activities.HomeActivity">
