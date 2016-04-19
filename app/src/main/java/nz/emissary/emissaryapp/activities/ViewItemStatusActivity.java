@@ -43,6 +43,12 @@ public class ViewItemStatusActivity extends AppCompatActivity{
     private User currentUser;
 
     @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 

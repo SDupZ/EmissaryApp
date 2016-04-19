@@ -18,6 +18,8 @@ public class Constants {
     final public static int STATUS_DELIVERED      = 300;
     final public static int STATUS_CANCELLED      = -1;
 
+    final public static int MINIMUM_MESSAGE_REQUEST_LENGTH  = 10;
+
     public static String convertTime(long time){
         Date date = new Date(time);
         Format format = new SimpleDateFormat("yyyy/MM/dd - HH:mm");

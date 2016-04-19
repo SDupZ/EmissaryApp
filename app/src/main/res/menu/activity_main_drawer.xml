@@ -19,4 +19,13 @@
                 android:title="Deliveries" />
         </menu>
     </item>
+
+    <item android:title="Emissary">
+        <menu>
+            <item
+                android:id="@+id/contact_us"
+                android:icon="@drawable/ic_mail_outline_black_24dp"
+                android:title="About / Contact Us" />
+        </menu>
+    </item>
 </menu>

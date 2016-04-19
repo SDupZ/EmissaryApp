@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">Emissary</string>
 
+
+    <!-- Contact Us Page -->
+    <string name="emissary_email">EmissaryApp@gmail.com</string>
+    <string name="contact_us_urgent_title">Urgent Requests</string>
+    <string name="contact_us_urgent_insr">What listing does this request reference?</string>
+    <string name="about_us">If you have any problems, suggestions, or comments feel free to
+        contact us on our email address below. For more urgent enquiries regarding a specific listing
+        fill out the form below and we will sort out the issue ASAP. Thanks for your support!
+    </string>
+
+    <string name="urgent_message_dialog_mesage">By submitting this request you acknowledge we may contact
+    you via your mobile number in order to resolve this request.</string>
+
+
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
