@@ -1,19 +1,34 @@
 package nz.emissary.emissaryapp.activities;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.User;
@@ -28,8 +43,11 @@ public class ViewAccountActivity extends AppCompatActivity {
     TextView firstName;
     TextView lastName;
 
+    TextView changePasswordView;
+
     Button logoutButton;
 
+    ProgressBar progressBar;
     Firebase mRef;
     User user;
 
@@ -51,6 +69,8 @@ public class ViewAccountActivity extends AppCompatActivity {
         logoutButton = (Button) findViewById(R.id.logout_button);
         firstName = (TextView) findViewById(R.id.first_name);
         lastName = (TextView) findViewById(R.id.last_name);
+        changePasswordView = (TextView) findViewById(R.id.password_change);
+        progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
 
         emailView.setText(mRef.getAuth().getProviderData().get("email").toString());
 
@@ -87,5 +107,69 @@ public class ViewAccountActivity extends AppCompatActivity {
                 }
             }
         });
+
+        changePasswordView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder =
+                        new AlertDialog.Builder(ViewAccountActivity.this, R.style.MyAlertDialogStyle2);
+
+                LayoutInflater inflater = getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.change_password_dialog, null);
+                builder.setView(dialogView);
+
+                final EditText oldPasswordView = (EditText) dialogView.findViewById(R.id.old_password);
+                final EditText newPasswordView = (EditText) dialogView.findViewById(R.id.new_password);
+                final EditText newPasswordConfirmView = (EditText) dialogView.findViewById(R.id.new_password_confirm);
+
+                builder.setTitle(R.string.change_password_dialog_title);
+                builder.setPositiveButton("Change Password", null);
+                builder.setNegativeButton("Cancel", null);
+
+                final AlertDialog tempDialog = builder.create();
+
+                tempDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        Button b = tempDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                        b.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View view) {
+                                if (newPasswordView.getText().toString().equals(newPasswordConfirmView.getText().toString())){
+                                    progressBar.setVisibility(View.VISIBLE);
+                                    Firebase ref = new Firebase("https://emissary.firebaseio.com");
+                                    ref.changePassword(emailView.getText().toString(), oldPasswordView.getText().toString(), newPasswordView.getText().toString(), new Firebase.ResultHandler() {
+                                        @Override
+                                        public void onSuccess() {
+                                            Toast t = Toast.makeText(getApplicationContext(), "Password sucessfully changed!", Toast.LENGTH_SHORT);
+                                            t.show();
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+                                        @Override
+                                        public void onError(FirebaseError firebaseError) {
+                                            Log.d("EMISSARY", firebaseError.toString());
+                                            Toast t = Toast.makeText(getApplicationContext(), "Make sure the old password is correct", Toast.LENGTH_SHORT);
+                                            t.show();
+                                            progressBar.setVisibility(View.GONE);
+                                        }
+                                    });
+                                    tempDialog.dismiss();
+                                }else{
+                                    newPasswordView.setError("Passwords do not match");
+                                    newPasswordView.requestFocus();
+                                    newPasswordConfirmView.setText("");
+                                }
+                            }
+                        });
+                    }
+                });
+
+                AppCompatDialog dialog  = tempDialog;
+                dialog.show();
+            }
+        });
     }
+
+
 }

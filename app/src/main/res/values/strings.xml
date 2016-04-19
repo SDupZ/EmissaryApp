@@ -49,4 +49,5 @@
     <string name="driver_update_confirm">The new status will become: </string>
 
     <string name="reset_email_dialog_title">Enter your email to reset your password</string>
+    <string name="change_password_dialog_title">Change your password</string>
 </resources>
