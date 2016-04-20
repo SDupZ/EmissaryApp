@@ -100,7 +100,7 @@ public class ContactUsActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Delivery d = dataSnapshot.getValue(Delivery.class);
-                userListingsAndDeliveries.add(d.getListingName());
+                userListingsAndDeliveries.add("[Driver] " + d.getListingName());
                 corresponsingListingIds.add(d.getID());
                 adapter.notifyDataSetChanged();
             }
