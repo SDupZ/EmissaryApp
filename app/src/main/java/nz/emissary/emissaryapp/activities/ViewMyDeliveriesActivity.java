@@ -80,7 +80,7 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
 
-                            Drawable background = Constants.getStatusBackgroundDrawable(d.getStatus(), getContext());
+                            Drawable background = Constants.getStatusBackgroundDrawable(d.getStatus(), getContext(), true);
                             if (background != null) {
                                 viewHolder.mView.findViewById(R.id.list_view_root).setBackground(background);
                             }

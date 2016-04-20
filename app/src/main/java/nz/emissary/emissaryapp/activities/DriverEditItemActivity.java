@@ -132,20 +132,12 @@ public class DriverEditItemActivity extends AppCompatActivity{
 
                     itemStatusView.setText(Constants.getStatusDescription(currentDelivery.getStatus(), getApplicationContext(), true));
 
-                    Drawable cardBackground = Constants.getStatusBackgroundDrawable(currentDelivery.getStatus(), getApplicationContext());
+                    Drawable cardBackground = Constants.getStatusBackgroundDrawable(currentDelivery.getStatus(), getApplicationContext(), true);
                     if (cardBackground != null)
                         deliveryStatusCard.setBackground(cardBackground);
 
-                    switch(deliveryStatus){
-                        case (Constants.STATUS_ACCEPTED):
-                            driverUpdateStatusButton.setText(getResources().getString(R.string.driver_button_picked_up));
-                            driverUpdateStatusButton.setEnabled(true);
-                            break;
-                        case Constants.STATUS_PICKED_UP:
-                            driverUpdateStatusButton.setText(getResources().getString(R.string.driver_button_complete));
-                            driverUpdateStatusButton.setEnabled(true);
-                            break;
-                    }
+                    driverUpdateStatusButton.setText(Constants.getUpdateButtonText(deliveryStatus, getApplicationContext()));
+                    driverUpdateStatusButton.setEnabled(true);
                     driverMessageView.setText(currentDelivery.getMessageFromDriver());
                 }
 
@@ -176,26 +168,15 @@ public class DriverEditItemActivity extends AppCompatActivity{
                             new AlertDialog.Builder(DriverEditItemActivity.this, R.style.MyAlertDialogStyle);
                     builder.setTitle(R.string.update_status_dialog_title);
 
-                    String message = "";
-                    if (deliveryStatus == Constants.STATUS_ACCEPTED) {
-                        message = "" + getResources().getString(R.string.driver_update_confirm) + "\n\n\"" + Constants.getStatusDescription(Constants.STATUS_PICKED_UP, getApplicationContext(), false) + "\"";
-                    }else if(deliveryStatus == Constants.STATUS_PICKED_UP){
-                        message = "" + getResources().getString(R.string.driver_update_confirm) + "\n\n\""+ Constants.getStatusDescription(Constants.STATUS_DELIVERED, getApplicationContext(), false) + "\"";
-                    }
+                    String message =
+                    Constants.getNextStatusMessageForLister(deliveryStatus, getApplicationContext());
 
                     builder.setMessage(message);
                     builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             driverUpdateStatusButton.setEnabled(false);
-                            switch (deliveryStatus){
-                                case (Constants.STATUS_ACCEPTED):
-                                    currentDelivery.setStatus(Constants.STATUS_PICKED_UP);
-                                    break;
-                                case Constants.STATUS_PICKED_UP:
-                                    currentDelivery.setStatus(Constants.STATUS_DELIVERED);
-                                    break;
-                            }
+                            currentDelivery.setStatus(Constants.getNextStatus(deliveryStatus));
                             currentFirebaseDelivery.setValue(currentDelivery);
                         }
                     });

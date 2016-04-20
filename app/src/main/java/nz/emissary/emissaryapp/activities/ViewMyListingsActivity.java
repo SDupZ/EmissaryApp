@@ -78,7 +78,7 @@ public class ViewMyListingsActivity extends BaseActivity{
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
 
-                            Drawable background = Constants.getStatusBackgroundDrawable(d.getStatus(), getContext());
+                            Drawable background = Constants.getStatusBackgroundDrawable(d.getStatus(), getContext(), false);
                             if (background != null) {
                                 viewHolder.mView.findViewById(R.id.list_view_root).setBackground(background);
                             }

@@ -9,7 +9,8 @@
 
     <color name="colorAccepted">#E3F2FD</color>
     <color name="colorPickedup">#E3F2FD</color>
-    <color name="colorDelivered">#DCEDC8</color>
+    <color name="colorAwaitingFeedback">#FFF8E1</color>
+    <color name="colorComplete">#DCEDC8</color>
     <color name="colorCancelled">#B71C1C</color>
 
     <color name="colorFabDone">#689F38</color>

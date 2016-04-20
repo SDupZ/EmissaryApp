@@ -109,7 +109,7 @@
                     android:inputType="textMultiLine"
                     android:layout_height="wrap_content"
                     android:maxLength="2000"
-                    android:maxLines="6"
+                    android:maxLines="12"
                     android:textAppearance="@android:style/TextAppearance.Medium"/>
 
                 <Button
