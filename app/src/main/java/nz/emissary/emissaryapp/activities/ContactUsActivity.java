@@ -80,7 +80,7 @@ public class ContactUsActivity extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Delivery d = dataSnapshot.getValue(Delivery.class);
                 userListingsAndDeliveries.add(d.getListingName());
-                corresponsingListingIds.add(d.getID());
+                corresponsingListingIds.add(dataSnapshot.getKey());
                 adapter.notifyDataSetChanged();
             }
 
@@ -136,22 +136,24 @@ public class ContactUsActivity extends AppCompatActivity {
                     builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                        UrgentMessage urgentMessage = new UrgentMessage();
-                        urgentMessage.setUserId(userId);
-                        urgentMessage.setMessage(messageDescription);
-                        urgentMessage.setDeliveryId(corresponsingListingIds.get(spinner.getSelectedItemPosition()));
 
-                        Firebase firebaseUser = (new Firebase("https://emissary.firebaseio.com")).child("urgent_messages");
-                        Firebase newPostRef = firebaseUser.push();
-                        newPostRef.setValue(urgentMessage, new Firebase.CompletionListener(){
-                            @Override
-                            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                                Toast t = Toast.makeText(getApplicationContext(), "Request sucessfully sent!", Toast.LENGTH_SHORT);
-                                t.show();
-                                problemDescription.setText("");
-                                spinner.setSelection(0);
-                            }
-                        });
+                            UrgentMessage urgentMessage = new UrgentMessage();
+                            urgentMessage.setUserId(userId);
+                            urgentMessage.setMessage(messageDescription);
+
+                            urgentMessage.setDeliveryId(corresponsingListingIds.get(spinner.getSelectedItemPosition()));
+
+                            Firebase firebaseUser = (new Firebase("https://emissary.firebaseio.com")).child("urgent_messages");
+                            Firebase newPostRef = firebaseUser.push();
+                            newPostRef.setValue(urgentMessage, new Firebase.CompletionListener(){
+                                @Override
+                                public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                                    Toast t = Toast.makeText(getApplicationContext(), "Request sucessfully sent!", Toast.LENGTH_SHORT);
+                                    t.show();
+                                    problemDescription.setText("");
+                                    spinner.setSelection(0);
+                                }
+                            });
                         }
                     });
                     builder.setNegativeButton("Cancel", null);
