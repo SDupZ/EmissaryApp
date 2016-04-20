@@ -1,5 +1,8 @@
 package nz.emissary.emissaryapp.activities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,7 +14,9 @@ import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -69,6 +74,34 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
             final TextView pickupTimeView = ((TextView)findViewById(R.id.item_pickup_time));
 
             final Button acceptDeliveryButton = (Button) findViewById(R.id.accept_delivery);
+
+            final ImageView copyPickupToClipboardView = ((ImageView) findViewById(R.id.copy_pickup_to_clipboard));
+            final ImageView copyDropoffToClipboardView = ((ImageView) findViewById(R.id.copy_dropoff_to_clipboard));
+
+            copyDropoffToClipboardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ClipboardManager clipboard = (ClipboardManager)
+                            getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Emissary Location", dropOffLocationView.getText().toString());
+                    clipboard.setPrimaryClip(clip);
+
+                    Toast t = Toast.makeText(getApplicationContext(), "Dropoff location copied to clipboard!", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+            });
+
+            copyPickupToClipboardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ClipboardManager clipboard = (ClipboardManager)
+                            getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clip = ClipData.newPlainText("Emissary Location", pickupLocationView.getText().toString());
+                    clipboard.setPrimaryClip(clip);
+                    Toast t = Toast.makeText(getApplicationContext(), "Pickup location copied to clipboard!", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+            });
 
             //----------------Load the object from the local database---------------
             itemId = intent.getStringExtra("object_id");
