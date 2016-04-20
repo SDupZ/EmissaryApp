@@ -86,7 +86,9 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                             }
 
                             viewHolder.mDeliveryName.setText(d.getListingName());
-                            viewHolder.mDeliveryPickupTime.setText(d.getNotes());
+                            viewHolder.mDeliveryNotes.setText(d.getNotes());
+                            viewHolder.mDeliveryPickupTime.setText(Constants.convertTime( Long.parseLong(d.getPickupTime())));
+                            viewHolder.mDeliveryDropoffTime.setText(Constants.convertTime( Long.parseLong(d.getDropoffTime())));
 
                             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -96,28 +98,6 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                                     v.getContext().startActivity(intent);
                                 }
                             });
-
-                            /*
-                            viewHolder.mView.setOnTouchListener(new View.OnTouchListener() {
-                                @Override
-                                public boolean onTouch(View v, MotionEvent event) {
-                                    if (event.getAction() == MotionEvent.ACTION_CANCEL) {
-                                        v.setSelected(false);
-                                        return true;
-                                    } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                                        v.setSelected(false);
-                                        Intent intent = new Intent(v.getContext(), DriverEditItemActivity.class)
-                                                .putExtra("object_id", getRef(i).getKey());
-                                        v.getContext().startActivity(intent);
-
-                                        return true;
-                                    } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                                        v.setSelected(true);
-                                        return true;
-                                    }
-                                    return false;
-                                }
-                            });*/
                         }
 
                     };
@@ -142,13 +122,17 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
             View mView;
 
             public TextView mDeliveryName;
+            public TextView mDeliveryNotes;
             public TextView mDeliveryPickupTime;
+            public TextView mDeliveryDropoffTime;
 
             public ViewHolder(View v) {
                 super(v);
                 mView = v;
                 mDeliveryName = (TextView) v.findViewById(R.id.list_item_delivery_name);
+                mDeliveryNotes = (TextView) v.findViewById(R.id.list_item_notes);
                 mDeliveryPickupTime = (TextView) v.findViewById(R.id.list_item_pickup_time);
+                mDeliveryDropoffTime = (TextView) v.findViewById(R.id.list_item_dropoff_time);
 
                 v.setClickable(true);
             }
