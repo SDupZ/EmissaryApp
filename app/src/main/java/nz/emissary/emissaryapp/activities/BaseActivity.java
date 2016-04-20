@@ -14,9 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import nz.emissary.emissaryapp.R;
+import nz.emissary.emissaryapp.User;
 
 /**
  * Created by Simon on 2/03/2016.
@@ -69,6 +73,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         username = (TextView) headerLayout.findViewById(R.id.username);
         email = (TextView) headerLayout.findViewById(R.id.email);
 
+        Firebase currentFirebaseUser = new Firebase("https://emissary.firebaseio.com/users/" + mRef.getAuth().getUid());
+        currentFirebaseUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                User user = dataSnapshot.getValue(User.class);
+
+                username.setText("Hi " + user.getFirstName() + "!");
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
 
         email.setText(mRef.getAuth().getProviderData().get("email").toString());
     }
