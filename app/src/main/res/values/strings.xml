@@ -70,9 +70,9 @@
 
     <string name="status_delivered_no_fb_driver">You have completed the delivery successfully! Please place feedback for the lister.</string>
     <string name="status_delivered_d_fb_driver">You have completed the delivery successfully! Please place feedback for the lister.</string>
-    <string name="status_delivered_l_fb_driver">This delivery is complete!</string>
+    <string name="status_delivered_l_fb_driver">This delivery is complete! Your feedback has been placed</string>
 
-    <string name="status_complete_driver">This delivery is complete!</string>
+    <string name="status_complete_driver">This delivery is complete! Your feedback has been placed!</string>
 
     <string name="status_unknown_driver">Status unknown at this time.</string>
 

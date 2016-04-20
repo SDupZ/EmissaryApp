@@ -127,7 +127,13 @@ public class ViewItemStatusActivity extends AppCompatActivity{
                                         public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                                             Toast t = Toast.makeText(getApplicationContext(), "Feedback sucessfully placed!", Toast.LENGTH_SHORT);
                                             t.show();
-                                            currentDelivery.setStatus(Constants.STATUS_DELIVERED_D_FB);
+
+                                            if (currentDelivery.getStatus() == Constants.STATUS_DELIVERED_L_FB){
+                                                currentDelivery.setStatus(Constants.STATUS_COMPLETE);
+                                            }else if (currentDelivery.getStatus() == Constants.STATUS_DELIVERED_NO_FB) {
+                                                currentDelivery.setStatus(Constants.STATUS_DELIVERED_D_FB);
+                                            }
+
                                             currentFirebaseDelivery.setValue(currentDelivery);
 
                                         }

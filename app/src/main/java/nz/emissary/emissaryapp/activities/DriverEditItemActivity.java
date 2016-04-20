@@ -15,10 +15,13 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -31,6 +34,7 @@ import java.util.Date;
 
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
+import nz.emissary.emissaryapp.Feedback;
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.User;
 
@@ -85,6 +89,73 @@ public class DriverEditItemActivity extends AppCompatActivity{
             final EditText messageFromDriverView = (EditText) findViewById(R.id.message_for_lister);
             final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 
+            final TextView feedbackLinkView = ((TextView) findViewById(R.id.place_feedback_link));
+
+            feedbackLinkView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(DriverEditItemActivity.this, R.style.MyAlertDialogStyle2);
+
+                    LayoutInflater inflater = getLayoutInflater();
+                    final View dialogView = inflater.inflate(R.layout.dialog_place_feedback_for_driver, null);
+                    builder.setView(dialogView);
+
+                    final RatingBar ratingView = (RatingBar) dialogView.findViewById(R.id.rating);
+                    final EditText feedbackTextView = (EditText) dialogView.findViewById(R.id.feedback_text);
+
+                    builder.setTitle(R.string.dialog_place_feedback_for_driver_title);
+                    builder.setPositiveButton("Submit", null);
+                    builder.setNegativeButton("Cancel", null);
+
+                    final AlertDialog tempDialog = builder.create();
+
+                    tempDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+                        @Override
+                        public void onShow(DialogInterface dialog) {
+                            Button b = tempDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                            b.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    float rating = ratingView.getRating();
+                                    String message = feedbackTextView.getText().toString();
+
+                                    Feedback driverFeedback = new Feedback();
+                                    driverFeedback.setUserId(currentDelivery.getOriginalLister());
+                                    driverFeedback.setDeliveryId(itemId);
+                                    driverFeedback.setRating(rating);
+                                    driverFeedback.setFeedbackMessage(message);
+                                    driverFeedback.setFeedbackPosterId(mRef.getAuth().getUid());
+                                    driverFeedback.setFeedbackIsForDriver(true);
+
+                                    Firebase firebaseUser = (new Firebase("https://emissary.firebaseio.com")).child("feedback");
+                                    Firebase newPostRef = firebaseUser.push();
+                                    newPostRef.setValue(driverFeedback, new Firebase.CompletionListener(){
+                                        @Override
+                                        public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                                            Toast t = Toast.makeText(getApplicationContext(), "Feedback sucessfully placed!", Toast.LENGTH_SHORT);
+                                            t.show();
+                                            if (currentDelivery.getStatus() == Constants.STATUS_DELIVERED_D_FB){
+                                                currentDelivery.setStatus(Constants.STATUS_COMPLETE);
+                                            }else if (currentDelivery.getStatus() == Constants.STATUS_DELIVERED_NO_FB) {
+                                                currentDelivery.setStatus(Constants.STATUS_DELIVERED_L_FB);
+                                            }
+
+                                            currentFirebaseDelivery.setValue(currentDelivery);
+
+                                        }
+                                    });
+                                    tempDialog.dismiss();
+                                }
+                            });
+                        }
+                    });
+
+                    AppCompatDialog dialog  = tempDialog;
+                    dialog.show();
+                }
+            });
+
             //----------------Load the object from the local database---------------
             itemId = intent.getStringExtra("object_id");
 
@@ -130,15 +201,21 @@ public class DriverEditItemActivity extends AppCompatActivity{
                     dropoffTimeView.setText(Constants.convertTime( Long.parseLong(currentDelivery.getDropoffTime())));
                     pickupTimeView.setText(Constants.convertTime( Long.parseLong(currentDelivery.getPickupTime())));
 
-                    itemStatusView.setText(Constants.getStatusDescription(currentDelivery.getStatus(), getApplicationContext(), true));
+                    itemStatusView.setText(Constants.getStatusDescription(deliveryStatus, getApplicationContext(), true));
 
-                    Drawable cardBackground = Constants.getStatusBackgroundDrawable(currentDelivery.getStatus(), getApplicationContext(), true);
+                    Drawable cardBackground = Constants.getStatusBackgroundDrawable(deliveryStatus, getApplicationContext(), true);
                     if (cardBackground != null)
                         deliveryStatusCard.setBackground(cardBackground);
 
                     driverUpdateStatusButton.setText(Constants.getUpdateButtonText(deliveryStatus, getApplicationContext()));
                     driverUpdateStatusButton.setEnabled(true);
                     driverMessageView.setText(currentDelivery.getMessageFromDriver());
+
+                    if (deliveryStatus == Constants.STATUS_DELIVERED_NO_FB || deliveryStatus == Constants.STATUS_DELIVERED_D_FB){
+                        feedbackLinkView.setVisibility(View.VISIBLE);
+                    }else{
+                        feedbackLinkView.setVisibility(View.GONE);
+                    }
                 }
 
                 @Override
