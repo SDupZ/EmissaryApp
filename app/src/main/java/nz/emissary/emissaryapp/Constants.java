@@ -3,6 +3,7 @@ package nz.emissary.emissaryapp;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -12,6 +13,11 @@ import java.util.Date;
  * Created by Simon on 8/03/2016.
  */
 public class Constants {
+    final public static String TIME_ASAP = "ASAP";
+    final public static String TIME_SPECIFIC = "SPECIFIC";
+    final public static String TIME_RANGE = "RANGE";
+    final public static String TIME_TOKEN = ":";
+
     final public static int STATUS_LISTED               = 0;
     final public static int STATUS_ACCEPTED             = 100;
     final public static int STATUS_PICKED_UP            = 200;
@@ -25,10 +31,44 @@ public class Constants {
 
     final public static int MINIMUM_MESSAGE_REQUEST_LENGTH  = 10;
 
-    public static String convertTime(long time){
-        Date date = new Date(time);
-        Format format = new SimpleDateFormat("yyyy/MM/dd - HH:mm");
-        return format.format(date);
+    public static String convertTime(String timeString){
+        String[] resultArray = timeString.split(Constants.TIME_TOKEN);
+
+        if (resultArray.length == 1 && resultArray[0].equals(Constants.TIME_ASAP)){
+            return "ASAP";
+        }else if(resultArray.length == 2 && resultArray[0].equals(Constants.TIME_SPECIFIC)){
+            try {
+                Long time = Long.parseLong(resultArray[1]);
+                Date date = new Date(time);
+                Format format = new SimpleDateFormat("yyyy/MM/dd - HH:mm");
+                String result = format.format(date);
+
+                return result;
+            }catch (NumberFormatException e){
+                return "ERROR";
+            }
+        }else if(resultArray.length == 3 && resultArray[0].equals(Constants.TIME_RANGE)){
+            try {
+                Long timeBegin = Long.parseLong(resultArray[1]);
+                Long timeEnd = Long.parseLong(resultArray[2]);
+
+                Date date = new Date(timeBegin);
+                Date date1 = new Date(timeEnd);
+                Format format = new SimpleDateFormat("yyyy/MM/dd");
+                Format format2 = new SimpleDateFormat("HH:mm");
+
+                String result1 = format.format(date);
+                String result2 = format2.format(date);
+                String result3 = format2.format(date1);
+
+                return result1 + "- Between " + result2 + " & " + result3;
+            }catch (NumberFormatException e){
+                return "ERROR";
+            }
+        }else{
+            Log.d("EMISSARY", timeString);
+            return "ERROR";
+        }
     }
 
     public static String getStatusDescription(int status, Context context, boolean isForDriver){

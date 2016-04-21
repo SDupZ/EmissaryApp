@@ -42,6 +42,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.User;
@@ -139,7 +140,13 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
         TextView dropoffSelectTimeRangeView;
 
         int pickupYear, pickupMonth, pickupDay, pickupHourOfDay, pickupMinute, pickupSecond;
+        int pickupHourOfDayEnd, pickupMinuteEnd, pickupSecondEnd;
+
         int dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDay, dropoffMinute, dropoffSecond;
+        int dropoffHourOfDayEnd, dropoffMinuteEnd, dropoffSecondEnd;
+
+        String pickupTimeType = "";
+        String dropoffTimeType = "";
 
         User currentUser;
         /**
@@ -222,6 +229,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         pickupTimeImageView.setColorFilter(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
                         pickupSelectTimeRangeView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
                         pickupASAPTextView.setTypeface(null, Typeface.BOLD);
+                        pickupTimeType = Constants.TIME_ASAP;
                     } else {
                         pickupTimeContainerView.setEnabled(true);
                         pickupDateContainerView.setEnabled(true);
@@ -232,6 +240,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         pickupTimeImageView.setColorFilter(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorNormalTextView));
                         pickupSelectTimeRangeView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorAccent));
                         pickupASAPTextView.setTypeface(null, Typeface.NORMAL);
+                        pickupTimeType = "";
                     }
                 }
             });
@@ -248,6 +257,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         dropoffTimeImageView.setColorFilter(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
                         dropoffSelectTimeRangeView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
                         dropoffASAPTextView.setTypeface(null, Typeface.BOLD);
+                        dropoffTimeType = Constants.TIME_ASAP;
                     } else {
                         dropoffTimeContainerView.setEnabled(true);
                         dropoffDateContainerView.setEnabled(true);
@@ -258,6 +268,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         dropoffTimeImageView.setColorFilter(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorNormalTextView));
                         dropoffSelectTimeRangeView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorAccent));
                         dropoffASAPTextView.setTypeface(null, Typeface.NORMAL);
+                        dropoffTimeType = "";
                     }
                 }
             });
@@ -345,6 +356,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                             pickupHourOfDay = hourOfDay;
                             pickupMinute = minute;
                             pickupSecond = second;
+                            pickupTimeType = Constants.TIME_SPECIFIC;
                         }
                     },
                     now.get(Calendar.HOUR),
@@ -370,7 +382,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                             dropoffHourOfDay = hourOfDay;
                             dropoffMinute = minute;
                             dropoffSecond = second;
-
+                            dropoffTimeType = Constants.TIME_SPECIFIC;
                         }
                     },
                     now.get(Calendar.HOUR),
@@ -399,6 +411,14 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
 
                     String time = "Between " + timeOne + " & "+timeTwo;
                     pickupTimeTextView.setText(time);
+
+                    pickupHourOfDay = hourOfDay;
+                    pickupMinute = minute;
+                    pickupSecond = 0;
+                    pickupHourOfDayEnd = hourOfDayEnd;
+                    pickupMinuteEnd = minuteEnd;
+                    pickupSecondEnd = 0;
+                    pickupTimeType = Constants.TIME_RANGE;
                 }
             },now.get(Calendar.HOUR_OF_DAY),now.get(Calendar.MINUTE),false);
 
@@ -424,6 +444,13 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     String time = "Between "+timeOne + " & "+timeTwo;
 
                     dropoffTimeTextView.setText(time);
+                    dropoffHourOfDay = hourOfDay;
+                    dropoffMinute = minute;
+                    dropoffSecond = 0;
+                    dropoffHourOfDayEnd = hourOfDayEnd;
+                    dropoffMinuteEnd = minuteEnd;
+                    dropoffSecondEnd = 0;
+                    dropoffTimeType = Constants.TIME_RANGE;
                 }
             },now.get(Calendar.HOUR_OF_DAY),now.get(Calendar.MINUTE),false);
 
@@ -521,14 +548,48 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     String dropOffLocation = dropOffLocationTextView.getText().toString();
                     String notes = deliveryNotes.getText().toString();
 
-                    Calendar cal1 = Calendar.getInstance();
-                    cal1.set(pickupYear, pickupMonth, pickupDay, pickupHourOfDay, pickupMinute, pickupSecond);
+                    String pickupTime = "";
+                    String dropoffTime = "";
+                    String pickupTimeEnd = "";
+                    String dropoffTimeEnd = "";
 
-                    Calendar cal2 = Calendar.getInstance();
-                    cal2.set(dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDay, dropoffMinute, dropoffSecond);
+                    if (pickupTimeType == Constants.TIME_ASAP){
+                        pickupTime = Constants.TIME_ASAP;
 
-                    String pickupTime = "" + cal1.getTimeInMillis();
-                    String dropoffTime = "" + cal2.getTimeInMillis();
+                    }else if(pickupTimeType == Constants.TIME_SPECIFIC){
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(pickupYear, pickupMonth, pickupDay, pickupHourOfDay, pickupMinute, pickupSecond);
+
+                        pickupTime = Constants.TIME_SPECIFIC + Constants.TIME_TOKEN + cal.getTimeInMillis();
+                    }else if(pickupTimeType == Constants.TIME_RANGE){
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(pickupYear, pickupMonth, pickupDay, pickupHourOfDay, pickupMinute, pickupSecond);
+                        Calendar cal1 = Calendar.getInstance();
+                        cal1.set(pickupYear, pickupMonth, pickupDay, pickupHourOfDayEnd, pickupMinuteEnd, 0);
+
+                        pickupTime = Constants.TIME_RANGE + Constants.TIME_TOKEN + cal.getTimeInMillis() + Constants.TIME_TOKEN  + cal1.getTimeInMillis();
+                    }else{
+                        //ERROR
+                    }
+
+                    if (dropoffTimeType == Constants.TIME_ASAP){
+                        dropoffTime = Constants.TIME_ASAP;
+
+                    }else if(dropoffTimeType == Constants.TIME_SPECIFIC){
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDay, dropoffMinute, dropoffSecond);
+
+                        dropoffTime = Constants.TIME_SPECIFIC + Constants.TIME_TOKEN + cal.getTimeInMillis();
+                    }else if(dropoffTimeType == Constants.TIME_RANGE){
+                        Calendar cal = Calendar.getInstance();
+                        cal.set(dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDay, dropoffMinute, dropoffSecond);
+                        Calendar cal1 = Calendar.getInstance();
+                        cal1.set(dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDayEnd, dropoffMinuteEnd, 0);
+
+                        dropoffTime = Constants.TIME_RANGE + Constants.TIME_TOKEN + cal.getTimeInMillis() + Constants.TIME_TOKEN  + cal1.getTimeInMillis();
+                    }else{
+                        //ERROR
+                    }
 
                     Delivery myDelivery = new Delivery();
                     myDelivery.setListingName(name);

@@ -123,8 +123,8 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                     pickupLocationView.setText(currentDelivery.getPickupLocation());
                     dropOffLocationView.setText(currentDelivery.getDropoffLocation());
 
-                    dropoffTimeView.setText(convertTime( Long.parseLong(currentDelivery.getDropoffTime())));
-                    pickupTimeView.setText(convertTime( Long.parseLong(currentDelivery.getPickupTime())));
+                    dropoffTimeView.setText(Constants.convertTime(currentDelivery.getDropoffTime()));
+                    pickupTimeView.setText(Constants.convertTime(currentDelivery.getPickupTime()));
 
                     if (!currentDelivery.getOriginalLister().equals(mRef.getAuth().getUid())){
                         acceptDeliveryButton.setVisibility(View.VISIBLE);
@@ -150,12 +150,6 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                 }
             });
         }
-    }
-
-    public String convertTime(long time){
-        Date date = new Date(time);
-        Format format = new SimpleDateFormat("yyyy/MM/dd - HH:mm");
-        return format.format(date);
     }
 
     @Override
