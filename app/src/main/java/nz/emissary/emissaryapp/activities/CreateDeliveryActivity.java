@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,23 +103,23 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     //CreateDelivery fragment
-    public static class CreateDeliveryFragment extends Fragment implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+    public static class CreateDeliveryFragment extends Fragment{
+
+        DatePickerDialog pickupDPD;
+        DatePickerDialog dropoffDPD;
+        TimePickerDialog pickupTPD;
+        TimePickerDialog dropoffTPD;
 
         TextView pickupDateTextView;
-        TextView pickupTimeOneTextView;
-        TextView pickupTimeTwoTextView;
+        TextView pickupTimeTextView;
         TextView pickupLocationTextView;
 
         TextView dropoffDateTextView;
-        TextView dropoffTimeOneTextView;
-        TextView dropoffTimeTwoTextView;
+        TextView dropoffTimeTextView;
         TextView dropOffLocationTextView;
 
         int pickupYear, pickupMonth, pickupDay, pickupHourOfDay, pickupMinute, pickupSecond;
         int dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDay, dropoffMinute, dropoffSecond;
-
-        int timeDialog;     // 1 = pickup, 2 = dropoff
-        int dateDialog;     // 1 = pickup time one, 2 = pickup time two, 3 = dropoff time one, ...
 
         User currentUser;
         /**
@@ -156,19 +157,103 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.create_delivery_fragment, container, false);
 
-            this.timeDialog = 1;
-            this.dateDialog = 1;
-
             Calendar now = Calendar.getInstance();
-            final DatePickerDialog dpd = DatePickerDialog.newInstance(
-                    this,
+            pickupDPD = DatePickerDialog.newInstance(
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                            Calendar now = Calendar.getInstance();
+
+                            String dateText = "";
+                            if (now.get(Calendar.YEAR) == year && now.get(Calendar.MONTH) == monthOfYear && now.get(Calendar.DAY_OF_MONTH) == dayOfMonth){
+                                dateText = "Today (" + dayOfMonth +"/"+(monthOfYear+1)+"/"+ year + ")";
+                            }else if(now.get(Calendar.YEAR) == year && now.get(Calendar.MONTH) == monthOfYear && now.get(Calendar.DAY_OF_MONTH) == (dayOfMonth-1)) {
+                                dateText = "Tomorrow (" + dayOfMonth+"/"+(monthOfYear+1)+"/"+ year + ")";
+                            }else{
+                                dateText = "" + dayOfMonth +"/"+(monthOfYear+1)+"/"+ year;
+                            }
+
+                            pickupDateTextView.setText(dateText);
+                            pickupYear = year;
+                            pickupMonth = monthOfYear;
+                            pickupDay = dayOfMonth;
+                        }
+                    },
                     now.get(Calendar.YEAR),
                     now.get(Calendar.MONTH),
                     now.get(Calendar.DAY_OF_MONTH)
             );
 
-            final TimePickerDialog tpd = TimePickerDialog.newInstance(
-                    this,
+            dropoffDPD = DatePickerDialog.newInstance(
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                            Calendar now = Calendar.getInstance();
+
+                            String dateText = "";
+                            if (now.get(Calendar.YEAR) == year && now.get(Calendar.MONTH) == monthOfYear && now.get(Calendar.DAY_OF_MONTH) == dayOfMonth){
+                                dateText = "Today (" + dayOfMonth +"/"+(monthOfYear+1)+"/"+ year + ")";
+                            }else if(now.get(Calendar.YEAR) == year && now.get(Calendar.MONTH) == monthOfYear && now.get(Calendar.DAY_OF_MONTH) == (dayOfMonth-1)) {
+                                dateText = "Tomorrow (" + dayOfMonth+"/"+(monthOfYear+1)+"/"+ year + ")";
+                            }else{
+                                dateText = "" + dayOfMonth +"/"+(monthOfYear+1)+"/"+ year;
+                            }
+
+                            dropoffDateTextView.setText(dateText);
+                            dropoffYear = year;
+                            dropoffMonth = monthOfYear;
+                            dropoffDay = dayOfMonth;
+                        }
+                    },
+                    now.get(Calendar.YEAR),
+                    now.get(Calendar.MONTH),
+                    now.get(Calendar.DAY_OF_MONTH)
+            );
+
+            pickupTPD = TimePickerDialog.newInstance(
+                    new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
+                            Calendar cal = Calendar.getInstance();
+                            cal.set(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)
+                                    ,hourOfDay,minute,second);
+                            SimpleDateFormat fmt = new SimpleDateFormat("h:mm");
+                            String dateString = fmt.format(cal.getTime());
+
+                            dateString = (hourOfDay >= 12) ? (dateString + "pm") : (dateString + "am");
+
+                            pickupTimeTextView.setText(dateString);
+                            pickupHourOfDay = hourOfDay;
+                            pickupMinute = minute;
+                            pickupSecond = second;
+                        }
+                    },
+                    now.get(Calendar.HOUR),
+                    0,
+                    DateFormat.is24HourFormat(this.getActivity())
+            );
+
+            pickupTPD.setTitle("Pickup Time");
+
+            dropoffTPD = TimePickerDialog.newInstance(
+                    new TimePickerDialog.OnTimeSetListener() {
+                        @Override
+                        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
+                            Calendar cal = Calendar.getInstance();
+                            cal.set(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)
+                                    ,hourOfDay,minute,second);
+                            SimpleDateFormat fmt = new SimpleDateFormat("h:mm");
+
+                            String dateString = fmt.format(cal.getTime());
+
+                            dateString = (hourOfDay >= 12) ? (dateString + "pm") : (dateString + "am");
+                            dropoffTimeTextView.setText(dateString);
+                            dropoffHourOfDay = hourOfDay;
+                            dropoffMinute = minute;
+                            dropoffSecond = second;
+
+                        }
+                    },
                     now.get(Calendar.HOUR),
                     0,
                     DateFormat.is24HourFormat(this.getActivity())
@@ -176,6 +261,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
 
             final EditText deliveryName = (EditText)rootView.findViewById(R.id.create_delivery_name);
             final EditText deliveryNotes = (EditText)rootView.findViewById(R.id.create_delivery_notes);
+
             pickupLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_pickup_location);
             dropOffLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_dropoff_location);
 
@@ -185,16 +271,14 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             pickupDateTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dateDialog = 1;
-                    dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+                    pickupDPD.show(getActivity().getFragmentManager(), "Datepickerdialog");
                 }
             });
 
             dropoffDateTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dateDialog = 2;
-                    dpd.show(getActivity().getFragmentManager(), "Datepickerdialog");
+                    dropoffDPD.show(getActivity().getFragmentManager(), "Datepickerdialog");
                 }
             });
 
@@ -203,24 +287,23 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             int dayOfMonth = now.get(Calendar.DAY_OF_MONTH);
 
             String dateText = "Today (" + dayOfMonth +"/"+(monthOfYear+1)+"/"+ year + ")";
+
             pickupDateTextView.setText(dateText);
             dropoffDateTextView.setText(dateText);
 
-            pickupTimeOneTextView = (TextView) rootView.findViewById(R.id.create_delivery_pickup_time_one);
-            pickupTimeOneTextView.setOnClickListener(new View.OnClickListener() {
+            pickupTimeTextView = (TextView) rootView.findViewById(R.id.create_delivery_pickup_time);
+            pickupTimeTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    timeDialog = 1;
-                    tpd.show(getActivity().getFragmentManager(), "Timepickerdialog");
+                    pickupTPD.show(getActivity().getFragmentManager(), "Timepickerdialog");
                 }
             });
 
-            dropoffTimeOneTextView = (TextView) rootView.findViewById(R.id.create_delivery_dropoff_time_one);
-            dropoffTimeOneTextView.setOnClickListener(new View.OnClickListener() {
+            dropoffTimeTextView = (TextView) rootView.findViewById(R.id.create_delivery_dropoff_time);
+            dropoffTimeTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    timeDialog = 3;
-                    tpd.show(getActivity().getFragmentManager(), "Timepickerdialog");
+                    dropoffTPD.show(getActivity().getFragmentManager(), "Timepickerdialog");
                 }
             });
 
@@ -316,59 +399,6 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             });
 
             return rootView;
-        }
-
-        @Override
-        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-            Calendar now = Calendar.getInstance();
-
-            String dateText = "";
-            if (now.get(Calendar.YEAR) == year && now.get(Calendar.MONTH) == monthOfYear && now.get(Calendar.DAY_OF_MONTH) == dayOfMonth){
-                dateText = "Today (" + dayOfMonth +"/"+(monthOfYear+1)+"/"+ year + ")";
-            }else if(now.get(Calendar.YEAR) == year && now.get(Calendar.MONTH) == monthOfYear && now.get(Calendar.DAY_OF_MONTH) == (dayOfMonth-1)) {
-                dateText = "Tomorrow (" + dayOfMonth+"/"+(monthOfYear+1)+"/"+ year + ")";
-            }else{
-                dateText = "" + dayOfMonth +"/"+(monthOfYear+1)+"/"+ year;
-            }
-
-            if (dateDialog == 1) {
-                pickupDateTextView.setText(dateText);
-                pickupYear = year;
-                pickupMonth = monthOfYear;
-                pickupDay = dayOfMonth;
-            }else{
-                dropoffDateTextView.setText(dateText);
-                dropoffYear = year;
-                dropoffMonth = monthOfYear;
-                dropoffDay = dayOfMonth;
-            }
-        }
-
-        @Override
-        public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute, int second) {
-            Calendar cal = Calendar.getInstance();
-            cal.set(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)
-                    ,hourOfDay,minute,second);
-            SimpleDateFormat fmt = new SimpleDateFormat("h:mm");
-            String dateString = fmt.format(cal.getTime());
-
-            dateString = (hourOfDay >= 12) ? (dateString + "pm") : (dateString + "am");
-            if (timeDialog == 1) {
-                pickupTimeOneTextView.setText(dateString);
-                pickupHourOfDay = hourOfDay;
-                pickupMinute = minute;
-                pickupSecond = second;
-            }else if (timeDialog == 2){
-                pickupTimeTwoTextView.setText(dateString);
-            }else if (timeDialog == 3){
-                dropoffTimeOneTextView.setText(dateString);
-                dropoffHourOfDay = hourOfDay;
-                dropoffMinute = minute;
-                dropoffSecond = second;
-            }else if (timeDialog == 4){
-                dropoffTimeTwoTextView.setText(dateString);
-            }
-
         }
     }
 

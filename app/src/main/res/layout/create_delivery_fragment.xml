@@ -102,6 +102,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_centerVertical="true"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
                         android:background="#E0E0E0"/>
 
                     <LinearLayout
@@ -237,7 +239,7 @@
                             android:layout_gravity="center"
                             android:src="@drawable/ic_access_time_black_24dp"/>
                         <TextView
-                            android:id="@+id/create_delivery_pickup_time_one"
+                            android:id="@+id/create_delivery_pickup_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="20dp"
@@ -267,6 +269,7 @@
                             android:clickable="true"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:textColor="@color/colorAccent"
+                            android:textStyle="bold"
                             android:text="Select time range"
                             android:gravity="center"/>
                     </LinearLayout>
@@ -386,7 +389,7 @@
                             android:layout_gravity="center"
                             android:src="@drawable/ic_access_time_black_24dp"/>
                         <TextView
-                            android:id="@+id/create_delivery_dropoff_time_one"
+                            android:id="@+id/create_delivery_dropoff_time"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:padding="20dp"
@@ -416,6 +419,7 @@
                             android:clickable="true"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:textColor="@color/colorAccent"
+                            android:textStyle="bold"
                             android:text="Select time range"
                             android:gravity="center"/>
                     </LinearLayout>
