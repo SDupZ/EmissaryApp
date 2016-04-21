@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list_view_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
+    card_view:cardCornerRadius="2dp"
+    card_view:contentPadding="16dp"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/list_item_feedback_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="20/16/20 - 8:00pm"/>
+
+        <RatingBar
+            android:id="@+id/list_item_rating"
+            android:rating="5"
+            android:isIndicator="true"
+            android:stepSize="0.5"
+            android:numStars="5"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/list_item_feedback_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="This driver was very quick and the delivery completed easy"/>
+
+    </LinearLayout>
+
+
+</android.support.v7.widget.CardView>

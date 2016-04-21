@@ -11,6 +11,7 @@ public class Feedback {
 
     String feedbackPosterId;
     boolean feedbackIsForDriver;
+    long feedbackPostTime;
 
     double rating;
     String feedbackMessage;
@@ -62,5 +63,13 @@ public class Feedback {
 
     public void setFeedbackIsForDriver(boolean feedbackIsForDriver) {
         this.feedbackIsForDriver = feedbackIsForDriver;
+    }
+
+    public long getFeedbackPostTime() {
+        return feedbackPostTime;
+    }
+
+    public void setFeedbackPostTime(long feedbackPostTime) {
+        this.feedbackPostTime = feedbackPostTime;
     }
 }

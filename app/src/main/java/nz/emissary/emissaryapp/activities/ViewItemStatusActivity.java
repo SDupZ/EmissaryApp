@@ -23,6 +23,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.Date;
+
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.Feedback;
@@ -119,6 +121,9 @@ public class ViewItemStatusActivity extends AppCompatActivity{
                                     driverFeedback.setFeedbackMessage(message);
                                     driverFeedback.setFeedbackPosterId(mRef.getAuth().getUid());
                                     driverFeedback.setFeedbackIsForDriver(true);
+
+                                    Date d = new Date();
+                                    driverFeedback.setFeedbackPostTime(d.getTime());
 
                                     Firebase firebaseUser = (new Firebase("https://emissary.firebaseio.com")).child("feedback");
                                     Firebase newPostRef = firebaseUser.push();

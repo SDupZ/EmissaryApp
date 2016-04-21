@@ -64,6 +64,14 @@
         </activity>
 
         <activity
+            android:name=".activities.ViewMyFeedbackActivity"
+            android:label="My Feedback"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask"
+            android:parentActivityName=".activities.ViewAccountActivity">
+        </activity>
+
+        <activity
             android:name=".activities.ContactUsActivity"
             android:label="Contact Us"
             android:theme="@style/AppTheme.NoActionBar"

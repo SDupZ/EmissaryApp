@@ -158,7 +158,10 @@ public class DriverEditItemActivity extends AppCompatActivity{
                                     driverFeedback.setRating(rating);
                                     driverFeedback.setFeedbackMessage(message);
                                     driverFeedback.setFeedbackPosterId(mRef.getAuth().getUid());
-                                    driverFeedback.setFeedbackIsForDriver(true);
+                                    driverFeedback.setFeedbackIsForDriver(false);
+
+                                    Date d = new Date();
+                                    driverFeedback.setFeedbackPostTime(d.getTime());
 
                                     Firebase firebaseUser = (new Firebase("https://emissary.firebaseio.com")).child("feedback");
                                     Firebase newPostRef = firebaseUser.push();

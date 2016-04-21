@@ -156,6 +156,29 @@
                 android:textColor="@color/colorLink"
                 android:text="Change Password"/>
 
+            <TextView
+                android:layout_below="@id/password_change"
+                android:id="@+id/my_feedback_title"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_weight="1"
+                android:textAppearance="@android:style/TextAppearance.Small"
+                android:text="My Feedback"/>
+
+            <TextView
+                android:id="@+id/my_feedback_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/my_feedback_title"
+                android:textStyle="bold"
+                android:paddingBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textColor="@color/colorLink"
+                android:text="View my feedback"/>
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 

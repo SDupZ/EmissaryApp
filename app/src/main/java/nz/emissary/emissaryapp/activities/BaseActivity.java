@@ -79,7 +79,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
 
-                username.setText("Hi " + user.getFirstName() + "!");
+                username.setText("Hi " + user.getFirstName().trim() + "!");
             }
 
             @Override

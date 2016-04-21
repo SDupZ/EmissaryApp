@@ -45,6 +45,7 @@ public class ViewAccountActivity extends AppCompatActivity {
     TextView phoneView;
 
     TextView changePasswordView;
+    TextView viewMyFeedbackView;
 
     Button logoutButton;
 
@@ -62,7 +63,6 @@ public class ViewAccountActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
         mRef = new Firebase("https://emissary.firebaseio.com");
 
         usernameView = (TextView) findViewById(R.id.username);
@@ -73,6 +73,7 @@ public class ViewAccountActivity extends AppCompatActivity {
         changePasswordView = (TextView) findViewById(R.id.password_change);
         progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
         phoneView = (TextView) findViewById(R.id.phone);
+        viewMyFeedbackView = (TextView) findViewById(R.id.my_feedback_link);
 
         emailView.setText(mRef.getAuth().getProviderData().get("email").toString());
 
@@ -89,6 +90,14 @@ public class ViewAccountActivity extends AppCompatActivity {
             @Override
             public void onCancelled(FirebaseError firebaseError) {
 
+            }
+        });
+
+        viewMyFeedbackView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ViewMyFeedbackActivity.class);
+                v.getContext().startActivity(intent);
             }
         });
 
