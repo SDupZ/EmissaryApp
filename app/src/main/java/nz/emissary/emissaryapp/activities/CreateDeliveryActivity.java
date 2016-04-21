@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
@@ -118,6 +119,14 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
         TextView dropoffTimeTextView;
         TextView dropOffLocationTextView;
 
+        LinearLayout pickupDateContainerView;
+        LinearLayout pickupTimeContainerView;
+        LinearLayout pickupLocationContainerView;
+
+        LinearLayout dropoffDateContainerView;
+        LinearLayout dropoffTimeContainerView;
+        LinearLayout dropoffLocationContainerView;
+
         int pickupYear, pickupMonth, pickupDay, pickupHourOfDay, pickupMinute, pickupSecond;
         int dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDay, dropoffMinute, dropoffSecond;
 
@@ -158,6 +167,24 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             final View rootView = inflater.inflate(R.layout.create_delivery_fragment, container, false);
 
             Calendar now = Calendar.getInstance();
+
+            final EditText deliveryName = (EditText)rootView.findViewById(R.id.create_delivery_name);
+            final EditText deliveryNotes = (EditText)rootView.findViewById(R.id.create_delivery_notes);
+
+            pickupLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_pickup_location);
+            dropOffLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_dropoff_location);
+
+            pickupDateTextView = (TextView) rootView.findViewById(R.id.create_delivery_pickup_date);
+            dropoffDateTextView = (TextView) rootView.findViewById(R.id.create_delivery_dropoff_date);
+
+            pickupDateContainerView         = (LinearLayout)rootView.findViewById(R.id.create_delivery_pickup_date_container);
+            pickupTimeContainerView         = (LinearLayout)rootView.findViewById(R.id.create_delivery_pickup_time_container);
+            pickupLocationContainerView     = (LinearLayout)rootView.findViewById(R.id.create_delivery_pickup_location_container);
+
+            dropoffDateContainerView        = (LinearLayout)rootView.findViewById(R.id.create_delivery_dropoff_date_container);
+            dropoffTimeContainerView        = (LinearLayout)rootView.findViewById(R.id.create_delivery_dropoff_time_container);
+            dropoffLocationContainerView    = (LinearLayout)rootView.findViewById(R.id.create_delivery_dropoff_location_container);
+
             pickupDPD = DatePickerDialog.newInstance(
                     new DatePickerDialog.OnDateSetListener() {
                         @Override
@@ -259,23 +286,14 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     DateFormat.is24HourFormat(this.getActivity())
             );
 
-            final EditText deliveryName = (EditText)rootView.findViewById(R.id.create_delivery_name);
-            final EditText deliveryNotes = (EditText)rootView.findViewById(R.id.create_delivery_notes);
-
-            pickupLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_pickup_location);
-            dropOffLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_dropoff_location);
-
-            pickupDateTextView = (TextView) rootView.findViewById(R.id.create_delivery_pickup_date);
-            dropoffDateTextView = (TextView) rootView.findViewById(R.id.create_delivery_dropoff_date);
-
-            pickupDateTextView.setOnClickListener(new View.OnClickListener() {
+            pickupDateContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     pickupDPD.show(getActivity().getFragmentManager(), "Datepickerdialog");
                 }
             });
 
-            dropoffDateTextView.setOnClickListener(new View.OnClickListener() {
+            dropoffDateContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dropoffDPD.show(getActivity().getFragmentManager(), "Datepickerdialog");
@@ -292,7 +310,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             dropoffDateTextView.setText(dateText);
 
             pickupTimeTextView = (TextView) rootView.findViewById(R.id.create_delivery_pickup_time);
-            pickupTimeTextView.setOnClickListener(new View.OnClickListener() {
+            pickupTimeContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     pickupTPD.show(getActivity().getFragmentManager(), "Timepickerdialog");
@@ -300,14 +318,14 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             });
 
             dropoffTimeTextView = (TextView) rootView.findViewById(R.id.create_delivery_dropoff_time);
-            dropoffTimeTextView.setOnClickListener(new View.OnClickListener() {
+            dropoffTimeContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     dropoffTPD.show(getActivity().getFragmentManager(), "Timepickerdialog");
                 }
             });
 
-            pickupLocationTextView.setOnClickListener(new View.OnClickListener() {
+            pickupLocationContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try {
@@ -322,7 +340,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                 }
             });
 
-            dropOffLocationTextView.setOnClickListener(new View.OnClickListener() {
+            dropoffLocationContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     try {
