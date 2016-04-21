@@ -179,9 +179,6 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             pickupLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_pickup_location);
             dropOffLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_dropoff_location);
 
-            final TextView title_5 = (TextView)rootView.findViewById(R.id.title_5);
-            final TextView title_dropoff_5 = (TextView)rootView.findViewById(R.id.title_dropoff_5);
-
             pickupDateTextView = (TextView) rootView.findViewById(R.id.create_delivery_pickup_date);
             dropoffDateTextView = (TextView) rootView.findViewById(R.id.create_delivery_dropoff_date);
 
@@ -218,15 +215,6 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                 }
             });
 
-            pickupTimeTwoTextView = (TextView) rootView.findViewById(R.id.create_delivery_pickup_time_two);
-            pickupTimeTwoTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    timeDialog = 2;
-                    tpd.show(getActivity().getFragmentManager(), "Timepickerdialog");
-                }
-            });
-
             dropoffTimeOneTextView = (TextView) rootView.findViewById(R.id.create_delivery_dropoff_time_one);
             dropoffTimeOneTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -235,16 +223,6 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     tpd.show(getActivity().getFragmentManager(), "Timepickerdialog");
                 }
             });
-
-            dropoffTimeTwoTextView = (TextView) rootView.findViewById(R.id.create_delivery_dropoff_time_two);
-            dropoffTimeTwoTextView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    timeDialog = 4;
-                    tpd.show(getActivity().getFragmentManager(), "Timepickerdialog");
-                }
-            });
-
 
             pickupLocationTextView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -272,35 +250,6 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         e.printStackTrace();
                     } catch (GooglePlayServicesNotAvailableException e) {
                         e.printStackTrace();
-                    }
-                }
-            });
-
-
-            SwitchCompat specificTimeToggle = (SwitchCompat) rootView.findViewById(R.id.specific_time_toggle_pickup);
-
-            specificTimeToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        title_5.setVisibility(View.VISIBLE);
-                        pickupTimeTwoTextView.setVisibility(View.VISIBLE);
-                    } else {
-                        title_5.setVisibility(View.GONE);
-                        pickupTimeTwoTextView.setVisibility(View.GONE);
-                    }
-                }
-            });
-
-            SwitchCompat specificTimeToggleDropoff = (SwitchCompat) rootView.findViewById(R.id.specific_time_toggle_dropff);
-
-            specificTimeToggleDropoff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        title_dropoff_5.setVisibility(View.VISIBLE);
-                        dropoffTimeTwoTextView.setVisibility(View.VISIBLE);
-                    } else {
-                        title_dropoff_5.setVisibility(View.GONE);
-                        dropoffTimeTwoTextView.setVisibility(View.GONE);
                     }
                 }
             });
