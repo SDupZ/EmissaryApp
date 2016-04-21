@@ -1,9 +1,11 @@
 package nz.emissary.emissaryapp.activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,6 +34,8 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -111,6 +116,9 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
         TimePickerDialog pickupTPD;
         TimePickerDialog dropoffTPD;
 
+        com.borax12.materialdaterangepicker.time.TimePickerDialog pickupTPTRange;
+        com.borax12.materialdaterangepicker.time.TimePickerDialog dropoffTPTRange;
+
         TextView pickupDateTextView;
         TextView pickupTimeTextView;
         TextView pickupLocationTextView;
@@ -126,6 +134,9 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
         LinearLayout dropoffDateContainerView;
         LinearLayout dropoffTimeContainerView;
         LinearLayout dropoffLocationContainerView;
+
+        TextView pickupSelectTimeRangeView;
+        TextView dropoffSelectTimeRangeView;
 
         int pickupYear, pickupMonth, pickupDay, pickupHourOfDay, pickupMinute, pickupSecond;
         int dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDay, dropoffMinute, dropoffSecond;
@@ -171,6 +182,17 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             final EditText deliveryName = (EditText)rootView.findViewById(R.id.create_delivery_name);
             final EditText deliveryNotes = (EditText)rootView.findViewById(R.id.create_delivery_notes);
 
+            final TextView pickupASAPTextView = (TextView) rootView.findViewById(R.id.pickup_asap_text_view);
+            final TextView dropoffASAPTextView = (TextView) rootView.findViewById(R.id.dropoff_asap_text_view);
+
+            final SwitchCompat pickupASAPToggle = (SwitchCompat) rootView.findViewById(R.id.pickup_asap_toggle);
+            final SwitchCompat dropoffASAPToggle = (SwitchCompat) rootView.findViewById(R.id.dropoff_asap_toggle);
+
+            final ImageView pickupDateImageView = (ImageView) rootView.findViewById(R.id.create_delivery_pickup_time_image);
+            final ImageView pickupTimeImageView = (ImageView) rootView.findViewById(R.id.create_delivery_pickup_date_image);
+            final ImageView dropoffTimeImageView = (ImageView) rootView.findViewById(R.id.create_delivery_dropoff_time_image);
+            final ImageView dropoffDateImageView = (ImageView) rootView.findViewById(R.id.create_delivery_dropoff_date_image);
+
             pickupLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_pickup_location);
             dropOffLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_dropoff_location);
 
@@ -184,6 +206,76 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             dropoffDateContainerView        = (LinearLayout)rootView.findViewById(R.id.create_delivery_dropoff_date_container);
             dropoffTimeContainerView        = (LinearLayout)rootView.findViewById(R.id.create_delivery_dropoff_time_container);
             dropoffLocationContainerView    = (LinearLayout)rootView.findViewById(R.id.create_delivery_dropoff_location_container);
+
+            pickupSelectTimeRangeView       = (TextView)rootView.findViewById(R.id.create_delivery_select_time_range_pickup);
+            dropoffSelectTimeRangeView      = (TextView)rootView.findViewById(R.id.create_delivery_select_time_range_dropoff);
+
+            pickupASAPToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        pickupTimeContainerView.setEnabled(false);
+                        pickupDateContainerView.setEnabled(false);
+                        pickupSelectTimeRangeView.setEnabled(false);
+                        pickupDateTextView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
+                        pickupTimeTextView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
+                        pickupDateImageView.setColorFilter(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
+                        pickupTimeImageView.setColorFilter(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
+                        pickupSelectTimeRangeView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
+                        pickupASAPTextView.setTypeface(null, Typeface.BOLD);
+                    } else {
+                        pickupTimeContainerView.setEnabled(true);
+                        pickupDateContainerView.setEnabled(true);
+                        pickupSelectTimeRangeView.setEnabled(true);
+                        pickupDateTextView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorNormalTextView));
+                        pickupTimeTextView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorNormalTextView));
+                        pickupDateImageView.setColorFilter(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorNormalTextView));
+                        pickupTimeImageView.setColorFilter(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorNormalTextView));
+                        pickupSelectTimeRangeView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorAccent));
+                        pickupASAPTextView.setTypeface(null, Typeface.NORMAL);
+                    }
+                }
+            });
+
+            dropoffASAPToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        dropoffTimeContainerView.setEnabled(false);
+                        dropoffDateContainerView.setEnabled(false);
+                        dropoffSelectTimeRangeView.setEnabled(false);
+                        dropoffDateTextView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
+                        dropoffTimeTextView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
+                        dropoffDateImageView.setColorFilter(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
+                        dropoffTimeImageView.setColorFilter(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
+                        dropoffSelectTimeRangeView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorGreyedOut));
+                        dropoffASAPTextView.setTypeface(null, Typeface.BOLD);
+                    } else {
+                        dropoffTimeContainerView.setEnabled(true);
+                        dropoffDateContainerView.setEnabled(true);
+                        dropoffSelectTimeRangeView.setEnabled(true);
+                        dropoffDateTextView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorNormalTextView));
+                        dropoffTimeTextView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorNormalTextView));
+                        dropoffDateImageView.setColorFilter(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorNormalTextView));
+                        dropoffTimeImageView.setColorFilter(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorNormalTextView));
+                        dropoffSelectTimeRangeView.setTextColor(ContextCompat.getColor(getActivity().getApplicationContext(), R.color.colorAccent));
+                        dropoffASAPTextView.setTypeface(null, Typeface.NORMAL);
+                    }
+                }
+            });
+
+            pickupSelectTimeRangeView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    pickupTPTRange.show(getActivity().getFragmentManager(), "Timepickerdialog");
+                }
+            });
+
+            dropoffSelectTimeRangeView.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    dropoffTPTRange.show(getActivity().getFragmentManager(), "Timepickerdialog");
+                }
+            });
+
 
             pickupDPD = DatePickerDialog.newInstance(
                     new DatePickerDialog.OnDateSetListener() {
@@ -285,6 +377,55 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     0,
                     DateFormat.is24HourFormat(this.getActivity())
             );
+
+            pickupTPTRange = com.borax12.materialdaterangepicker.time.TimePickerDialog.newInstance(new com.borax12.materialdaterangepicker.time.TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(com.borax12.materialdaterangepicker.time.RadialPickerLayout view, int hourOfDay, int minute, int hourOfDayEnd, int minuteEnd) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)
+                            ,hourOfDay,minute,0);
+                    SimpleDateFormat fmt = new SimpleDateFormat("h:mm");
+
+                    Calendar cal2 = Calendar.getInstance();
+                    cal2.set(cal2.get(Calendar.YEAR),cal2.get(Calendar.MONTH),cal2.get(Calendar.DAY_OF_MONTH)
+                            ,hourOfDayEnd,minuteEnd,0);
+                    SimpleDateFormat fmt2 = new SimpleDateFormat("h:mm");
+
+                    String timeOne = fmt.format(cal.getTime());
+                    String timeTwo = fmt2.format(cal2.getTime());
+
+                    timeOne = (hourOfDay >= 12) ? (timeOne + "pm") : (timeOne + "am");
+                    timeTwo = (hourOfDay >= 12) ? (timeTwo + "pm") : (timeTwo + "am");
+
+                    String time = "Between " + timeOne + " & "+timeTwo;
+                    pickupTimeTextView.setText(time);
+                }
+            },now.get(Calendar.HOUR_OF_DAY),now.get(Calendar.MINUTE),false);
+
+            dropoffTPTRange = com.borax12.materialdaterangepicker.time.TimePickerDialog.newInstance(new com.borax12.materialdaterangepicker.time.TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(com.borax12.materialdaterangepicker.time.RadialPickerLayout view, int hourOfDay, int minute, int hourOfDayEnd, int minuteEnd) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.set(cal.get(Calendar.YEAR),cal.get(Calendar.MONTH),cal.get(Calendar.DAY_OF_MONTH)
+                            ,hourOfDay,minute,0);
+                    SimpleDateFormat fmt = new SimpleDateFormat("h:mm");
+
+                    Calendar cal2 = Calendar.getInstance();
+                    cal2.set(cal2.get(Calendar.YEAR),cal2.get(Calendar.MONTH),cal2.get(Calendar.DAY_OF_MONTH)
+                            ,hourOfDayEnd,minuteEnd,0);
+                    SimpleDateFormat fmt2 = new SimpleDateFormat("h:mm");
+
+                    String timeOne = fmt.format(cal.getTime());
+                    String timeTwo = fmt2.format(cal2.getTime());
+
+                    timeOne = (hourOfDay >= 12) ? (timeOne + "pm") : (timeOne + "am");
+                    timeTwo = (hourOfDay >= 12) ? (timeTwo + "pm") : (timeTwo + "am");
+
+                    String time = "Between "+timeOne + " & "+timeTwo;
+
+                    dropoffTimeTextView.setText(time);
+                }
+            },now.get(Calendar.HOUR_OF_DAY),now.get(Calendar.MINUTE),false);
 
             pickupDateContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override

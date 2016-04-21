@@ -153,6 +153,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <TextView
+                            android:id="@+id/pickup_asap_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="@android:style/TextAppearance.Small"
@@ -214,6 +215,7 @@
                         android:foreground="?android:attr/selectableItemBackground"
                         android:id="@+id/create_delivery_pickup_date_container">
                         <ImageView
+                            android:id="@+id/create_delivery_pickup_date_image"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -236,6 +238,7 @@
                         android:foreground="?android:attr/selectableItemBackground"
                         android:id="@+id/create_delivery_pickup_time_container">
                         <ImageView
+                            android:id="@+id/create_delivery_pickup_time_image"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -257,22 +260,17 @@
                         android:textAppearance="@android:style/TextAppearance.Small"
                         android:text="Or"/>
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/create_delivery_select_time_range_pickup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="20dp"
-                            android:textSize="20sp"
-                            android:clickable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            android:textColor="@color/colorAccent"
-                            android:text="Select time range"
-                            android:gravity="center"/>
-                    </LinearLayout>
-
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:textColor="@color/colorAccent"
+                        android:text="Select time range"
+                        android:gravity="center"/>
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -302,6 +300,7 @@
                         android:layout_height="wrap_content">
 
                         <TextView
+                            android:id="@+id/dropoff_asap_text_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textAppearance="@android:style/TextAppearance.Small"
@@ -363,6 +362,7 @@
                         android:foreground="?android:attr/selectableItemBackground"
                         android:id="@+id/create_delivery_dropoff_date_container">
                         <ImageView
+                            android:id="@+id/create_delivery_dropoff_date_image"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -385,6 +385,7 @@
                         android:foreground="?android:attr/selectableItemBackground"
                         android:id="@+id/create_delivery_dropoff_time_container">
                         <ImageView
+                            android:id="@+id/create_delivery_dropoff_time_image"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
@@ -406,21 +407,17 @@
                         android:textAppearance="@android:style/TextAppearance.Small"
                         android:text="Or"/>
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/create_delivery_select_time_range_dropoff"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:padding="20dp"
-                            android:textSize="20sp"
-                            android:clickable="true"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            android:textColor="@color/colorAccent"
-                            android:text="Select time range"
-                            android:gravity="center"/>
-                    </LinearLayout>
+                        android:padding="20dp"
+                        android:textSize="20sp"
+                        android:textColor="@color/colorAccent"
+                        android:text="Select time range"
+                        android:clickable="true"
+                        android:foreground="?android:attr/selectableItemBackground"
+                        android:gravity="center"/>
 
 
                 </LinearLayout>

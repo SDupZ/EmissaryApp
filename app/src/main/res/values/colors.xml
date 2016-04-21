@@ -16,6 +16,9 @@
     <color name="colorFabDone">#689F38</color>
     <color name="colorLink">#0277BD</color>
 
+    <color name="colorGreyedOut">#BDBDBD</color>
+    <color name="colorNormalTextView">#000000</color>
+
 
     <color name="colorCancelButton">#B71C1C</color>
     <color name="colorRegisterButton">#B71C1C</color>
