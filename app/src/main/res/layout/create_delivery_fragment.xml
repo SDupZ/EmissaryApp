@@ -33,43 +33,21 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:src="@drawable/ic_action_box"/>
-                        <TextView
-                            android:paddingLeft="16dp"
-                            style="@style/DialogMainHeading"
-                            android:text="Delivery Details"/>
-                    </LinearLayout>
-
-
                     <TextView
                         style="@style/DialogSubHeadingOne"
-                        android:text="Delivery Name"
+                        android:text="Delivery Details"
                         />
                     <EditText
-                        android:hint="E.g. Small Box"
+                        android:hint="Delivery Name"
                         android:id="@+id/create_delivery_name"
-                        android:layout_marginBottom="20dp"
+                        android:layout_marginBottom="10dp"
                         android:inputType="text"
                         android:lines="1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"/>
-
-                    <TextView
-                        style="@style/DialogSubHeadingOne"
-                        android:text="Driver Notes"
-                        />
-
                     <EditText
                         android:id="@+id/create_delivery_notes"
-                        android:hint="E.g. Please keep dry and upright."
+                        android:hint="Description"
                         android:layout_marginBottom="20dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
