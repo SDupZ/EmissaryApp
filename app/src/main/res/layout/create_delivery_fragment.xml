@@ -269,7 +269,6 @@
                             android:clickable="true"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:textColor="@color/colorAccent"
-                            android:textStyle="bold"
                             android:text="Select time range"
                             android:gravity="center"/>
                     </LinearLayout>
@@ -419,7 +418,6 @@
                             android:clickable="true"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:textColor="@color/colorAccent"
-                            android:textStyle="bold"
                             android:text="Select time range"
                             android:gravity="center"/>
                     </LinearLayout>
