@@ -457,6 +457,9 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             pickupDateContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    deliveryName.clearFocus();
+                    deliveryNotes.clearFocus();
+                    pickupDateContainerView.requestFocus();
                     pickupDPD.show(getActivity().getFragmentManager(), "Datepickerdialog");
                 }
             });
@@ -464,6 +467,9 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             dropoffDateContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    deliveryName.clearFocus();
+                    deliveryNotes.clearFocus();
+                    dropoffDateContainerView.requestFocus();
                     dropoffDPD.show(getActivity().getFragmentManager(), "Datepickerdialog");
                 }
             });
@@ -481,6 +487,9 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             pickupTimeContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    deliveryName.clearFocus();
+                    deliveryNotes.clearFocus();
+                    pickupTimeContainerView.requestFocus();
                     pickupTPD.show(getActivity().getFragmentManager(), "Timepickerdialog");
                 }
             });
@@ -489,6 +498,10 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             dropoffTimeContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    deliveryName.clearFocus();
+                    deliveryNotes.clearFocus();
+                    dropoffTimeContainerView.requestFocus();
+
                     dropoffTPD.show(getActivity().getFragmentManager(), "Timepickerdialog");
                 }
             });
@@ -496,6 +509,9 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             pickupLocationContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    deliveryName.clearFocus();
+                    deliveryNotes.clearFocus();
+                    pickupLocationContainerView.requestFocus();
                     try {
                         int PLACE_PICKER_REQUEST = 1;
                         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
@@ -511,6 +527,9 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             dropoffLocationContainerView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    deliveryName.clearFocus();
+                    deliveryNotes.clearFocus();
+                    dropoffLocationContainerView.requestFocus();
                     try {
                         int PLACE_PICKER_REQUEST = 2;
                         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
