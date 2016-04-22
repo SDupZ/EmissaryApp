@@ -1,11 +1,13 @@
 package nz.emissary.emissaryapp.activities;
 
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
@@ -15,6 +17,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +48,9 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
     private Firebase currentFirebaseUser;
     private User currentUser;
 
+    private Button acceptDeliveryButton;
+    private ProgressBar progressBar;
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -73,7 +79,8 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
             final TextView dropoffTimeView = ((TextView)findViewById(R.id.item_dropoff_time));
             final TextView pickupTimeView = ((TextView)findViewById(R.id.item_pickup_time));
 
-            final Button acceptDeliveryButton = (Button) findViewById(R.id.accept_delivery);
+            acceptDeliveryButton = (Button) findViewById(R.id.accept_delivery);
+            progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
 
             final ImageView copyPickupToClipboardView = ((ImageView) findViewById(R.id.copy_pickup_to_clipboard));
             final ImageView copyDropoffToClipboardView = ((ImageView) findViewById(R.id.copy_dropoff_to_clipboard));
@@ -161,13 +168,28 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                progressBar.setVisibility(View.VISIBLE);
+                acceptDeliveryButton.setEnabled(false);
+
                 currentDelivery.setDriver(mRef.getAuth().getUid());
                 currentDelivery.setStatus(Constants.STATUS_ACCEPTED);
 
                 currentFirebaseDelivery.setValue(currentDelivery);
-
                 currentUser.acceptDelivery(itemId);
-                currentFirebaseUser.setValue(currentUser);
+                currentFirebaseUser.setValue(currentUser, new Firebase.CompletionListener() {
+                    @Override
+                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                        if (firebaseError != null) {
+                            Toast t = Toast.makeText(getApplicationContext(), "Error accepting this delivery", Toast.LENGTH_SHORT);
+                            t.show();
+                            progressBar.setVisibility(View.GONE);
+                            acceptDeliveryButton.setEnabled(true);
+                        } else {
+                            Intent intent = new Intent(getApplicationContext(), ViewMyDeliveriesActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
             }
         });
         builder.setNegativeButton("Cancel", null);
