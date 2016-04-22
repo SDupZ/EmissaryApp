@@ -44,6 +44,8 @@ public class ViewAccountActivity extends AppCompatActivity {
     TextView lastNameView;
     TextView phoneView;
 
+    TextView driverId;
+
     TextView changePasswordView;
     TextView viewMyFeedbackView;
 
@@ -74,6 +76,7 @@ public class ViewAccountActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
         phoneView = (TextView) findViewById(R.id.phone);
         viewMyFeedbackView = (TextView) findViewById(R.id.my_feedback_link);
+        driverId = (TextView) findViewById(R.id.driver_id);
 
         emailView.setText(mRef.getAuth().getProviderData().get("email").toString());
 
@@ -85,6 +88,7 @@ public class ViewAccountActivity extends AppCompatActivity {
                 firstNameView.setText(user.getFirstName());
                 lastNameView.setText(user.getLastName());
                 phoneView.setText(user.getPhone());
+                driverId.setText(mRef.getAuth().getUid());
             }
 
             @Override

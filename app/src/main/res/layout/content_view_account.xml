@@ -179,6 +179,29 @@
                 android:textColor="@color/colorLink"
                 android:text="View my feedback"/>
 
+            <TextView
+                android:layout_below="@id/my_feedback_link"
+                android:id="@+id/driver_id_title"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:layout_weight="1"
+                android:textAppearance="@android:style/TextAppearance.Small"
+                android:text="Driver ID"/>
+
+            <TextView
+                android:id="@+id/driver_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/driver_id_title"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:paddingBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                tools:text="123 456 789"/>
+
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 
