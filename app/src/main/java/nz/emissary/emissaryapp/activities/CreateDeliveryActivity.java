@@ -19,6 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +57,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient mGoogleApiClient;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,8 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
 
 
         mGoogleApiClient = new GoogleApiClient
@@ -204,7 +208,6 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
 
             final TextView pickupCardView = (TextView) rootView.findViewById(R.id.pickup_details_card_title);
             final TextView dropoffCardView = (TextView) rootView.findViewById(R.id.dropoff_details_card_title);
-
 
             pickupLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_pickup_location);
             dropOffLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_dropoff_location);
@@ -568,6 +571,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                 @Override
                 public void onClick(View view) {
                     fab.setEnabled(false);
+                    ((CreateDeliveryActivity)getActivity()).progressBar.setVisibility(View.VISIBLE);
                     String name = deliveryName.getText().toString();
                     String pickupLocation = pickupLocationTextView.getText().toString();
                     String dropOffLocation = dropOffLocationTextView.getText().toString();
@@ -676,6 +680,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                             }
                         });
                     }else{
+                        ((CreateDeliveryActivity)getActivity()).progressBar.setVisibility(View.GONE);
                         fab.setEnabled(true);
                     }
                 }

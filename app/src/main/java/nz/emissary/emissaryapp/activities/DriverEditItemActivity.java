@@ -89,6 +89,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
             final TextView driverMessageView = ((TextView) findViewById(R.id.item_driver_message));
 
             final Button driverUpdateStatusButton = (Button) findViewById(R.id.driver_update_status_button);
+            final Button abandonDeliveryButton = (Button) findViewById(R.id.abandon_delivery);
 
             final EditText messageFromDriverView = (EditText) findViewById(R.id.message_for_lister);
             final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -220,6 +221,14 @@ public class DriverEditItemActivity extends AppCompatActivity{
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentDelivery = dataSnapshot.getValue(Delivery.class);
                     deliveryStatus = currentDelivery.getStatus();
+
+                    if (deliveryStatus >= Constants.STATUS_DELIVERED_NO_FB ){
+                        abandonDeliveryButton.setVisibility(View.GONE);
+                        driverUpdateStatusButton.setVisibility(View.GONE);
+                    }else{
+                        abandonDeliveryButton.setVisibility(View.VISIBLE);
+                        driverUpdateStatusButton.setVisibility(View.VISIBLE);
+                    }
 
                     if (!toolbar.getTitle().equals("Your listing") && prevMsg != currentDelivery.getMessageFromDriver()){
                         fab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{ContextCompat.getColor(getApplicationContext(), R.color.colorFabDone)}));
