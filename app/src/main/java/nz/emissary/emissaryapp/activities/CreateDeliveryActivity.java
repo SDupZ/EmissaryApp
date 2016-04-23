@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
@@ -19,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -199,6 +201,10 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
             final ImageView pickupTimeImageView = (ImageView) rootView.findViewById(R.id.create_delivery_pickup_date_image);
             final ImageView dropoffTimeImageView = (ImageView) rootView.findViewById(R.id.create_delivery_dropoff_time_image);
             final ImageView dropoffDateImageView = (ImageView) rootView.findViewById(R.id.create_delivery_dropoff_date_image);
+
+            final TextView pickupCardView = (TextView) rootView.findViewById(R.id.pickup_details_card_title);
+            final TextView dropoffCardView = (TextView) rootView.findViewById(R.id.dropoff_details_card_title);
+
 
             pickupLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_pickup_location);
             dropOffLocationTextView = (TextView)rootView.findViewById(R.id.create_delivery_dropoff_location);
@@ -572,6 +578,28 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     String pickupTimeEnd = "";
                     String dropoffTimeEnd = "";
 
+                    boolean error = false;
+                    deliveryName.setError(null);
+                    pickupLocationTextView.setError(null);
+                    dropOffLocationTextView.setError(null);
+
+                    if (name.trim().equals("")){
+                        //Check for a valid name
+                        error = true;
+                        deliveryName.setError("Delivery name is required.");
+                        deliveryName.requestFocus();
+                    }else if(pickupLocation.trim().equals("Select pickup location")){
+                        //Check for a pickup location
+                        error = true;
+                        pickupLocationTextView.setError("A pickup location is required");
+                        pickupLocationTextView.requestFocus();
+                    }else if(dropOffLocation.trim().equals("Select dropoff location")) {
+                        //Check for a pickup location
+                        error = true;
+                        dropOffLocationTextView.setError("A dropoff location is required");
+                        dropOffLocationTextView.requestFocus();
+                    }
+
                     if (pickupTimeType == Constants.TIME_ASAP){
                         pickupTime = Constants.TIME_ASAP;
 
@@ -588,7 +616,12 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
 
                         pickupTime = Constants.TIME_RANGE + Constants.TIME_TOKEN + cal.getTimeInMillis() + Constants.TIME_TOKEN  + cal1.getTimeInMillis();
                     }else{
-                        //ERROR
+                        if (!error) {
+                            error = true;
+                            pickupCardView.requestFocus();
+                            Toast t = Toast.makeText(getContext(), "A pickup location is required", Toast.LENGTH_SHORT);
+                            t.show();
+                        }
                     }
 
                     if (dropoffTimeType == Constants.TIME_ASAP){
@@ -608,32 +641,43 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         dropoffTime = Constants.TIME_RANGE + Constants.TIME_TOKEN + cal.getTimeInMillis() + Constants.TIME_TOKEN  + cal1.getTimeInMillis();
                     }else{
                         //ERROR
+                        if (!error) {
+                            error = true;
+                            dropoffCardView.requestFocus();
+                            Toast t = Toast.makeText(getContext(), "A dropoff location is required", Toast.LENGTH_SHORT);
+                            t.show();
+                        }
                     }
 
-                    Delivery myDelivery = new Delivery();
-                    myDelivery.setListingName(name);
-                    myDelivery.setPickupLocation(pickupLocation);
-                    myDelivery.setDropoffLocation(dropOffLocation);
-                    myDelivery.setNotes(notes);
-                    myDelivery.setOriginalLister(ref.getAuth().getUid());
-                    myDelivery.setPickupTime(pickupTime);
-                    myDelivery.setDropoffTime(dropoffTime);
-                    myDelivery.setCreatedAt(System.currentTimeMillis() / 1000.0);
+                    if (!error) {
 
-                    Firebase postRef = ref.child("deliveries");
-                    Firebase newPostRef = postRef.push();
-                    newPostRef.setValue(myDelivery);
+                        Delivery myDelivery = new Delivery();
+                        myDelivery.setListingName(name);
+                        myDelivery.setPickupLocation(pickupLocation);
+                        myDelivery.setDropoffLocation(dropOffLocation);
+                        myDelivery.setNotes(notes);
+                        myDelivery.setOriginalLister(ref.getAuth().getUid());
+                        myDelivery.setPickupTime(pickupTime);
+                        myDelivery.setDropoffTime(dropoffTime);
+                        myDelivery.setCreatedAt(System.currentTimeMillis() / 1000.0);
 
-                    final String deliveryId = newPostRef.getKey();
-                    currentUser.addNewListing(deliveryId);
-                    currentFirebaseUser.setValue(currentUser, new Firebase.CompletionListener(){
-                        @Override
-                        public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                            Intent result = new Intent(getActivity(), HomeActivity.class);
-                            getActivity().setResult(RESULT_OK, result);
-                            getActivity().finish();
-                        }
-                    });
+                        Firebase postRef = ref.child("deliveries");
+                        Firebase newPostRef = postRef.push();
+                        newPostRef.setValue(myDelivery);
+
+                        final String deliveryId = newPostRef.getKey();
+                        currentUser.addNewListing(deliveryId);
+                        currentFirebaseUser.setValue(currentUser, new Firebase.CompletionListener() {
+                            @Override
+                            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                                Intent result = new Intent(getActivity(), HomeActivity.class);
+                                getActivity().setResult(RESULT_OK, result);
+                                getActivity().finish();
+                            }
+                        });
+                    }else{
+                        fab.setEnabled(true);
+                    }
                 }
             });
 

@@ -89,6 +89,8 @@
                             android:layout_gravity="center"
                             android:src="@drawable/ic_room_black_24dp"/>
                         <TextView
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:id="@+id/create_delivery_pickup_location"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -120,6 +122,8 @@
                             android:src="@drawable/ic_room_black_24dp"/>
 
                         <TextView
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:id="@+id/create_delivery_dropoff_location"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -148,7 +152,10 @@
                     android:layout_height="match_parent">
                     <TextView
                         style="@style/DialogSubHeadingOne"
-                        android:text="Pickup Details"/>
+                        android:text="Pickup Details"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:id="@+id/pickup_details_card_title"/>
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -293,6 +300,9 @@
 
                     <TextView
                         style="@style/DialogSubHeadingOne"
+                        android:id="@+id/dropoff_details_card_title"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:text="Dropoff Details"/>
 
                     <RelativeLayout
