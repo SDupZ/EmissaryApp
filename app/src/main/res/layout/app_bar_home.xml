@@ -28,6 +28,17 @@
                 android:id="@+id/toolbar_title" />
         </android.support.v7.widget.Toolbar>
 
+        <ProgressBar
+            android:id="@+id/updateProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_gravity="bottom"
+            android:paddingBottom="0dp"
+            android:layout_margin="0dp"
+            android:visibility="visible"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
+
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_home" />

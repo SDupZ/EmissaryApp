@@ -27,6 +27,16 @@ import nz.emissary.emissaryapp.R;
  */
 public class ViewMyListingsActivity extends BaseActivity{
 
+    ProgressBar progressBar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
     protected int getLayoutResource(){
         return R.layout.activity_view_my_listings;
     }
@@ -38,7 +48,6 @@ public class ViewMyListingsActivity extends BaseActivity{
          * The fragment argument representing the section number for this
          * fragment.
          */
-        private ProgressBar progressBar;
         private RecyclerView mRecyclerView;
         private RecyclerView.LayoutManager mLayoutManager;
 
@@ -61,14 +70,16 @@ public class ViewMyListingsActivity extends BaseActivity{
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.delivery_list_fragment, container, false);
 
-            progressBar = (ProgressBar) rootView.findViewById(R.id.updateProgressBar);
-
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
             mRecyclerView.setHasFixedSize(true);
 
             // use a linear layout manager
             mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
+
+            final TextView noDeliveriesTextView = (TextView) rootView.findViewById(R.id.no_deliveries_text_view);
+            noDeliveriesTextView.setVisibility(View.VISIBLE);
+
 
             final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
             Query queryRef = mRef.orderByChild("originalLister").equalTo(mRef.getAuth().getUid());
@@ -100,19 +111,19 @@ public class ViewMyListingsActivity extends BaseActivity{
                         }
 
                     };
-
-
-            //This adapter is used to show a progress bar
-            adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            
+            mRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+                @Override
+                public void onChildViewAttachedToWindow(View view) {
+                    ((ViewMyListingsActivity)getActivity()).progressBar.setVisibility(View.GONE);
+                    noDeliveriesTextView.setVisibility(View.GONE);
+                }
 
                 @Override
-                public void onItemRangeInserted(int positionStart, int itemCount) {
-                    super.onItemRangeInserted(positionStart, itemCount);
-                    progressBar.setVisibility(View.GONE);
-                    adapter.unregisterAdapterDataObserver(this);
+                public void onChildViewDetachedFromWindow(View view) {
+
                 }
             });
-            mRecyclerView.setAdapter(adapter);
 
             return rootView;
         }

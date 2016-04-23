@@ -28,6 +28,16 @@ import nz.emissary.emissaryapp.R;
  */
 public class ViewMyDeliveriesActivity extends BaseActivity{
 
+    ProgressBar progressBar;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
+    }
+
     protected int getLayoutResource(){
         return R.layout.activity_view_my_deliveries;
     }
@@ -42,7 +52,7 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
 
         private RecyclerView mRecyclerView;
         private RecyclerView.LayoutManager mLayoutManager;
-        private ProgressBar progressBar;
+
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -62,9 +72,6 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.delivery_list_fragment, container, false);
-
-            progressBar = (ProgressBar) rootView.findViewById(R.id.updateProgressBar);
-
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
             mRecyclerView.setHasFixedSize(true);
 
@@ -72,11 +79,15 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
             mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
 
+            final TextView noDeliveriesTextView = (TextView) rootView.findViewById(R.id.no_deliveries_text_view);
+            noDeliveriesTextView.setVisibility(View.VISIBLE);
+
             final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
             Query queryRef = mRef.orderByChild("driver").equalTo(mRef.getAuth().getUid());
 
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
                     new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.my_deliveries_list_view,ViewHolder.class,queryRef){
+
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
 
@@ -103,17 +114,20 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                     };
 
 
-            //This adapter is used to show a progress bar
-            adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            mRecyclerView.setAdapter(adapter);
+
+            mRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+                @Override
+                public void onChildViewAttachedToWindow(View view) {
+                    ((ViewMyDeliveriesActivity)getActivity()).progressBar.setVisibility(View.GONE);
+                    noDeliveriesTextView.setVisibility(View.GONE);
+                }
 
                 @Override
-                public void onItemRangeInserted(int positionStart, int itemCount) {
-                    super.onItemRangeInserted(positionStart, itemCount);
-                    progressBar.setVisibility(View.GONE);
-                    adapter.unregisterAdapterDataObserver(this);
+                public void onChildViewDetachedFromWindow(View view) {
+
                 }
             });
-            mRecyclerView.setAdapter(adapter);
 
             return rootView;
         }

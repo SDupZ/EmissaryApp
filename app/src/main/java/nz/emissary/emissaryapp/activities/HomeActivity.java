@@ -38,10 +38,15 @@ public class HomeActivity extends BaseActivity{
     static final int REQUEST_AUTH_TOKEN = 0;
     static final int CREATE_DELIVERY = 1;
     Firebase ref;
+    ProgressBar progressBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
+        progressBar.setVisibility(View.VISIBLE);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +106,6 @@ public class HomeActivity extends BaseActivity{
 
         private RecyclerView mRecyclerView;
         private RecyclerView.LayoutManager mLayoutManager;
-        private ProgressBar progressBar;
 
         /**
          * Returns a new instance of this fragment for the given section
@@ -122,7 +126,6 @@ public class HomeActivity extends BaseActivity{
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.delivery_list_fragment, container, false);
 
-            progressBar = (ProgressBar) rootView.findViewById(R.id.updateProgressBar);
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
             mRecyclerView.setHasFixedSize(true);
 
@@ -130,8 +133,12 @@ public class HomeActivity extends BaseActivity{
             mLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLayoutManager);
 
+            final TextView noDeliveriesTextView = (TextView) rootView.findViewById(R.id.no_deliveries_text_view);
+            noDeliveriesTextView.setVisibility(View.VISIBLE);
+
             final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
             Query queryRef = mRef.orderByChild("status").equalTo(Constants.STATUS_LISTED);
+
 
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
                     new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.delivery_list_view,ViewHolder.class,queryRef){
@@ -154,17 +161,20 @@ public class HomeActivity extends BaseActivity{
 
                     };
 
-            adapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            mRecyclerView.setAdapter(adapter);
+
+            mRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+                @Override
+                public void onChildViewAttachedToWindow(View view) {
+                    ((HomeActivity)getActivity()).progressBar.setVisibility(View.GONE);
+                    noDeliveriesTextView.setVisibility(View.GONE);
+                }
 
                 @Override
-                public void onItemRangeInserted(int positionStart, int itemCount) {
-                    super.onItemRangeInserted(positionStart, itemCount);
-                    progressBar.setVisibility(View.GONE);
-                    adapter.unregisterAdapterDataObserver(this);
+                public void onChildViewDetachedFromWindow(View view) {
+
                 }
             });
-
-            mRecyclerView.setAdapter(adapter);
 
             return rootView;
         }
