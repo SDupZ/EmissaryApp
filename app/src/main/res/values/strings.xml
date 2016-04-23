@@ -83,6 +83,8 @@
 
 
     <string name="update_status_dialog_title">Update delivery status</string>
+    <string name="abandon_delivery_dialog_title">Abandon this delivery</string>
+    <string name="abandon_delivery_dialog_message">Are you sure you want to discontinue as driver for this delivery?</string>
     <string name="dialog_place_feedback_for_driver_title">Place feedback for this delivery</string>
     <string name="driver_update_confirm">The new status will become: </string>
 

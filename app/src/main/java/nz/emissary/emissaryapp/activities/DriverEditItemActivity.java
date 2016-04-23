@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,9 +52,6 @@ public class DriverEditItemActivity extends AppCompatActivity{
     private Firebase mRef;
     private Firebase currentFirebaseDelivery;
     private Delivery currentDelivery;
-
-    private Firebase currentFirebaseDriver;
-    private User currentDriver;
 
     private Firebase currentFirebaseUser;
     private User currentUser;
@@ -98,6 +96,8 @@ public class DriverEditItemActivity extends AppCompatActivity{
 
             final ImageView copyPickupToClipboardView = ((ImageView) findViewById(R.id.copy_pickup_to_clipboard));
             final ImageView copyDropoffToClipboardView = ((ImageView) findViewById(R.id.copy_dropoff_to_clipboard));
+
+            final ProgressBar progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
 
             copyDropoffToClipboardView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -281,7 +281,6 @@ public class DriverEditItemActivity extends AppCompatActivity{
                 }
             });
 
-            //----------------Accept a delivery---------------
             driverUpdateStatusButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -307,6 +306,48 @@ public class DriverEditItemActivity extends AppCompatActivity{
                     dialog.show();
                 }
             });
+
+            abandonDeliveryButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder =
+                            new AlertDialog.Builder(DriverEditItemActivity.this, R.style.MyAlertDialogStyle);
+                    builder.setTitle(R.string.abandon_delivery_dialog_title);
+                    builder.setMessage(R.string.abandon_delivery_dialog_message);
+                    builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            progressBar.setVisibility(View.VISIBLE);
+                            currentDelivery.setStatus(Constants.STATUS_LISTED);
+                            currentDelivery.setDriver(null);
+                            currentDelivery.setMessageFromDriver(null);
+                            currentUser.abandonDelivery(itemId);
+
+                            currentFirebaseUser.setValue(currentUser);
+                            currentFirebaseDelivery.setValue(currentDelivery, new Firebase.CompletionListener() {
+                                @Override
+                                public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                                    if ((firebaseError != null)){
+                                        progressBar.setVisibility(View.GONE);
+                                        Toast t = Toast.makeText(getApplicationContext(), "Error removing you as a driver. Try again.", Toast.LENGTH_SHORT);
+                                        t.show();
+                                    }else {
+                                        Intent intent = new Intent(getApplicationContext(), ViewMyDeliveriesActivity.class);
+                                        startActivity(intent);
+                                    }
+                                }
+                            });
+
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", null);
+
+                    AppCompatDialog dialog = builder.create();
+                    dialog.show();
+                }
+            });
+
+
 
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override

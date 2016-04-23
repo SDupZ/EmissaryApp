@@ -182,6 +182,10 @@ public class User {
         this.previousDeliveries.add(deliveryId);
     }
 
+    public void abandonDelivery(String deliveryId){
+        this.currentDeliveries.remove(deliveryId);
+    }
+
     //**********************************************************************************************
     //Available Vehicles
     public List<String> getAvailableVehicles() {
