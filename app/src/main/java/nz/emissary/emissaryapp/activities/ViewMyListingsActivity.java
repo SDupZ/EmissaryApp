@@ -95,7 +95,6 @@ public class ViewMyListingsActivity extends BaseActivity{
                             }
 
                             viewHolder.mDeliveryName.setText(d.getListingName());
-                            viewHolder.mDeliveryNotes.setText(d.getNotes());
                             viewHolder.mDeliveryPickupTime.setText(Constants.convertTime(d.getPickupTime()));
                             viewHolder.mDeliveryDropoffTime.setText(Constants.convertTime(d.getDropoffTime()));
 
@@ -111,6 +110,8 @@ public class ViewMyListingsActivity extends BaseActivity{
                         }
 
                     };
+
+            mRecyclerView.setAdapter(adapter);
 
             mRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
                 @Override
@@ -132,7 +133,6 @@ public class ViewMyListingsActivity extends BaseActivity{
             View mView;
 
             public TextView mDeliveryName;
-            public TextView mDeliveryNotes;
             public TextView mDeliveryPickupTime;
             public TextView mDeliveryDropoffTime;
 
@@ -141,7 +141,6 @@ public class ViewMyListingsActivity extends BaseActivity{
                 super(v);
                 mView = v;
                 mDeliveryName = (TextView) v.findViewById(R.id.list_item_delivery_name);
-                mDeliveryNotes = (TextView) v.findViewById(R.id.list_item_notes);
                 mDeliveryPickupTime = (TextView) v.findViewById(R.id.list_item_pickup_time);
                 mDeliveryDropoffTime = (TextView) v.findViewById(R.id.list_item_dropoff_time);
 

@@ -141,7 +141,7 @@ public class HomeActivity extends BaseActivity{
 
 
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
-                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.delivery_list_view,ViewHolder.class,queryRef){
+                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listings_list_view,ViewHolder.class,queryRef){
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
                             viewHolder.mDeliveryName.setText(d.getListingName());

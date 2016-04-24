@@ -86,7 +86,7 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
             Query queryRef = mRef.orderByChild("driver").equalTo(mRef.getAuth().getUid());
 
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
-                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.my_deliveries_list_view,ViewHolder.class,queryRef){
+                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listings_list_view,ViewHolder.class,queryRef){
 
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
@@ -97,7 +97,6 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                             }
 
                             viewHolder.mDeliveryName.setText(d.getListingName());
-                            viewHolder.mDeliveryNotes.setText(d.getNotes());
                             viewHolder.mDeliveryPickupTime.setText(Constants.convertTime(d.getPickupTime()));
                             viewHolder.mDeliveryDropoffTime.setText(Constants.convertTime(d.getDropoffTime()));
 
@@ -136,7 +135,6 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
             View mView;
 
             public TextView mDeliveryName;
-            public TextView mDeliveryNotes;
             public TextView mDeliveryPickupTime;
             public TextView mDeliveryDropoffTime;
 
@@ -144,7 +142,6 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                 super(v);
                 mView = v;
                 mDeliveryName = (TextView) v.findViewById(R.id.list_item_delivery_name);
-                mDeliveryNotes = (TextView) v.findViewById(R.id.list_item_notes);
                 mDeliveryPickupTime = (TextView) v.findViewById(R.id.list_item_pickup_time);
                 mDeliveryDropoffTime = (TextView) v.findViewById(R.id.list_item_dropoff_time);
 
