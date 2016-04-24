@@ -1,8 +1,5 @@
 package nz.emissary.emissaryapp.activities;
 
-import android.app.ProgressDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -81,34 +78,6 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
 
             acceptDeliveryButton = (Button) findViewById(R.id.accept_delivery);
             progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
-
-            final ImageView copyPickupToClipboardView = ((ImageView) findViewById(R.id.copy_pickup_to_clipboard));
-            final ImageView copyDropoffToClipboardView = ((ImageView) findViewById(R.id.copy_dropoff_to_clipboard));
-
-            copyDropoffToClipboardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ClipboardManager clipboard = (ClipboardManager)
-                            getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("Emissary Location", dropOffLocationView.getText().toString());
-                    clipboard.setPrimaryClip(clip);
-
-                    Toast t = Toast.makeText(getApplicationContext(), "Dropoff location copied to clipboard!", Toast.LENGTH_SHORT);
-                    t.show();
-                }
-            });
-
-            copyPickupToClipboardView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ClipboardManager clipboard = (ClipboardManager)
-                            getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("Emissary Location", pickupLocationView.getText().toString());
-                    clipboard.setPrimaryClip(clip);
-                    Toast t = Toast.makeText(getApplicationContext(), "Pickup location copied to clipboard!", Toast.LENGTH_SHORT);
-                    t.show();
-                }
-            });
 
             //----------------Load the object from the local database---------------
             itemId = intent.getStringExtra("object_id");

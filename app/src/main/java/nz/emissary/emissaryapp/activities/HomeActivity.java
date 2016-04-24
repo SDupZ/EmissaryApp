@@ -145,7 +145,6 @@ public class HomeActivity extends BaseActivity{
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
                             viewHolder.mDeliveryName.setText(d.getListingName());
-                            viewHolder.mDeliveryNotes.setText(d.getNotes());
                             viewHolder.mDeliveryPickupTime.setText(Constants.convertTime(d.getPickupTime()));
                             viewHolder.mDeliveryDropoffTime.setText(Constants.convertTime(d.getDropoffTime()));
 
@@ -183,7 +182,6 @@ public class HomeActivity extends BaseActivity{
             View mView;
 
             public TextView mDeliveryName;
-            public TextView mDeliveryNotes;
             public TextView mDeliveryPickupTime;
             public TextView mDeliveryDropoffTime;
 
@@ -198,7 +196,6 @@ public class HomeActivity extends BaseActivity{
                     }
                 });
                 mDeliveryName = (TextView) v.findViewById(R.id.list_item_delivery_name);
-                mDeliveryNotes = (TextView) v.findViewById(R.id.list_item_notes);
                 mDeliveryPickupTime = (TextView) v.findViewById(R.id.list_item_pickup_time);
                 mDeliveryDropoffTime = (TextView) v.findViewById(R.id.list_item_dropoff_time);
                 v.setClickable(true);

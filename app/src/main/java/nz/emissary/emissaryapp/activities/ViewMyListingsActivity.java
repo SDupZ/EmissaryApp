@@ -111,7 +111,7 @@ public class ViewMyListingsActivity extends BaseActivity{
                         }
 
                     };
-            
+
             mRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
                 @Override
                 public void onChildViewAttachedToWindow(View view) {

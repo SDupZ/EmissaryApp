@@ -19,6 +19,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:collapsedTitleTextAppearance="@android:style/TextAppearance.Medium"
+            app:expandedTitleTextAppearance="@android:style/TextAppearance.Medium"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 

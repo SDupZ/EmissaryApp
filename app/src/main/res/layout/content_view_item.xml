@@ -61,47 +61,65 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <TextView
+                    style="@style/DialogSubHeadingOne"
+                    android:text="Date and Time"/>
+
+                <TextView
+                    style="@style/DialogSubHeadingTwo"
+                    android:paddingTop="0dp"
+                    android:paddingLeft="0dp"
+                    android:text="Pickup Time"/>
+
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:id="@+id/title_2">
+                    android:orientation="horizontal">
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_action_clock"/>
+                        android:src="@drawable/ic_date_range_black_24dp"/>
+
                     <TextView
-                        android:paddingLeft="16dp"
-                        style="@style/DialogMainHeading"
-                        android:layout_centerHorizontal="true"
-                        android:text="Date and Time"/>
+                        android:id="@+id/item_pickup_time"
+                        tools:text="Today - 4pm"
+                        android:padding="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@android:style/TextAppearance.Medium"/>
                 </LinearLayout>
 
                 <TextView
-                    style="@style/DialogSubHeadingOne"
-                    android:text="Pickup Time"/>
-
-                <TextView
-                    android:id="@+id/item_pickup_time"
-                    tools:text="Today - 4pm"
-                    android:layout_marginBottom="20dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-                <TextView
-                    style="@style/DialogSubHeadingOne"
+                    style="@style/DialogSubHeadingTwo"
+                    android:paddingTop="0dp"
+                    android:paddingLeft="0dp"
                     android:text="Droppoff Time"/>
 
-                <TextView
-                    android:id="@+id/item_dropoff_time"
-                    tools:text="Today - 6pm"
-                    android:layout_marginBottom="20dp"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@android:style/TextAppearance.Medium"/>
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_date_range_black_24dp"/>
 
+                    <TextView
+                        android:id="@+id/item_dropoff_time"
+                        tools:text="03/12/2017 - 6pm"
+                        android:padding="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@android:style/TextAppearance.Medium"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -123,80 +141,60 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:id="@+id/location_title">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_action_location"/>
-                    <TextView
-                        android:paddingLeft="16dp"
-                        style="@style/DialogMainHeading"
-                        android:layout_centerHorizontal="true"
-                        android:text="Location Details"/>
-                </LinearLayout>
-
                 <TextView
                     style="@style/DialogSubHeadingOne"
-                    android:text="Pickup From"/>
+                    android:text="Location Details"/>
 
+                <TextView
+                    style="@style/DialogSubHeadingTwo"
+                    android:paddingTop="0dp"
+                    android:paddingLeft="0dp"
+                    android:text="Pickup From"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_room_black_24dp"/>
 
                     <TextView
                         android:id="@+id/item_pickup_location"
                         tools:text="66 John Downs drive, Browns Bay"
-                        android:layout_marginBottom="20dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="4"
+                        android:padding="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:textIsSelectable="true"
-                        android:layout_height="wrap_content"
                         android:textAppearance="@android:style/TextAppearance.Medium"/>
-
-                    <ImageView
-                        android:id="@+id/copy_pickup_to_clipboard"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_content_copy_black_24dp"/>
-
                 </LinearLayout>
 
-
                 <TextView
-                    style="@style/DialogSubHeadingOne"
-                    android:text="Droppoff to"/>
+                    style="@style/DialogSubHeadingTwo"
+                    android:paddingTop="0dp"
+                    android:paddingLeft="0dp"
+                    android:text="Dropoff To"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/item_drop_off_location"
-                        tools:text="66 John Downs drive, Browns Bay"
-                        android:layout_marginBottom="20dp"
-                        android:layout_width="0dp"
-                        android:layout_weight="4"
-                        android:textIsSelectable="true"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="@android:style/TextAppearance.Medium"/>
-
                     <ImageView
-                        android:id="@+id/copy_dropoff_to_clipboard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:padding="10dp"
-                        android:src="@drawable/ic_content_copy_black_24dp"/>
+                        android:src="@drawable/ic_room_black_24dp"/>
 
+                    <TextView
+                        android:id="@+id/item_drop_off_location"
+                        tools:text="66 John Downs drive, Browns Bay"
+                        android:padding="20dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textIsSelectable="true"
+                        android:textAppearance="@android:style/TextAppearance.Medium"/>
                 </LinearLayout>
 
             </LinearLayout>

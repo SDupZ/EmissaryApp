@@ -26,13 +26,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:text="Mighty Ape Parcel"
-            android:textSize="16sp"/>
-        <TextView
-            android:id="@+id/list_item_notes"
+            android:textAppearance="@android:style/TextAppearance.Medium"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Deliver ASAP please"
-            android:textSize="14sp"/>
+            android:paddingTop="8dp">
+            <TextView
+                android:id="@+id/list_item_delivery_distance"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="3.8km"
+                android:textAppearance="@android:style/TextAppearance.Medium" />
+
+            <TextView
+                android:id="@+id/list_item_delivery_price"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="$5.50"
+                android:textAppearance="@android:style/TextAppearance.Medium" />
+            </LinearLayout>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -81,11 +99,8 @@
                     tools:text="10/10/2016 - 8:10"
                     android:textSize="14sp"/>
             </LinearLayout>
-
-
-
-
         </LinearLayout>
+
     </LinearLayout>
 
 
