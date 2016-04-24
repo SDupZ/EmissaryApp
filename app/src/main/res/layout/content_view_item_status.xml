@@ -38,6 +38,12 @@
                     android:text="Current Delivery Status"/>
 
                 <TextView
+                    style="@style/DialogSubHeadingTwo"
+                    android:paddingTop="0dp"
+                    android:paddingLeft="0dp"
+                    android:text="Status"/>
+
+                <TextView
                     android:id="@+id/item_status_description"
                     tools:text="Accepted"
                     android:layout_marginBottom="20dp"
@@ -59,7 +65,9 @@
 
                 <TextView
                     android:id="@+id/item_driver_message_title"
-                    style="@style/DialogSubHeadingOne"
+                    style="@style/DialogSubHeadingTwo"
+                    android:paddingTop="0dp"
+                    android:paddingLeft="0dp"
                     android:text="Message From Your Driver"
                     android:visibility="gone"/>
 
