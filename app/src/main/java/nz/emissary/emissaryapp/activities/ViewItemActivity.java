@@ -92,8 +92,6 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentDelivery = dataSnapshot.getValue(Delivery.class);
-                    //nameView.setText(currentDelivery.getListingName());
-                    ((CollapsingToolbarLayout) findViewById(R.id.toolbar_layout)).setTitle(currentDelivery.getListingName());
                     toolbar.setTitle(currentDelivery.getListingName());
                     notesView.setText(currentDelivery.getNotes());
                     pickupLocationView.setText(currentDelivery.getPickupLocation());

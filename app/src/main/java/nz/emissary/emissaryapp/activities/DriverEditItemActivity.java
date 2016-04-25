@@ -207,7 +207,6 @@ public class DriverEditItemActivity extends AppCompatActivity{
                         fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_done));
                     }
 
-                    ((CollapsingToolbarLayout) findViewById(R.id.toolbar_layout)).setTitle(currentDelivery.getListingName());
                     toolbar.setTitle(currentDelivery.getListingName());
 
                     notesView.setText(currentDelivery.getNotes());
