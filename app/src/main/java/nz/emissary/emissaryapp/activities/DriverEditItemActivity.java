@@ -1,14 +1,10 @@
 package nz.emissary.emissaryapp.activities;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -19,15 +15,19 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -35,12 +35,14 @@ import com.firebase.client.ValueEventListener;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.Feedback;
 import nz.emissary.emissaryapp.R;
+import nz.emissary.emissaryapp.SimpleMessage;
 import nz.emissary.emissaryapp.User;
 
 /**
@@ -60,6 +62,8 @@ public class DriverEditItemActivity extends AppCompatActivity{
 
     private int deliveryStatus;
 
+    ArrayList<SimpleMessage> messagesList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +78,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
         Intent intent = getIntent();
         if(intent != null && intent.hasExtra("object_id")) {
 
+            messagesList = new ArrayList<SimpleMessage>();
             final TextView nameView = ((TextView)findViewById(R.id.item_name));
             final TextView pickupLocationView = ((TextView)findViewById(R.id.item_pickup_location));
             final TextView dropOffLocationView = ((TextView)findViewById(R.id.item_drop_off_location));
@@ -84,8 +89,6 @@ public class DriverEditItemActivity extends AppCompatActivity{
             final TextView itemStatusView = ((TextView) findViewById(R.id.item_status_description));
             final CardView deliveryStatusCard = ((CardView) findViewById(R.id.delivery_status_card));
 
-            final TextView driverMessageView = ((TextView) findViewById(R.id.item_driver_message));
-
             final Button driverUpdateStatusButton = (Button) findViewById(R.id.driver_update_status_button);
             final Button abandonDeliveryButton = (Button) findViewById(R.id.abandon_delivery);
 
@@ -95,6 +98,25 @@ public class DriverEditItemActivity extends AppCompatActivity{
             final TextView feedbackLinkView = ((TextView) findViewById(R.id.place_feedback_link));
 
             final ProgressBar progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
+
+            final ListView messageListView = (ListView) findViewById(R.id.message_list_view);
+
+            messageListView.setOnTouchListener(new View.OnTouchListener() {
+                // Setting on Touch Listener for handling the touch inside ScrollView
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    // Disallow the touch request for parent scroll on touch of child view
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    return false;
+                }
+            });
+
+            final ArrayAdapter<SimpleMessage> arrayAdapter = new ArrayAdapter<SimpleMessage>(
+                    this,
+                    android.R.layout.simple_list_item_1,
+                    messagesList);
+
+            messageListView.setAdapter(arrayAdapter);
 
             feedbackLinkView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -202,11 +224,6 @@ public class DriverEditItemActivity extends AppCompatActivity{
                         driverUpdateStatusButton.setVisibility(View.VISIBLE);
                     }
 
-                    if (!toolbar.getTitle().equals("Your listing") && prevMsg != currentDelivery.getMessageFromDriver()){
-                        fab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{ContextCompat.getColor(getApplicationContext(), R.color.colorFabDone)}));
-                        fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_done));
-                    }
-
                     toolbar.setTitle(currentDelivery.getListingName());
 
                     notesView.setText(currentDelivery.getNotes());
@@ -224,13 +241,30 @@ public class DriverEditItemActivity extends AppCompatActivity{
 
                     driverUpdateStatusButton.setText(Constants.getUpdateButtonText(deliveryStatus, getApplicationContext()));
                     driverUpdateStatusButton.setEnabled(true);
-                    driverMessageView.setText(currentDelivery.getMessageFromDriver());
 
                     if (deliveryStatus == Constants.STATUS_DELIVERED_NO_FB || deliveryStatus == Constants.STATUS_DELIVERED_D_FB){
                         feedbackLinkView.setVisibility(View.VISIBLE);
                     }else{
                         feedbackLinkView.setVisibility(View.GONE);
                     }
+
+                    Firebase firebaseMessages = new Firebase("https://emissary.firebaseio.com/messages/" + itemId);
+                    firebaseMessages.addChildEventListener(new ChildEventListener() {
+                        @Override
+                        public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
+                            SimpleMessage newMessage = snapshot.getValue(SimpleMessage.class);
+                            messagesList.add(newMessage);
+                            arrayAdapter.notifyDataSetChanged();
+                        }
+                        @Override
+                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+                        @Override
+                        public void onChildRemoved(DataSnapshot dataSnapshot) {}
+                        @Override
+                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {}
+                    });
                 }
 
                 @Override
@@ -323,10 +357,26 @@ public class DriverEditItemActivity extends AppCompatActivity{
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Firebase messageFirebase = new Firebase("https://emissary.firebaseio.com/messages/" + itemId);
+
                     String newMsg = messageFromDriverView.getText().toString();
                     prevMsg = newMsg;
-                    currentDelivery.setMessageFromDriver(newMsg);
-                    currentFirebaseDelivery.setValue(currentDelivery);
+                    Date d = new Date();
+
+                    SimpleMessage newMessage = new SimpleMessage();
+                    newMessage.setMessage(newMsg);
+                    newMessage.setRecipientId(currentDelivery.getOriginalLister());
+                    newMessage.setSenderId(currentDelivery.getDriver());
+                    newMessage.setTimeStamp(d.getTime());
+
+                    messageFirebase.push().setValue(newMessage, new Firebase.CompletionListener() {
+                        @Override
+                        public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                            //messageListView.setSelection(arrayAdapter.getCount() - 1);
+                            fab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{ContextCompat.getColor(getApplicationContext(), R.color.colorFabDone)}));
+                            fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_done));
+                        }
+                    });
                     messageFromDriverView.setText("");
 
                 }
