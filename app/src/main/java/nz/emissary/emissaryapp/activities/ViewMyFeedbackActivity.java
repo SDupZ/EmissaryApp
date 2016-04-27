@@ -71,6 +71,9 @@ public class ViewMyFeedbackActivity extends AppCompatActivity {
                         viewHolder.mFeedbackTextView.setText(f.getFeedbackMessage());
                         String time = Constants.TIME_SPECIFIC + Constants.TIME_TOKEN + f.getFeedbackPostTime();
                         viewHolder.mFeedbackPostTimeView.setText(Constants.convertTime(time));
+
+                        String message = f.isFeedbackIsForDriver() ? "Delivery Driver" : "Original Lister";
+                        viewHolder.mFeedbackRoleView.setText(message);
                     }
 
                 };
@@ -83,6 +86,7 @@ public class ViewMyFeedbackActivity extends AppCompatActivity {
         public RatingBar mRatingView;
         public TextView mFeedbackTextView;
         public TextView mFeedbackPostTimeView;
+        public TextView mFeedbackRoleView;
 
         public ViewHolder(View v) {
             super(v);
@@ -90,6 +94,7 @@ public class ViewMyFeedbackActivity extends AppCompatActivity {
             mRatingView = (RatingBar) v.findViewById(R.id.list_item_rating);
             mFeedbackTextView = (TextView) v.findViewById(R.id.list_item_feedback_text);
             mFeedbackPostTimeView = (TextView) v.findViewById(R.id.list_item_feedback_date);
+            mFeedbackRoleView = (TextView) v.findViewById(R.id.list_item_feedback_role_text);
         }
     }
 
