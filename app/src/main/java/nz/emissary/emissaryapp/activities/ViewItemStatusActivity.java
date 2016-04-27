@@ -10,24 +10,31 @@ import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.Feedback;
+import nz.emissary.emissaryapp.MessagesAdapter;
 import nz.emissary.emissaryapp.R;
+import nz.emissary.emissaryapp.SimpleMessage;
 import nz.emissary.emissaryapp.User;
 
 /**
@@ -43,6 +50,7 @@ public class ViewItemStatusActivity extends AppCompatActivity{
     private Firebase currentFirebaseUser;
     private User currentUser;
 
+    ArrayList<SimpleMessage> messagesList;
     @Override
     protected void onStop() {
         super.onStop();
@@ -64,6 +72,8 @@ public class ViewItemStatusActivity extends AppCompatActivity{
         Intent intent = getIntent();
         if(intent != null && intent.hasExtra("object_id")) {
 
+            messagesList = new ArrayList<SimpleMessage>();
+
             final TextView pickupLocationView = ((TextView)findViewById(R.id.item_pickup_location));
             final TextView dropOffLocationView = ((TextView)findViewById(R.id.item_drop_off_location));
             final TextView notesView = ((TextView)findViewById(R.id.item_notes));
@@ -74,7 +84,22 @@ public class ViewItemStatusActivity extends AppCompatActivity{
             final CardView deliveryStatusCard = ((CardView) findViewById(R.id.delivery_status_card));
 
             final TextView messageTitleView = ((TextView) findViewById(R.id.item_driver_message_title));
-            final TextView messageView = ((TextView) findViewById(R.id.item_driver_message));
+
+            final ListView messageListView = (ListView) findViewById(R.id.message_list_view);
+
+            messageListView.setOnTouchListener(new View.OnTouchListener() {
+                // Setting on Touch Listener for handling the touch inside ScrollView
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    // Disallow the touch request for parent scroll on touch of child view
+                    v.getParent().requestDisallowInterceptTouchEvent(true);
+                    return false;
+                }
+            });
+
+            final MessagesAdapter arrayAdapter = new MessagesAdapter(this ,messagesList);
+
+            messageListView.setAdapter(arrayAdapter);
 
             final TextView feedbackLinkView = ((TextView) findViewById(R.id.place_feedback_link));
 
@@ -83,6 +108,26 @@ public class ViewItemStatusActivity extends AppCompatActivity{
 
             mRef = new Firebase("https://emissary.firebaseio.com");
             currentFirebaseDelivery = new Firebase("https://emissary.firebaseio.com/deliveries/" + itemId);
+
+            Firebase firebaseMessages = new Firebase("https://emissary.firebaseio.com/messages/" + itemId);
+            firebaseMessages.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
+                    messageTitleView.setVisibility(View.VISIBLE);
+                    messageListView.setVisibility(View.VISIBLE);
+                    SimpleMessage newMessage = snapshot.getValue(SimpleMessage.class);
+                    messagesList.add(newMessage);
+                    arrayAdapter.notifyDataSetChanged();
+                }
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {}
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {}
+            });
 
             feedbackLinkView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -153,6 +198,7 @@ public class ViewItemStatusActivity extends AppCompatActivity{
                 }
             });
 
+
             currentFirebaseDelivery.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -174,12 +220,6 @@ public class ViewItemStatusActivity extends AppCompatActivity{
                     if (cardBackground != null)
                         deliveryStatusCard.setBackground(cardBackground);
 
-                    String messageFromDriver = currentDelivery.getMessageFromDriver();
-                    if (messageFromDriver != null && messageFromDriver != ""){
-                        messageView.setText(messageFromDriver);
-                        messageTitleView.setVisibility(View.VISIBLE);
-                        messageView.setVisibility(View.VISIBLE);
-                    }
                     if (currentStatus == Constants.STATUS_DELIVERED_NO_FB || currentStatus == Constants.STATUS_DELIVERED_L_FB){
                         feedbackLinkView.setVisibility(View.VISIBLE);
                     }else{

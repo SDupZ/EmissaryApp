@@ -41,6 +41,7 @@ import java.util.Date;
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.Feedback;
+import nz.emissary.emissaryapp.MessagesAdapter;
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.SimpleMessage;
 import nz.emissary.emissaryapp.User;
@@ -111,10 +112,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
                 }
             });
 
-            final ArrayAdapter<SimpleMessage> arrayAdapter = new ArrayAdapter<SimpleMessage>(
-                    this,
-                    android.R.layout.simple_list_item_1,
-                    messagesList);
+            final MessagesAdapter arrayAdapter = new MessagesAdapter(this ,messagesList);
 
             messageListView.setAdapter(arrayAdapter);
 
