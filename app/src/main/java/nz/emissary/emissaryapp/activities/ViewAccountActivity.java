@@ -14,6 +14,9 @@ import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -30,6 +33,9 @@ import com.firebase.client.ValueEventListener;
 
 import org.w3c.dom.Text;
 
+import java.util.Date;
+
+import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.User;
 
@@ -53,6 +59,7 @@ public class ViewAccountActivity extends AppCompatActivity {
 
     ProgressBar progressBar;
     Firebase mRef;
+    Firebase currentFirebaseUser;
     User user;
 
     @Override
@@ -80,7 +87,7 @@ public class ViewAccountActivity extends AppCompatActivity {
 
         emailView.setText(mRef.getAuth().getProviderData().get("email").toString());
 
-        Firebase currentFirebaseUser = new Firebase("https://emissary.firebaseio.com/users/" + mRef.getAuth().getUid());
+        currentFirebaseUser = new Firebase("https://emissary.firebaseio.com/users/" + mRef.getAuth().getUid());
         currentFirebaseUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -186,6 +193,63 @@ public class ViewAccountActivity extends AppCompatActivity {
             }
         });
     }
+
+    private Menu menu;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_myaccount, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_edit_account:
+                item.setVisible(false);
+                firstNameView.setEnabled(true);
+                lastNameView.setEnabled(true);
+                //emailView.setEnabled(true);
+                phoneView.setEnabled(true);
+
+                ((MenuItem)menu.findItem(R.id.action_done)).setVisible(true);
+                return true;
+
+            case R.id.action_done:
+                item.setVisible(false);
+                ((MenuItem)menu.findItem(R.id.action_edit_account)).setVisible(true);
+                firstNameView.setEnabled(false);
+                lastNameView.setEnabled(false);
+                //emailView.setEnabled(false);
+                phoneView.setEnabled(false);
+                //Save values
+                progressBar.setVisibility(View.VISIBLE);
+
+                Date d = new Date();
+                //Save a snapshot of the users account to users_history under their account id so we never lose any information
+                mRef.child("users_history").child(mRef.getAuth().getUid()).child("" + d.getTime()).setValue(user);
+
+                user.setFirstName(firstNameView.getText().toString());
+                user.setLastName(lastNameView.getText().toString());
+                //user.setEmail(emailView.getText().toString());
+                user.setPhone(phoneView.getText().toString());
+
+                currentFirebaseUser.setValue(user, new Firebase.CompletionListener() {
+                    @Override
+                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                        progressBar.setVisibility(View.GONE);
+                        Toast.makeText(ViewAccountActivity.this, "Account updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
 
 }

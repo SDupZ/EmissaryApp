@@ -70,7 +70,8 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp">
 
-                <TextView
+                <EditText
+                    android:enabled="false"
                     android:id="@+id/first_name"
                     android:layout_width="0dp"
                     android:layout_weight="1"
@@ -78,7 +79,8 @@
                     android:textAppearance="@android:style/TextAppearance.Medium"
                     tools:text="Simon"/>
 
-                <TextView
+                <EditText
+                    android:enabled="false"
                     android:id="@+id/last_name"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
@@ -100,14 +102,15 @@
                 android:textAppearance="@android:style/TextAppearance.Small"
                 android:text="Email"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/email"
+                android:enabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/email_title"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 tools:text="smdupnz@yahoo.co.nz"/>
 
             <TextView
@@ -122,15 +125,16 @@
                 android:textAppearance="@android:style/TextAppearance.Small"
                 android:text="Phone"/>
 
-            <TextView
+            <EditText
                 android:id="@+id/phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/phone_title"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:paddingBottom="20dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
+                android:enabled="false"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
                 tools:text="123 456 789"/>
 
             <TextView
