@@ -209,8 +209,8 @@ public class ViewItemStatusActivity extends AppCompatActivity{
                     pickupLocationView.setText(currentDelivery.getPickupLocation());
                     dropOffLocationView.setText(currentDelivery.getDropoffLocation());
 
-                    dropoffTimeView.setText(Constants.convertTime(currentDelivery.getDropoffTime()));
-                    pickupTimeView.setText(Constants.convertTime(currentDelivery.getPickupTime()));
+                    dropoffTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getDropoffTime()));
+                    pickupTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getPickupTime()));
 
                     int currentStatus = currentDelivery.getStatus();
 

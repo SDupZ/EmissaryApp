@@ -40,7 +40,7 @@ public class MessagesAdapter extends ArrayAdapter<SimpleMessage> {
             TextView tt2 = (TextView) v.findViewById(R.id.time_stamp);
 
             tt1.setText(p.getMessage());
-            tt2.setText(Constants.convertTime(Constants.TIME_SPECIFIC + Constants.TIME_TOKEN + p.getTimeStamp()));
+            tt2.setText(Constants.getTimeStamp(Constants.TIME_SPECIFIC + Constants.TIME_TOKEN + p.getTimeStamp()));
         }
 
         return v;

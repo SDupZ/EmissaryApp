@@ -228,8 +228,8 @@ public class DriverEditItemActivity extends AppCompatActivity{
                     pickupLocationView.setText(currentDelivery.getPickupLocation());
                     dropOffLocationView.setText(currentDelivery.getDropoffLocation());
 
-                    dropoffTimeView.setText(Constants.convertTime(currentDelivery.getDropoffTime()));
-                    pickupTimeView.setText(Constants.convertTime(currentDelivery.getPickupTime()));
+                    dropoffTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getDropoffTime()));
+                    pickupTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getPickupTime()));
 
                     itemStatusView.setText(Constants.getStatusDescription(deliveryStatus, getApplicationContext(), true));
 

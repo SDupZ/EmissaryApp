@@ -97,8 +97,8 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                     pickupLocationView.setText(currentDelivery.getPickupLocation());
                     dropOffLocationView.setText(currentDelivery.getDropoffLocation());
 
-                    dropoffTimeView.setText(Constants.convertTime(currentDelivery.getDropoffTime()));
-                    pickupTimeView.setText(Constants.convertTime(currentDelivery.getPickupTime()));
+                    dropoffTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getDropoffTime()));
+                    pickupTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getPickupTime()));
 
                     if (!currentDelivery.getOriginalLister().equals(mRef.getAuth().getUid())){
                         acceptDeliveryButton.setVisibility(View.VISIBLE);

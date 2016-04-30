@@ -95,8 +95,8 @@ public class ViewMyListingsActivity extends BaseActivity{
                             }
 
                             viewHolder.mDeliveryName.setText(d.getListingName());
-                            viewHolder.mDeliveryPickupTime.setText(Constants.convertTime(d.getPickupTime()));
-                            viewHolder.mDeliveryDropoffTime.setText(Constants.convertTime(d.getDropoffTime()));
+                            viewHolder.mDeliveryPickupTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getPickupTime()));
+                            viewHolder.mDeliveryDropoffTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getDropoffTime()));
 
                             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                                 @Override

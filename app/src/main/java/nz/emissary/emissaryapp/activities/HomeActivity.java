@@ -28,8 +28,6 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
-import java.util.Date;
-
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
@@ -169,8 +167,8 @@ public class HomeActivity extends BaseActivity{
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
                             viewHolder.mDeliveryName.setText(d.getListingName());
-                            viewHolder.mDeliveryPickupTime.setText(Constants.convertTime(d.getPickupTime()));
-                            viewHolder.mDeliveryDropoffTime.setText(Constants.convertTime(d.getDropoffTime()));
+                            viewHolder.mDeliveryPickupTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getPickupTime()));
+                            viewHolder.mDeliveryDropoffTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getDropoffTime()));
 
                             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                                 @Override
