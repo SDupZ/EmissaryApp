@@ -7,6 +7,7 @@ import android.util.Log;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -31,7 +32,7 @@ public class Constants {
 
     final public static int MINIMUM_MESSAGE_REQUEST_LENGTH  = 10;
 
-    public static String convertTime(String timeString){
+    public static String getFullDateTimeString(String timeString){
         String[] resultArray = timeString.split(Constants.TIME_TOKEN);
 
         if (resultArray.length == 1 && resultArray[0].equals(Constants.TIME_ASAP)){
@@ -39,9 +40,13 @@ public class Constants {
         }else if(resultArray.length == 2 && resultArray[0].equals(Constants.TIME_SPECIFIC)){
             try {
                 Long time = Long.parseLong(resultArray[1]);
-                Date date = new Date(time);
+                Calendar date = Calendar.getInstance();
+                date.setTimeInMillis(time);
+
+                Date d = date.getTime();
+
                 Format format = new SimpleDateFormat("yyyy/MM/dd - HH:mm");
-                String result = format.format(date);
+                String result = format.format(d);
 
                 return result;
             }catch (NumberFormatException e){
@@ -52,21 +57,113 @@ public class Constants {
                 Long timeBegin = Long.parseLong(resultArray[1]);
                 Long timeEnd = Long.parseLong(resultArray[2]);
 
-                Date date = new Date(timeBegin);
-                Date date1 = new Date(timeEnd);
+                Calendar date = Calendar.getInstance();
+                date.setTimeInMillis(timeBegin);
+                Date d = date.getTime();
+
+                Calendar date1 = Calendar.getInstance();
+                date.setTimeInMillis(timeEnd);
+                Date d1 = date1.getTime();
+
                 Format format = new SimpleDateFormat("yyyy/MM/dd");
                 Format format2 = new SimpleDateFormat("HH:mm");
 
-                String result1 = format.format(date);
-                String result2 = format2.format(date);
-                String result3 = format2.format(date1);
+                String result1 = format.format(d);
+                String result2 = format2.format(d);
+                String result3 = format2.format(d1);
 
-                return result1 + "- Between " + result2 + " & " + result3;
+                return result1 + " - Between " + result2 + " & " + result3;
             }catch (NumberFormatException e){
                 return "ERROR";
             }
         }else{
             Log.d("EMISSARY", timeString);
+            return "ERROR";
+        }
+    }
+
+
+
+    public static String getEasyToUnderstandDateTimeString(String timeString){
+        String[] resultArray = timeString.split(Constants.TIME_TOKEN);
+
+        if (resultArray.length == 1 && resultArray[0].equals(Constants.TIME_ASAP)){
+            return "ASAP";
+        }else if(resultArray.length == 2 && resultArray[0].equals(Constants.TIME_SPECIFIC)){
+            try {
+                Long time = Long.parseLong(resultArray[1]);
+                Calendar date = Calendar.getInstance();
+                date.setTimeInMillis(time);
+                Date d = date.getTime();
+
+                Format format = new SimpleDateFormat("EEE d 'at' h:ma");
+                if (date.get(Calendar.MINUTE) == 0){
+                    format = new SimpleDateFormat("EEE d 'at' ha");
+                }
+
+                String result = format.format(d);
+
+                return result;
+            }catch (NumberFormatException e){
+                return "ERROR";
+            }
+        }else if(resultArray.length == 3 && resultArray[0].equals(Constants.TIME_RANGE)){
+            try {
+                Long timeBegin = Long.parseLong(resultArray[1]);
+                Long timeEnd = Long.parseLong(resultArray[2]);
+
+                Calendar date = Calendar.getInstance();
+                date.setTimeInMillis(timeBegin);
+                Date d = date.getTime();
+
+                Calendar date1 = Calendar.getInstance();
+                date.setTimeInMillis(timeEnd);
+                Date d1 = date.getTime();
+
+                Format format = new SimpleDateFormat("EEE d");
+
+                Format format2 = new SimpleDateFormat("h:ma");
+                if (date.get(Calendar.MINUTE) == 0){
+                    format2 = new SimpleDateFormat("ha");
+                }
+
+                Format format3 = new SimpleDateFormat("h:ma");
+                if (date.get(Calendar.MINUTE) == 0){
+                    format3 = new SimpleDateFormat("ha");
+                }
+
+                String result1 = format.format(d);
+                String result2 = format2.format(d);
+                String result3 = format3.format(d1);
+
+                return result1 + " - Between " + result2 + " & " + result3;
+            }catch (NumberFormatException e){
+                return "ERROR";
+            }
+        }else{
+            Log.d("EMISSARY", timeString);
+            return "ERROR";
+        }
+    }
+
+    public static String getTimeStamp(String timeString){
+        String[] resultArray = timeString.split(Constants.TIME_TOKEN);
+
+        if(resultArray.length == 2 && resultArray[0].equals(Constants.TIME_SPECIFIC)){
+            try {
+                Long time = Long.parseLong(resultArray[1]);
+                Calendar date = Calendar.getInstance();
+                date.setTimeInMillis(time);
+                Date d = date.getTime();
+
+                Format format = new SimpleDateFormat("d - ka");
+                String result = format.format(d);
+
+                return result;
+            }catch (NumberFormatException e){
+                return "ERROR";
+            }
+        }else {
             return "ERROR";
         }
     }
