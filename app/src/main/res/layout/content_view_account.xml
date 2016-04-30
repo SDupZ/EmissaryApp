@@ -14,10 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/updateProgressBar"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        card_view:cardCornerRadius="2dp"
+        card_view:cardCornerRadius="0dp"
         card_view:contentPadding="16dp">
 
         <RelativeLayout

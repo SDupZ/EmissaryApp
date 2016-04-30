@@ -17,10 +17,8 @@
             android:id="@+id/general_contact_us_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
-            card_view:cardCornerRadius="2dp"
+            android:layout_marginBottom="2dp"
+            card_view:cardCornerRadius="0dp"
             card_view:contentPadding="16dp">
 
             <LinearLayout
@@ -65,11 +63,8 @@
             android:id="@+id/urgent_requests_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            card_view:cardCornerRadius="2dp"
+            card_view:cardCornerRadius="0dp"
             card_view:contentPadding="16dp">
 
             <LinearLayout
