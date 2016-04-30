@@ -231,10 +231,10 @@ public class ViewAccountActivity extends AppCompatActivity {
                 //Save a snapshot of the users account to users_history under their account id so we never lose any information
                 mRef.child("users_history").child(mRef.getAuth().getUid()).child("" + d.getTime()).setValue(user);
 
-                user.setFirstName(firstNameView.getText().toString());
-                user.setLastName(lastNameView.getText().toString());
+                user.setFirstName(firstNameView.getText().toString().trim());
+                user.setLastName(lastNameView.getText().toString().trim());
                 //user.setEmail(emailView.getText().toString());
-                user.setPhone(phoneView.getText().toString());
+                user.setPhone(phoneView.getText().toString().trim());
 
                 currentFirebaseUser.setValue(user, new Firebase.CompletionListener() {
                     @Override
