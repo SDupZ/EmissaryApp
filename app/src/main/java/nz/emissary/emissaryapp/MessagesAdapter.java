@@ -30,7 +30,7 @@ public class MessagesAdapter extends ArrayAdapter<SimpleMessage> {
         if (v == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.message_view, null);
+            v = vi.inflate(R.layout.listview_driver_message, null);
         }
 
         SimpleMessage p = getItem(position);

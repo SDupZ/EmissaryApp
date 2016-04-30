@@ -2,29 +2,18 @@ package nz.emissary.emissaryapp.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.client.AuthData;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
@@ -37,7 +26,7 @@ import nz.emissary.emissaryapp.R;
  * Created by Simon on 1/03/2016.
  */
 
-public class HomeActivity extends BaseActivity{
+public class ViewPublicListingsActivity extends BaseActivity{
 
     static final int REQUEST_AUTH_TOKEN = 0;
     static final int CREATE_DELIVERY = 1;
@@ -60,7 +49,7 @@ public class HomeActivity extends BaseActivity{
             @Override
             public void onAuthStateChanged(AuthData authData) {
                 if (authData == null) {
-                    Intent intentWithToken = new Intent(HomeActivity.this, LoginActivity.class);
+                    Intent intentWithToken = new Intent(ViewPublicListingsActivity.this, LoginActivity.class);
                     startActivity(intentWithToken);
                 }
             }
@@ -82,7 +71,7 @@ public class HomeActivity extends BaseActivity{
     }
 
     protected int getLayoutResource(){
-        return R.layout.activity_home;
+        return R.layout.activity_view_public_listings;
     }
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -113,7 +102,7 @@ public class HomeActivity extends BaseActivity{
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.delivery_list_fragment, container, false);
+            View rootView = inflater.inflate(R.layout.fragment_delivery_list, container, false);
 
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
             mRecyclerView.setHasFixedSize(true);
@@ -130,7 +119,7 @@ public class HomeActivity extends BaseActivity{
 
 
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
-                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listings_list_view,ViewHolder.class,queryRef){
+                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listview_public_listings,ViewHolder.class,queryRef){
                         @Override
                         protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
                             viewHolder.mDeliveryName.setText(d.getListingName());
@@ -154,7 +143,7 @@ public class HomeActivity extends BaseActivity{
             mRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
                 @Override
                 public void onChildViewAttachedToWindow(View view) {
-                    ((HomeActivity)getActivity()).progressBar.setVisibility(View.GONE);
+                    ((ViewPublicListingsActivity)getActivity()).progressBar.setVisibility(View.GONE);
                     noDeliveriesTextView.setVisibility(View.GONE);
                 }
 

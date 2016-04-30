@@ -12,6 +12,6 @@
         android:id="@+id/view_my_listings_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/delivery_list_fragment" />
+        tools:layout="@layout/fragment_delivery_list" />
 
 </LinearLayout>

@@ -1,13 +1,9 @@
 package nz.emissary.emissaryapp.activities;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDialog;
@@ -18,8 +14,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -31,11 +25,8 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.Date;
 
-import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.User;
 
@@ -121,7 +112,7 @@ public class ViewAccountActivity extends AppCompatActivity {
                 // logs out on older devices, we'll just exit.
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
                     Intent intent = new Intent(ViewAccountActivity.this,
-                            HomeActivity.class);
+                            ViewPublicListingsActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
                             | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -138,7 +129,7 @@ public class ViewAccountActivity extends AppCompatActivity {
                         new AlertDialog.Builder(ViewAccountActivity.this, R.style.MyAlertDialogStyle2);
 
                 LayoutInflater inflater = getLayoutInflater();
-                final View dialogView = inflater.inflate(R.layout.change_password_dialog, null);
+                final View dialogView = inflater.inflate(R.layout.dialog_change_password, null);
                 builder.setView(dialogView);
 
                 final EditText oldPasswordView = (EditText) dialogView.findViewById(R.id.old_password);

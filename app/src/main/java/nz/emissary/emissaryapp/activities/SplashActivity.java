@@ -1,9 +1,7 @@
 package nz.emissary.emissaryapp.activities;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,7 +54,7 @@ public class SplashActivity extends Activity implements View.OnTouchListener{
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        Intent mainIntent = new Intent(SplashActivity.this, HomeActivity.class);
+        Intent mainIntent = new Intent(SplashActivity.this, ViewPublicListingsActivity.class);
         SplashActivity.this.startActivity(mainIntent);
         SplashActivity.this.finish();
         return false;

@@ -1,40 +1,22 @@
 package nz.emissary.emissaryapp.activities;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
-import com.firebase.client.ValueEventListener;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
-import org.w3c.dom.Text;
-
 import nz.emissary.emissaryapp.Constants;
-import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.Feedback;
 import nz.emissary.emissaryapp.R;
-import nz.emissary.emissaryapp.User;
 
 /**
  * Created by Simon on 3/03/2016.
@@ -64,7 +46,7 @@ public class ViewMyFeedbackActivity extends AppCompatActivity {
         Query queryRef = mRef.orderByChild("userId").equalTo(mRef.getAuth().getUid());
 
         final FirebaseRecyclerAdapter<Feedback, ViewHolder> adapter =
-                new FirebaseRecyclerAdapter<Feedback, ViewHolder>(Feedback.class,R.layout.my_feedback_list_view,ViewHolder.class,queryRef){
+                new FirebaseRecyclerAdapter<Feedback, ViewHolder>(Feedback.class,R.layout.listview_feedback,ViewHolder.class,queryRef){
                     @Override
                     protected void populateViewHolder(ViewHolder viewHolder, Feedback f, final int i) {
                         viewHolder.mRatingView.setRating((float)f.getRating());

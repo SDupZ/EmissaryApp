@@ -7,11 +7,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,12 +36,8 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import org.w3c.dom.Text;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Delivery;
@@ -188,7 +182,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            final View rootView = inflater.inflate(R.layout.create_delivery_fragment, container, false);
+            final View rootView = inflater.inflate(R.layout.fragment_create_delivery, container, false);
 
             Calendar now = Calendar.getInstance();
 

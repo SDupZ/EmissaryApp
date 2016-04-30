@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -46,12 +45,9 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.User;
 
@@ -153,7 +149,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         new AlertDialog.Builder(LoginActivity.this, R.style.MyAlertDialogStyle2);
 
                 LayoutInflater inflater = getLayoutInflater();
-                final View dialogView = inflater.inflate(R.layout.reset_password_dialog, null);
+                final View dialogView = inflater.inflate(R.layout.dialog_reset_password, null);
                 builder.setView(dialogView);
 
                 final EditText edt = (EditText) dialogView.findViewById(R.id.edit1);
