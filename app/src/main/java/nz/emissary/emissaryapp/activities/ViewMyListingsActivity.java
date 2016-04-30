@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,6 +30,7 @@ import nz.emissary.emissaryapp.R;
  */
 public class ViewMyListingsActivity extends BaseActivity{
 
+    static final int CREATE_DELIVERY = 1;
     ProgressBar progressBar;
 
     @Override
@@ -35,10 +39,30 @@ public class ViewMyListingsActivity extends BaseActivity{
 
         progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
         progressBar.setVisibility(View.VISIBLE);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ViewMyListingsActivity.this, CreateDeliveryActivity.class);
+                startActivityForResult(intent, CREATE_DELIVERY);
+            }
+        });
     }
 
     protected int getLayoutResource(){
         return R.layout.activity_view_my_listings;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        if (requestCode == CREATE_DELIVERY){
+            if (resultCode == RESULT_OK) {
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.view_my_listings_coordinator_layout), "New delivery created!", Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }
     }
 
     //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

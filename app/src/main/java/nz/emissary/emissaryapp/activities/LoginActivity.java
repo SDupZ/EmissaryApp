@@ -513,7 +513,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             //user.setProvider(authData.getProvider());
                             //user.setLastLoginDate("" + System.currentTimeMillis() / 1000.0);
                             firebaseUser.setValue(user);
-                            Intent result = new Intent(LoginActivity.this, HomeActivity.class);
+                            Intent result = new Intent(LoginActivity.this, ViewMyListingsActivity.class);
                             setResult(RESULT_OK, result);
                             result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
                             finish();

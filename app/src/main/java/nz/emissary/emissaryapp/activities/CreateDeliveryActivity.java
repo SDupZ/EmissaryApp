@@ -674,7 +674,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         currentFirebaseUser.setValue(currentUser, new Firebase.CompletionListener() {
                             @Override
                             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                                Intent result = new Intent(getActivity(), HomeActivity.class);
+                                Intent result = new Intent(getActivity(), ViewMyListingsActivity.class);
                                 getActivity().setResult(RESULT_OK, result);
                                 getActivity().finish();
                             }

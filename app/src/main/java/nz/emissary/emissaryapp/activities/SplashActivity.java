@@ -43,7 +43,7 @@ public class SplashActivity extends Activity implements View.OnTouchListener{
                             Intent loginActivity = new Intent(SplashActivity.this, LoginActivity.class);
                             SplashActivity.this.startActivity(loginActivity);
                         }else{
-                            Intent mainIntent = new Intent(SplashActivity.this, HomeActivity.class);
+                            Intent mainIntent = new Intent(SplashActivity.this, ViewMyListingsActivity.class);
                             SplashActivity.this.startActivity(mainIntent);
                         }
                         SplashActivity.this.finish();

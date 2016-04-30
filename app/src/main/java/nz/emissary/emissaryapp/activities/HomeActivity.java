@@ -44,40 +44,12 @@ public class HomeActivity extends BaseActivity{
     Firebase ref;
     ProgressBar progressBar;
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_myaccount, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle item selection
-//        switch (item.getItemId()) {
-//            case R.id.action_edit_account:
-//                return true;
-//            case R.id.action_done:
-//                return true;
-//            default:
-//                return super.onOptionsItemSelected(item);
-//        }
-//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
         progressBar.setVisibility(View.VISIBLE);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(HomeActivity.this, CreateDeliveryActivity.class);
-                startActivityForResult(intent, CREATE_DELIVERY);
-            }
-        });
     }
 
     @Override
@@ -105,11 +77,6 @@ public class HomeActivity extends BaseActivity{
                 // The Intent's data Uri identifies which contact was selected.
                 // Do something with the contact here (bigger example below)
                 Log.d("EMISSARY", "Logged IN");
-            }
-        }else if (requestCode == CREATE_DELIVERY){
-            if (resultCode == RESULT_OK) {
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.home_coordinator_layout), "New delivery created!", Snackbar.LENGTH_LONG);
-                snackbar.show();
             }
         }
     }
