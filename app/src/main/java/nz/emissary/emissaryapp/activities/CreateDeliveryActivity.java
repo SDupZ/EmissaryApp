@@ -25,6 +25,8 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -32,6 +34,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -139,6 +142,9 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
         TextView pickupSelectTimeRangeView;
         TextView dropoffSelectTimeRangeView;
 
+        Place pickupPlace;
+        Place dropoffPlace;
+
         int pickupYear, pickupMonth, pickupDay, pickupHourOfDay, pickupMinute, pickupSecond;
         int pickupHourOfDayEnd, pickupMinuteEnd, pickupSecondEnd;
 
@@ -170,8 +176,10 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     String placeMsg = place.getAddress().toString();
 
                     if (requestCode == 1){
+                        this.pickupPlace = place;
                         pickupLocationTextView.setText(placeMsg);
                     }else if (requestCode == 2){
+                        this.dropoffPlace = place;
                         dropOffLocationTextView.setText(placeMsg);
                     }
                 }
@@ -664,6 +672,15 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         newPostRef.setValue(myDelivery);
 
                         final String deliveryId = newPostRef.getKey();
+
+                        LatLng pickupLatLng = pickupPlace.getLatLng();
+                        LatLng dropoffLatLng = dropoffPlace.getLatLng();
+
+                        GeoFire geoFire = new GeoFire(new Firebase("https://emissary.firebaseio.com/delivery_geofire/" + deliveryId));
+
+                        geoFire.setLocation("pickup_location", new GeoLocation(pickupLatLng.latitude, pickupLatLng.longitude));
+                        geoFire.setLocation("dropoff_location", new GeoLocation(dropoffLatLng.latitude, dropoffLatLng.longitude));
+
                         currentUser.addNewListing(deliveryId);
                         currentFirebaseUser.setValue(currentUser, new Firebase.CompletionListener() {
                             @Override

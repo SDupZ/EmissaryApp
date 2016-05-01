@@ -212,7 +212,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d("EMISSARY", "SOMETHING");
         if (requestCode == REQUEST_SIGNUP) {
-            Log.d("EMISSARY", "ENDED");
             if (resultCode == RESULT_OK) {
                 Log.d("EMISSARY", "OPLK");
             }
@@ -491,7 +490,41 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                 @Override
                 public void onError(FirebaseError firebaseError) {
-                    // there was an error
+                    showProgress(false);
+
+                    nameLayout.setVisibility(View.VISIBLE);
+                    mPhoneView.setVisibility(View.VISIBLE);
+                    mEmailView.setVisibility(View.VISIBLE);
+                    mPasswordView.setVisibility(View.VISIBLE);
+                    mPasswordConfirmView.setVisibility(View.VISIBLE);
+
+                    mSignupLink.setText("Return to login");
+                    mFirstName.requestFocus();
+                    signup = true;
+
+                    String errorMsg = "";
+
+                    switch(firebaseError.getCode()){
+                        case FirebaseError.EMAIL_TAKEN:
+                            errorMsg = "The specified email is already in use";
+                            break;
+                        case FirebaseError.DISCONNECTED:
+                            errorMsg = "Operation aborted due to network disconnect";
+                            break;
+                        case FirebaseError.INVALID_EMAIL:
+                            errorMsg = "The specified email is not a valid email";
+                            break;
+                        case FirebaseError.LIMITS_EXCEEDED:
+                            errorMsg = "Limits exceeded.";
+                            break;
+                        case FirebaseError.NETWORK_ERROR:
+                            errorMsg = "The operation could not be performed due to a network error";
+                            break;
+                        default:
+                            errorMsg = "An account creation error has occurred";
+                    }
+
+                    Toast.makeText(LoginActivity.this, errorMsg, Toast.LENGTH_SHORT).show();
                 }
             });
         }else {

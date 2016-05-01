@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -35,7 +36,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Firebase mRef = new Firebase("https://emissary.firebaseio.com");
+        final Firebase mRef = new Firebase("https://emissary.firebaseio.com");
         setContentView(getLayoutResource());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -77,8 +78,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
-
-                username.setText("Hi " + user.getFirstName().trim() + "!");
+                if (user == null) {
+                    mRef.unauth();
+                    Intent loginActivity = new Intent(BaseActivity.this, LoginActivity.class);
+                    BaseActivity.this.startActivity(loginActivity);
+                    finish();
+                }else{
+                    username.setText("Hi " + user.getFirstName().trim() + "!");
+                }
             }
 
             @Override
