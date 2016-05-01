@@ -45,6 +45,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -534,13 +535,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 public void onAuthenticated(final AuthData authData) {
                     // Authentication just completed successfully :)
 
+                    Date d = new Date();
+                    final Long lastLogin = d.getTime();
+
                     final Firebase firebaseUser = ref.child("users/" + authData.getUid());
                     firebaseUser.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
                             user = snapshot.getValue(User.class);
-                            //user.setProvider(authData.getProvider());
-                            //user.setLastLoginDate("" + System.currentTimeMillis() / 1000.0);
+                            user.setLastLoginDate("" + lastLogin);
                             firebaseUser.setValue(user);
                             Intent result = new Intent(LoginActivity.this, ViewMyListingsActivity.class);
                             setResult(RESULT_OK, result);
