@@ -15,10 +15,13 @@ import android.widget.TextView;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 
 import nz.emissary.emissaryapp.Constants;
-import nz.emissary.emissaryapp.Delivery;
+import nz.emissary.emissaryapp.CustomFirebaseListingsAdapter;
 import nz.emissary.emissaryapp.R;
 
 
@@ -29,8 +32,7 @@ import nz.emissary.emissaryapp.R;
 public class ViewPublicListingsActivity extends BaseActivity{
 
     static final int REQUEST_AUTH_TOKEN = 0;
-    static final int CREATE_DELIVERY = 1;
-    Firebase ref;
+
     ProgressBar progressBar;
 
     @Override
@@ -44,7 +46,7 @@ public class ViewPublicListingsActivity extends BaseActivity{
     @Override
     protected void onStart() {
         super.onStart();
-        ref = new Firebase("https://emissary.firebaseio.com");
+        Firebase ref = new Firebase(Constants.FIREBASE_BASE);
         ref.addAuthStateListener(new Firebase.AuthStateListener() {
             @Override
             public void onAuthStateChanged(AuthData authData) {
@@ -56,39 +58,16 @@ public class ViewPublicListingsActivity extends BaseActivity{
         });
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-        if (requestCode == REQUEST_AUTH_TOKEN) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                // The user picked a contact.
-                // The Intent's data Uri identifies which contact was selected.
-                // Do something with the contact here (bigger example below)
-                Log.d("EMISSARY", "Logged IN");
-            }
-        }
-    }
 
     protected int getLayoutResource(){
         return R.layout.activity_view_public_listings;
     }
 
-    //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    //MyListingsFragment fragment
     public static class DeliveryListFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
 
         private RecyclerView mRecyclerView;
         private RecyclerView.LayoutManager mLayoutManager;
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
         public static DeliveryListFragment newInstance(int sectionNumber) {
             DeliveryListFragment fragment = new DeliveryListFragment();
             Bundle args = new Bundle();
@@ -114,30 +93,12 @@ public class ViewPublicListingsActivity extends BaseActivity{
             final TextView noDeliveriesTextView = (TextView) rootView.findViewById(R.id.no_deliveries_text_view);
             noDeliveriesTextView.setVisibility(View.VISIBLE);
 
-            final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
-            Query queryRef = mRef.orderByChild("status").equalTo(Constants.STATUS_LISTED);
 
+            GeoFire geoFire = new GeoFire(new Firebase("https://emissary.firebaseio.com/delivery_geofire/pickup_location"));
+            // creates a new query around [37.7832, -122.4056] with a radius of 0.6 kilometers
+            GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(-36.718880, 174.729048), 10);
 
-            final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
-                    new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listview_public_listings,ViewHolder.class,queryRef){
-                        @Override
-                        protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
-                            viewHolder.mDeliveryName.setText(d.getListingName());
-                            viewHolder.mDeliveryPickupTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getPickupTime()));
-                            viewHolder.mDeliveryDropoffTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getDropoffTime()));
-
-                            viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(v.getContext(), ViewItemActivity.class)
-                                            .putExtra("object_id", getRef(i).getKey());
-                                    v.getContext().startActivity(intent);
-                                }
-                            });
-                        }
-
-                    };
-
+            CustomFirebaseListingsAdapter adapter = new CustomFirebaseListingsAdapter(geoQuery);
             mRecyclerView.setAdapter(adapter);
 
             mRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
@@ -146,7 +107,6 @@ public class ViewPublicListingsActivity extends BaseActivity{
                     ((ViewPublicListingsActivity)getActivity()).progressBar.setVisibility(View.GONE);
                     noDeliveriesTextView.setVisibility(View.GONE);
                 }
-
                 @Override
                 public void onChildViewDetachedFromWindow(View view) {
 
@@ -156,29 +116,7 @@ public class ViewPublicListingsActivity extends BaseActivity{
             return rootView;
         }
 
-        public static class ViewHolder extends RecyclerView.ViewHolder{
-            View mView;
 
-            public TextView mDeliveryName;
-            public TextView mDeliveryPickupTime;
-            public TextView mDeliveryDropoffTime;
-
-
-            public ViewHolder(View v) {
-                super(v);
-                mView = v;
-                mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
-                mDeliveryName = (TextView) v.findViewById(R.id.list_item_delivery_name);
-                mDeliveryPickupTime = (TextView) v.findViewById(R.id.list_item_pickup_time);
-                mDeliveryDropoffTime = (TextView) v.findViewById(R.id.list_item_dropoff_time);
-                v.setClickable(true);
-            }
-        }
 
     }
 }

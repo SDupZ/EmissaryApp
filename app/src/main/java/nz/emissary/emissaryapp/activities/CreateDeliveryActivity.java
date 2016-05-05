@@ -553,7 +553,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                 }
             });
 
-            final Firebase ref = new Firebase("https://emissary.firebaseio.com");
+            final Firebase ref = new Firebase(Constants.FIREBASE_BASE);
 
             final Firebase currentFirebaseUser = ref.child("users").child(ref.getAuth().getUid());
             currentFirebaseUser.addValueEventListener(new ValueEventListener() {
@@ -667,7 +667,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         myDelivery.setDropoffTime(dropoffTime);
                         myDelivery.setCreatedAt(System.currentTimeMillis() / 1000.0);
 
-                        Firebase postRef = ref.child("deliveries");
+                        Firebase postRef = ref.child(Constants.FIREBASE_DELIVERIES_ACTIVE_BASE_CHILD);
                         Firebase newPostRef = postRef.push();
                         newPostRef.setValue(myDelivery);
 
@@ -676,10 +676,11 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         LatLng pickupLatLng = pickupPlace.getLatLng();
                         LatLng dropoffLatLng = dropoffPlace.getLatLng();
 
-                        GeoFire geoFire = new GeoFire(new Firebase("https://emissary.firebaseio.com/delivery_geofire/" + deliveryId));
+                        GeoFire geoFirePickup = new GeoFire(new Firebase("https://emissary.firebaseio.com/delivery_geofire/pickup_location/"));
+                        GeoFire geoFireDropoff = new GeoFire(new Firebase("https://emissary.firebaseio.com/delivery_geofire/dropoff_location/"));
 
-                        geoFire.setLocation("pickup_location", new GeoLocation(pickupLatLng.latitude, pickupLatLng.longitude));
-                        geoFire.setLocation("dropoff_location", new GeoLocation(dropoffLatLng.latitude, dropoffLatLng.longitude));
+                        geoFirePickup.setLocation(deliveryId, new GeoLocation(pickupLatLng.latitude, pickupLatLng.longitude));
+                        geoFireDropoff.setLocation(deliveryId, new GeoLocation(dropoffLatLng.latitude, dropoffLatLng.longitude));
 
                         currentUser.addNewListing(deliveryId);
                         currentFirebaseUser.setValue(currentUser, new Firebase.CompletionListener() {

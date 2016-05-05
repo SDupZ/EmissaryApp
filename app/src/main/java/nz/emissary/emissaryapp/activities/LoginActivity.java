@@ -49,6 +49,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.User;
 
@@ -66,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REQUEST_SIGNUP = 1;
     public static final String AUTH_TOKEN_EXTRA = "authToken";
 
-    final Firebase ref = new Firebase("https://emissary.firebaseio.com");
+    final Firebase ref = new Firebase(Constants.FIREBASE_BASE);
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -211,7 +212,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d("EMISSARY", "SOMETHING");
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
                 Log.d("EMISSARY", "OPLK");
@@ -458,7 +458,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 public void onSuccess(Map<String, Object> result) {
                     String uid = result.get("uid").toString();
 
-                    Firebase firebaseUser = ref.child("users/" + uid);
+                    Firebase firebaseUser = ref.child(Constants.FIREBASE_USERS_BASE_CHILD).child(uid);
                     firebaseUser.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {
@@ -538,7 +538,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     Date d = new Date();
                     final Long lastLogin = d.getTime();
 
-                    final Firebase firebaseUser = ref.child("users/" + authData.getUid());
+                    final Firebase firebaseUser = ref.child(Constants.FIREBASE_USERS_BASE_CHILD).child(authData.getUid());
                     firebaseUser.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot snapshot) {

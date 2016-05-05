@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
+import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.R;
 
 public class SplashActivity extends Activity implements View.OnTouchListener{
@@ -34,7 +35,7 @@ public class SplashActivity extends Activity implements View.OnTouchListener{
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ref = new Firebase("https://emissary.firebaseio.com");
+                ref = new Firebase(Constants.FIREBASE_BASE);
                 ref.addAuthStateListener(new Firebase.AuthStateListener() {
                     @Override
                     public void onAuthStateChanged(AuthData authData) {

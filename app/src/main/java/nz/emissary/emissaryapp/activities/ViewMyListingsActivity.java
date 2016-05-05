@@ -102,7 +102,7 @@ public class ViewMyListingsActivity extends BaseActivity{
             noDeliveriesTextView.setVisibility(View.VISIBLE);
 
 
-            final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
+            final Firebase mRef = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE);
             Query queryRef = mRef.orderByChild("originalLister").equalTo(mRef.getAuth().getUid());
 
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =

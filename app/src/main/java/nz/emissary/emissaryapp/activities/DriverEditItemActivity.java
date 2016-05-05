@@ -156,7 +156,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
                                     Date d = new Date();
                                     driverFeedback.setFeedbackPostTime(d.getTime());
 
-                                    Firebase firebaseUser = (new Firebase("https://emissary.firebaseio.com")).child("feedback");
+                                    Firebase firebaseUser = (new Firebase(Constants.FIREBASE_BASE)).child(Constants.FIREBASE_FEEDBACK_BASE_CHILD);
                                     Firebase newPostRef = firebaseUser.push();
                                     newPostRef.setValue(driverFeedback, new Firebase.CompletionListener(){
                                         @Override
@@ -187,8 +187,8 @@ public class DriverEditItemActivity extends AppCompatActivity{
             //----------------Load the object from the local database---------------
             itemId = intent.getStringExtra("object_id");
 
-            mRef = new Firebase("https://emissary.firebaseio.com");
-            currentFirebaseDelivery = new Firebase("https://emissary.firebaseio.com/deliveries/" + itemId);
+            mRef = new Firebase(Constants.FIREBASE_BASE);
+            currentFirebaseDelivery = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE + itemId);
 
             messageFromDriverView.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -246,7 +246,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
                         feedbackLinkView.setVisibility(View.GONE);
                     }
 
-                    Firebase firebaseMessages = new Firebase("https://emissary.firebaseio.com/messages/" + itemId);
+                    Firebase firebaseMessages = new Firebase(Constants.FIREBASE_MESSAGES + itemId);
                     firebaseMessages.addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
@@ -271,7 +271,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
                 }
             });
 
-            currentFirebaseUser = mRef.child("users").child(mRef.getAuth().getUid());
+            currentFirebaseUser = mRef.child(Constants.FIREBASE_USERS_BASE_CHILD).child(mRef.getAuth().getUid());
             currentFirebaseUser.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -355,7 +355,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Firebase messageFirebase = new Firebase("https://emissary.firebaseio.com/messages/" + itemId);
+                    Firebase messageFirebase = new Firebase(Constants.FIREBASE_MESSAGES + itemId);
 
                     String newMsg = messageFromDriverView.getText().toString();
                     prevMsg = newMsg;

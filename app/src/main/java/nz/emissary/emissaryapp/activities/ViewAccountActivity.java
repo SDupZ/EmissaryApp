@@ -27,6 +27,7 @@ import com.firebase.client.ValueEventListener;
 
 import java.util.Date;
 
+import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.User;
 
@@ -63,7 +64,7 @@ public class ViewAccountActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        mRef = new Firebase("https://emissary.firebaseio.com");
+        mRef = new Firebase(Constants.FIREBASE_BASE);
 
         usernameView = (TextView) findViewById(R.id.username);
         emailView = (TextView) findViewById(R.id.email);
@@ -78,7 +79,7 @@ public class ViewAccountActivity extends AppCompatActivity {
 
         emailView.setText(mRef.getAuth().getProviderData().get("email").toString());
 
-        currentFirebaseUser = new Firebase("https://emissary.firebaseio.com/users/" + mRef.getAuth().getUid());
+        currentFirebaseUser = new Firebase(Constants.FIREBASE_USERS).child(mRef.getAuth().getUid());
         currentFirebaseUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -106,7 +107,7 @@ public class ViewAccountActivity extends AppCompatActivity {
         logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Firebase ref = new Firebase("https://emissary.firebaseio.com");
+                Firebase ref = new Firebase(Constants.FIREBASE_BASE);
                 ref.unauth();
                 // FLAG_ACTIVITY_CLEAR_TASK only works on API 11, so if the user
                 // logs out on older devices, we'll just exit.
@@ -152,7 +153,7 @@ public class ViewAccountActivity extends AppCompatActivity {
                             public void onClick(View view) {
                                 if (newPasswordView.getText().toString().equals(newPasswordConfirmView.getText().toString())){
                                     progressBar.setVisibility(View.VISIBLE);
-                                    Firebase ref = new Firebase("https://emissary.firebaseio.com");
+                                    Firebase ref = new Firebase(Constants.FIREBASE_BASE);
                                     ref.changePassword(emailView.getText().toString(), oldPasswordView.getText().toString(), newPasswordView.getText().toString(), new Firebase.ResultHandler() {
                                         @Override
                                         public void onSuccess() {

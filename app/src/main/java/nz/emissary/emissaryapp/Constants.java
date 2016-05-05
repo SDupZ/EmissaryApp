@@ -14,6 +14,26 @@ import java.util.Date;
  * Created by Simon on 8/03/2016.
  */
 public class Constants {
+    final public static String FIREBASE_BASE = "https://emissary.firebaseio.com";
+
+    final public static String FIREBASE_USERS = "https://emissary.firebaseio.com/users";
+    final public static String FIREBASE_USERS_BASE_CHILD = "users";
+
+    final public static String FIREBASE_MESSAGES= "https://emissary.firebaseio.com/messages/";
+
+    final public static String FIREBASE_FEEDBACK = "https://emissary.firebaseio.com/feedback";
+    final public static String FIREBASE_FEEDBACK_BASE_CHILD = "feedback";
+
+    final public static String FIREBASE_DELIVERIES_ACTIVE = "https://emissary.firebaseio.com/deliveries_active";
+    final public static String FIREBASE_DELIVERIES_ACTIVE_BASE_CHILD = "deliveries_active";
+
+    final public static String FIREBASE_DELIVERIES_PENDING = "https://emissary.firebaseio.com/deliveries_pending";
+    final public static String FIREBASE_DELIVERIES_PENDING_BASE_CHILD = "deliveries_pending";
+
+    final public static String FIREBASE_DELIVERIES_UNLISTED = "https://emissary.firebaseio.com/deliveries_unlisted";
+    final public static String FIREBASE_DELIVERIES_UNLISTED_BASE_CHILD = "deliveries_unlisted";
+
+
     final public static String TIME_ASAP = "ASAP";
     final public static String TIME_SPECIFIC = "SPECIFIC";
     final public static String TIME_RANGE = "RANGE";

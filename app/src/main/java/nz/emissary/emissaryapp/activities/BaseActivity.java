@@ -19,6 +19,7 @@ import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
+import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.User;
 
@@ -73,7 +74,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         username = (TextView) headerLayout.findViewById(R.id.username);
         email = (TextView) headerLayout.findViewById(R.id.email);
 
-        Firebase currentFirebaseUser = new Firebase("https://emissary.firebaseio.com/users/" + mRef.getAuth().getUid());
+        Firebase currentFirebaseUser = new Firebase(Constants.FIREBASE_USERS).child(mRef.getAuth().getUid());
         currentFirebaseUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -79,8 +79,9 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
             final TextView noDeliveriesTextView = (TextView) rootView.findViewById(R.id.no_deliveries_text_view);
             noDeliveriesTextView.setVisibility(View.VISIBLE);
 
-            final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
+            final Firebase mRef = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE);
             Query queryRef = mRef.orderByChild("driver").equalTo(mRef.getAuth().getUid());
+
 
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
                     new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listview_public_listings,ViewHolder.class,queryRef){
@@ -103,6 +104,7 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                                     Intent intent = new Intent(v.getContext(), DriverEditItemActivity.class)
                                             .putExtra("object_id", getRef(i).getKey());
                                     v.getContext().startActivity(intent);
+
                                 }
                             });
                         }

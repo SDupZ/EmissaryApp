@@ -68,12 +68,11 @@ public class ContactUsActivity extends AppCompatActivity {
         final ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, userListingsAndDeliveries);
         spinner.setAdapter(adapter);
 
-        mRef = new Firebase("https://emissary.firebaseio.com");
+        mRef = new Firebase(Constants.FIREBASE_BASE);
         userId = mRef.getAuth().getUid();
 
-        final Firebase mRef = new Firebase("https://emissary.firebaseio.com/deliveries");
+        mRef = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE);
         Query queryRef = mRef.orderByChild("originalLister").equalTo(userId);
-
 
         queryRef.addChildEventListener(new ChildEventListener() {
             @Override

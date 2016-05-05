@@ -85,8 +85,8 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
             //----------------Accept a delivery---------------
             acceptDeliveryButton.setOnClickListener(this);
 
-            mRef = new Firebase("https://emissary.firebaseio.com");
-            currentFirebaseDelivery = new Firebase("https://emissary.firebaseio.com/deliveries/" + itemId);
+            mRef = new Firebase(Constants.FIREBASE_BASE);
+            currentFirebaseDelivery = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE).child(itemId);
 
             currentFirebaseDelivery.addValueEventListener(new ValueEventListener() {
                 @Override
@@ -111,7 +111,7 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                 }
             });
 
-            currentFirebaseUser = mRef.child("users").child(mRef.getAuth().getUid());
+            currentFirebaseUser = mRef.child(Constants.FIREBASE_USERS_BASE_CHILD).child(mRef.getAuth().getUid());
             currentFirebaseUser.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

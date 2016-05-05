@@ -42,7 +42,7 @@ public class ViewMyFeedbackActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        final Firebase mRef = new Firebase("https://emissary.firebaseio.com/feedback");
+        final Firebase mRef = new Firebase(Constants.FIREBASE_FEEDBACK);
         Query queryRef = mRef.orderByChild("userId").equalTo(mRef.getAuth().getUid());
 
         final FirebaseRecyclerAdapter<Feedback, ViewHolder> adapter =
