@@ -102,7 +102,7 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent(v.getContext(), DriverEditItemActivity.class)
-                                            .putExtra("object_id", getRef(viewHolder.getLayoutPosition()).getKey());
+                                            .putExtra("object_id", getRef(i).getKey());
                                     v.getContext().startActivity(intent);
 
                                 }

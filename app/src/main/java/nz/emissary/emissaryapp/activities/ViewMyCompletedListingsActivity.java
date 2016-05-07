@@ -70,7 +70,7 @@ public class ViewMyCompletedListingsActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(v.getContext(), ViewItemStatusActivity.class)
-                                        .putExtra("object_id", getRef(viewHolder.getLayoutPosition()).getKey());
+                                        .putExtra("object_id", getRef(i).getKey());
                                 v.getContext().startActivity(intent);
                             }
                         });
