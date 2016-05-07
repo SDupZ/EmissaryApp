@@ -108,7 +108,7 @@ public class ViewMyListingsActivity extends BaseActivity{
             final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
                     new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listview_public_listings,ViewHolder.class,queryRef){
                         @Override
-                        protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
+                        protected void populateViewHolder(final ViewHolder viewHolder, Delivery d, final int i) {
 
                             Drawable background = Constants.getStatusBackgroundDrawable(d.getStatus(), getContext(), false);
                             if (background != null) {
@@ -123,7 +123,7 @@ public class ViewMyListingsActivity extends BaseActivity{
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent(v.getContext(), ViewItemStatusActivity.class)
-                                            .putExtra("object_id", getRef(i).getKey());
+                                            .putExtra("object_id", getRef(viewHolder.getLayoutPosition()).getKey());
                                     v.getContext().startActivity(intent);
                                 }
                             });

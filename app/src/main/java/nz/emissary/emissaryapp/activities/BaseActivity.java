@@ -129,7 +129,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             Intent intent = new Intent(getApplicationContext(), ContactUsActivity.class);
             startActivity(intent);
         }else if (id ==R.id.previous_listings){
-            //TODO implement this
+            Intent intent = new Intent(getApplicationContext(), ViewMyCompletedListingsActivity.class);
+            startActivity(intent);
         }else if (id ==R.id.create_delivery){
             Intent intent = new Intent(getApplicationContext(), CreateDeliveryActivity.class);
             startActivity(intent);

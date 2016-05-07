@@ -101,6 +101,14 @@
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+
+        <activity
+            android:name=".activities.ViewMyCompletedListingsActivity"
+            android:label="Completed Deliveries"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
         <activity
             android:name=".activities.ViewMyDeliveriesActivity"
             android:label="My Deliveries"
