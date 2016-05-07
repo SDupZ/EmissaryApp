@@ -2,6 +2,7 @@ package nz.emissary.emissaryapp;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
+import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
 
 import java.util.ArrayList;
@@ -53,6 +55,13 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
         });
     }
 
+    public void updateLocation(GeoLocation center, double radius){
+        mSnapshots.updateGeoQuery(center, radius);
+    }
+    public void updateLocation(double radius){
+        mSnapshots.updateGeoQuery(null, radius);
+    }
+
     public void cleanup() {
         mSnapshots.cleanup();
     }
@@ -93,15 +102,6 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
         viewHolder.mDeliveryName.setText(d.getListingName());
         viewHolder.mDeliveryPickupTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getPickupTime()));
         viewHolder.mDeliveryDropoffTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getDropoffTime()));
-
-        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), ViewItemActivity.class)
-                        .putExtra("object_id", getRef(position).getKey());
-                v.getContext().startActivity(intent);
-            }
-        });
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -118,7 +118,10 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    Log.d("EMISSARY", "" + getLayoutPosition());
+                    Intent intent = new Intent(v.getContext(), ViewItemActivity.class)
+                            .putExtra("object_id", getRef(getLayoutPosition()).getKey());
+                    v.getContext().startActivity(intent);
                 }
             });
             mDeliveryName = (TextView) v.findViewById(R.id.list_item_delivery_name);

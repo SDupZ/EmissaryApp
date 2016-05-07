@@ -128,6 +128,13 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }else if (id ==R.id.contact_us){
             Intent intent = new Intent(getApplicationContext(), ContactUsActivity.class);
             startActivity(intent);
+        }else if (id ==R.id.previous_listings){
+            //TODO implement this
+        }else if (id ==R.id.create_delivery){
+            Intent intent = new Intent(getApplicationContext(), CreateDeliveryActivity.class);
+            startActivity(intent);
+        }else if (id ==R.id.view_driver_dashboard){
+            //TODO implement this
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -41,6 +41,13 @@ class FirebaseArray implements GeoQueryEventListener, ValueEventListener{
         mGeoQuery.addGeoQueryEventListener(this);
     }
 
+    public void updateGeoQuery(GeoLocation center, double radius){
+        if (center != null){
+            mGeoQuery.setCenter(center);
+        }
+        mGeoQuery.setRadius(radius);
+    }
+
     public void cleanup() {
         mQuery.removeEventListener(this);
     }
@@ -88,6 +95,8 @@ class FirebaseArray implements GeoQueryEventListener, ValueEventListener{
     @Override
     public void onKeyExited(String key) {
         Log.d("EMISSARY", String.format("Key %s is no longer in the search area", key));
+        mRef.child(key).removeEventListener(this);
+        mSnapshots.remove(getIndexForKey(key));
     }
 
     @Override
