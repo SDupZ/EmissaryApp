@@ -87,7 +87,7 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                     new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listview_public_listings,ViewHolder.class,queryRef){
 
                         @Override
-                        protected void populateViewHolder(final ViewHolder viewHolder, Delivery d, final int i) {
+                        protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
 
                             Drawable background = Constants.getStatusBackgroundDrawable(d.getStatus(), getContext(), true);
                             if (background != null) {

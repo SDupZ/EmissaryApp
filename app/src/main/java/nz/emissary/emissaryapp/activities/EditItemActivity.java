@@ -65,7 +65,7 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
             acceptDeliveryButton.setOnClickListener(this);
 
             mRef = new Firebase(Constants.FIREBASE_BASE);
-            currentFirebaseDelivery = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE + itemId);
+            currentFirebaseDelivery = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE).child(itemId);
 
             currentFirebaseDelivery.addValueEventListener(new ValueEventListener() {
                 @Override

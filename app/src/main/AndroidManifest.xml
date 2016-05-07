@@ -106,7 +106,8 @@
             android:name=".activities.ViewMyCompletedListingsActivity"
             android:label="Completed Deliveries"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.ViewMyListingsActivity">
         </activity>
 
         <activity

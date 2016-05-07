@@ -14,6 +14,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -187,8 +188,10 @@ public class DriverEditItemActivity extends AppCompatActivity{
             //----------------Load the object from the local database---------------
             itemId = intent.getStringExtra("object_id");
 
+            Log.d("Emissary", "" + itemId);
+
             mRef = new Firebase(Constants.FIREBASE_BASE);
-            currentFirebaseDelivery = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE + itemId);
+            currentFirebaseDelivery = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE).child(itemId);
 
             messageFromDriverView.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -246,7 +249,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
                         feedbackLinkView.setVisibility(View.GONE);
                     }
 
-                    Firebase firebaseMessages = new Firebase(Constants.FIREBASE_MESSAGES + itemId);
+                    Firebase firebaseMessages = new Firebase(Constants.FIREBASE_MESSAGES).child(itemId);
                     firebaseMessages.addChildEventListener(new ChildEventListener() {
                         @Override
                         public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
@@ -355,7 +358,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Firebase messageFirebase = new Firebase(Constants.FIREBASE_MESSAGES + itemId);
+                    Firebase messageFirebase = new Firebase(Constants.FIREBASE_MESSAGES).child(itemId);
 
                     String newMsg = messageFromDriverView.getText().toString();
                     prevMsg = newMsg;

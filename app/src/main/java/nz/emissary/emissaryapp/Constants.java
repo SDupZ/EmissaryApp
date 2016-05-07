@@ -19,7 +19,7 @@ public class Constants {
     final public static String FIREBASE_USERS = "https://emissary.firebaseio.com/users";
     final public static String FIREBASE_USERS_BASE_CHILD = "users";
 
-    final public static String FIREBASE_MESSAGES= "https://emissary.firebaseio.com/messages/";
+    final public static String FIREBASE_MESSAGES= "https://emissary.firebaseio.com/messages";
 
     final public static String FIREBASE_FEEDBACK = "https://emissary.firebaseio.com/feedback";
     final public static String FIREBASE_FEEDBACK_BASE_CHILD = "feedback";
