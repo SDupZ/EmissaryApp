@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -40,7 +39,7 @@ import nz.emissary.emissaryapp.User;
 /**
  * Created by Simon on 3/03/2016.
  */
-public class ViewItemStatusActivity extends AppCompatActivity{
+public class ViewCompletedItemActivity extends AppCompatActivity{
 
     private String itemId;
     private Firebase mRef;
@@ -107,7 +106,7 @@ public class ViewItemStatusActivity extends AppCompatActivity{
             itemId = intent.getStringExtra("object_id");
 
             mRef = new Firebase(Constants.FIREBASE_BASE);
-            currentFirebaseDelivery = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE).child(itemId);
+            currentFirebaseDelivery = new Firebase(Constants.FIREBASE_DELIVERIES_UNLISTED).child(itemId);
 
             Firebase firebaseMessages = new Firebase(Constants.FIREBASE_MESSAGES).child(itemId);
             firebaseMessages.addChildEventListener(new ChildEventListener() {
@@ -133,7 +132,7 @@ public class ViewItemStatusActivity extends AppCompatActivity{
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder =
-                            new AlertDialog.Builder(ViewItemStatusActivity.this, R.style.MyAlertDialogStyle2);
+                            new AlertDialog.Builder(ViewCompletedItemActivity.this, R.style.MyAlertDialogStyle2);
 
                     LayoutInflater inflater = getLayoutInflater();
                     final View dialogView = inflater.inflate(R.layout.dialog_place_feedback_for_driver, null);

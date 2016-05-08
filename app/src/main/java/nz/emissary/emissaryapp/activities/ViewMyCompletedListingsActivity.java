@@ -69,7 +69,7 @@ public class ViewMyCompletedListingsActivity extends AppCompatActivity {
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(v.getContext(), ViewItemStatusActivity.class)
+                                Intent intent = new Intent(v.getContext(), ViewCompletedItemActivity.class)
                                         .putExtra("object_id", getRef(i).getKey());
                                 v.getContext().startActivity(intent);
                             }

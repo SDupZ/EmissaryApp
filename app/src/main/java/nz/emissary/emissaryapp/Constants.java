@@ -176,7 +176,7 @@ public class Constants {
                 date.setTimeInMillis(time);
                 Date d = date.getTime();
 
-                Format format = new SimpleDateFormat("d - ka");
+                Format format = new SimpleDateFormat("ka");
                 String result = format.format(d);
 
                 return result;

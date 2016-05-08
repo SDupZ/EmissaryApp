@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -166,11 +167,18 @@ public class DriverEditItemActivity extends AppCompatActivity{
                                             t.show();
                                             if (currentDelivery.getStatus() == Constants.STATUS_DELIVERED_D_FB){
                                                 currentDelivery.setStatus(Constants.STATUS_COMPLETE);
+                                                Firebase completedDelivery = new Firebase(Constants.FIREBASE_DELIVERIES_UNLISTED).child(itemId);
+                                                completedDelivery.setValue(currentDelivery, new Firebase.CompletionListener() {
+                                                    @Override
+                                                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                                                        currentFirebaseDelivery.removeValue();
+                                                    }
+                                                });
+
                                             }else if (currentDelivery.getStatus() == Constants.STATUS_DELIVERED_NO_FB) {
                                                 currentDelivery.setStatus(Constants.STATUS_DELIVERED_L_FB);
+                                                currentFirebaseDelivery.setValue(currentDelivery);
                                             }
-
-                                            currentFirebaseDelivery.setValue(currentDelivery);
 
                                         }
                                     });
