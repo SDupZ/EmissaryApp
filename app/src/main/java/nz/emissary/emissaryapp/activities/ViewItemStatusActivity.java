@@ -179,17 +179,10 @@ public class ViewItemStatusActivity extends AppCompatActivity{
 
                                             if (currentDelivery.getStatus() == Constants.STATUS_DELIVERED_L_FB){
                                                 currentDelivery.setStatus(Constants.STATUS_COMPLETE);
-                                                Firebase completedDelivery = new Firebase(Constants.FIREBASE_DELIVERIES_UNLISTED).child(itemId);
-                                                completedDelivery.setValue(currentDelivery, new Firebase.CompletionListener() {
-                                                    @Override
-                                                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                                                        currentFirebaseDelivery.removeValue();
-                                                    }
-                                                });
                                             }else if (currentDelivery.getStatus() == Constants.STATUS_DELIVERED_NO_FB) {
                                                 currentDelivery.setStatus(Constants.STATUS_DELIVERED_D_FB);
-                                                currentFirebaseDelivery.setValue(currentDelivery);
                                             }
+                                            currentFirebaseDelivery.setValue(currentDelivery);
                                         }
                                     });
                                     tempDialog.dismiss();
