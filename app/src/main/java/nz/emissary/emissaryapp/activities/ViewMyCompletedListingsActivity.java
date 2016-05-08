@@ -56,7 +56,7 @@ public class ViewMyCompletedListingsActivity extends AppCompatActivity {
         final FirebaseRecyclerAdapter<Delivery, ViewHolder> adapter =
                 new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listview_public_listings,ViewHolder.class,queryRef){
                     @Override
-                    protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
+                    protected void populateViewHolder(final ViewHolder viewHolder, Delivery d, final int i) {
                         Drawable background = Constants.getStatusBackgroundDrawable(d.getStatus(), getApplicationContext(), false);
                         if (background != null) {
                             viewHolder.mView.findViewById(R.id.list_view_root).setBackground(background);
@@ -70,7 +70,7 @@ public class ViewMyCompletedListingsActivity extends AppCompatActivity {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent(v.getContext(), ViewCompletedItemActivity.class)
-                                        .putExtra("object_id", getRef(i).getKey());
+                                        .putExtra("object_id", getRef(viewHolder.getLayoutPosition()).getKey());
                                 v.getContext().startActivity(intent);
                             }
                         });

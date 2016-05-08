@@ -87,7 +87,7 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                     new FirebaseRecyclerAdapter<Delivery, ViewHolder>(Delivery.class,R.layout.listview_public_listings,ViewHolder.class,queryRef){
 
                         @Override
-                        protected void populateViewHolder(ViewHolder viewHolder, Delivery d, final int i) {
+                        protected void populateViewHolder(final ViewHolder viewHolder, Delivery d, final int i) {
 
                             Drawable background = Constants.getStatusBackgroundDrawable(d.getStatus(), getContext(), true);
                             if (background != null) {
@@ -102,7 +102,7 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                                 @Override
                                 public void onClick(View v) {
                                     Intent intent = new Intent(v.getContext(), DriverEditItemActivity.class)
-                                            .putExtra("object_id", getRef(i).getKey());
+                                            .putExtra("object_id", getRef(viewHolder.getLayoutPosition()).getKey());
                                     v.getContext().startActivity(intent);
 
                                 }
