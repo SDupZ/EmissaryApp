@@ -96,6 +96,14 @@
         </activity>
 
         <activity
+            android:name=".activities.ViewCompletedItemActivity"
+            android:label="Your Listing Status"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.ViewMyCompletedListingsActivity">
+        </activity>
+
+        <activity
             android:name=".activities.ViewMyListingsActivity"
             android:label="My Listings"
             android:launchMode="singleTask"
