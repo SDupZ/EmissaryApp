@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -656,6 +657,11 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                     }
 
                     if (!error) {
+                        LatLng pickupLatLng = pickupPlace.getLatLng();
+                        LatLng dropoffLatLng = dropoffPlace.getLatLng();
+
+                        double distance = Constants.distance(pickupLatLng.latitude, pickupLatLng.longitude,
+                                dropoffLatLng.latitude, dropoffLatLng.longitude);
 
                         Delivery myDelivery = new Delivery();
                         myDelivery.setListingName(name);
@@ -666,15 +672,13 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         myDelivery.setPickupTime(pickupTime);
                         myDelivery.setDropoffTime(dropoffTime);
                         myDelivery.setCreatedAt(System.currentTimeMillis() / 1000.0);
+                        myDelivery.setDistance(distance);
 
                         Firebase postRef = ref.child(Constants.FIREBASE_DELIVERIES_ACTIVE_BASE_CHILD);
                         Firebase newPostRef = postRef.push();
                         newPostRef.setValue(myDelivery);
 
                         final String deliveryId = newPostRef.getKey();
-
-                        LatLng pickupLatLng = pickupPlace.getLatLng();
-                        LatLng dropoffLatLng = dropoffPlace.getLatLng();
 
                         GeoFire geoFirePickup = new GeoFire(new Firebase("https://emissary.firebaseio.com/delivery_geofire/pickup_location/"));
                         GeoFire geoFireDropoff = new GeoFire(new Firebase("https://emissary.firebaseio.com/delivery_geofire/dropoff_location/"));

@@ -104,6 +104,7 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
         viewHolder.mDeliveryDropoffTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getDropoffTime()));
         viewHolder.mDeliveryPickupLocation.setText(d.getPickupLocation());
         viewHolder.mDeliveryDropoffLocation.setText(d.getDropoffLocation());
+        viewHolder.mDeliveryDistance.setText("" + d.getDistance());
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -114,6 +115,7 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
         public TextView mDeliveryDropoffTime;
         public TextView mDeliveryPickupLocation;
         public TextView mDeliveryDropoffLocation;
+        public TextView mDeliveryDistance;
 
 
         public ViewHolder(View v) {
@@ -133,6 +135,7 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
             mDeliveryDropoffTime = (TextView) v.findViewById(R.id.list_item_dropoff_time);
             mDeliveryPickupLocation = (TextView) v.findViewById(R.id.list_item_pickup_location);
             mDeliveryDropoffLocation = (TextView) v.findViewById(R.id.list_item_dropoff_location);
+            mDeliveryDistance = (TextView) v.findViewById(R.id.list_item_distance);
 
             v.setClickable(true);
         }

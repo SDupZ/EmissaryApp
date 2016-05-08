@@ -17,6 +17,8 @@ public class Delivery {
 
     private String messageFromDriver;
 
+    private double distance;
+
     //private String expiryDate;
 
     private String driver;
@@ -120,5 +122,13 @@ public class Delivery {
 
     public void setCreatedAt(double createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public double getDistance() {
+        return distance;
+    }
+
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 }

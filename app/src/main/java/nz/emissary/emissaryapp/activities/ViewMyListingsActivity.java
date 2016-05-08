@@ -120,6 +120,7 @@ public class ViewMyListingsActivity extends BaseActivity{
                             viewHolder.mDeliveryDropoffTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getDropoffTime()));
                             viewHolder.mDeliveryPickupLocation.setText(d.getPickupLocation());
                             viewHolder.mDeliveryDropoffLocation.setText(d.getDropoffLocation());
+                            viewHolder.mDeliveryDistance.setText("" + d.getDistance());
                             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -159,7 +160,7 @@ public class ViewMyListingsActivity extends BaseActivity{
             public TextView mDeliveryDropoffTime;
             public TextView mDeliveryPickupLocation;
             public TextView mDeliveryDropoffLocation;
-
+            public TextView mDeliveryDistance;
 
             public ViewHolder(View v) {
                 super(v);
@@ -169,6 +170,7 @@ public class ViewMyListingsActivity extends BaseActivity{
                 mDeliveryDropoffTime = (TextView) v.findViewById(R.id.list_item_dropoff_time);
                 mDeliveryPickupLocation = (TextView) v.findViewById(R.id.list_item_pickup_location);
                 mDeliveryDropoffLocation = (TextView) v.findViewById(R.id.list_item_dropoff_location);
+                mDeliveryDistance = (TextView) v.findViewById(R.id.list_item_distance);
 
                 v.setClickable(true);
             }
