@@ -117,23 +117,30 @@ class FirebaseArray implements GeoQueryEventListener, ValueEventListener{
     //------------------------Value event listener-----------------------
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        int index = getCount();
+        Delivery d = dataSnapshot.getValue(Delivery.class);
+        if (d != null) {
+            int index = getCount();
+            Log.d("EMISSARY", "Adding to list: " + dataSnapshot.getKey());
 
-        if (mSnapshots.contains(dataSnapshot)){
-            mSnapshots.remove(dataSnapshot);
-        }
-
-        for (DataSnapshot s : mSnapshots) {
-            String s1 = s.getValue(Delivery.class).getListingName();
-            String s2 = dataSnapshot.getValue(Delivery.class).getListingName();
-
-            if (s1.compareTo(s2) > 0){
-                index = getIndexForKey(s.getKey());
-                break;
+            if (mSnapshots.contains(dataSnapshot)) {
+                mSnapshots.remove(dataSnapshot);
+                Log.d("EMISSARY", "Already in list: " + dataSnapshot.getKey());
             }
+
+            for (DataSnapshot s : mSnapshots) {
+                Log.d("EMISSARY", "Iterating over: " + s.getKey());
+
+                String s1 = s.getValue(Delivery.class).getListingName();
+                String s2 = dataSnapshot.getValue(Delivery.class).getListingName();
+
+                if (s1.compareTo(s2) > 0) {
+                    index = getIndexForKey(s.getKey());
+                    break;
+                }
+            }
+            mSnapshots.add(index, dataSnapshot);
+            notifyChangedListeners(OnChangedListener.EventType.Added, index);
         }
-        mSnapshots.add(index, dataSnapshot);
-        notifyChangedListeners(OnChangedListener.EventType.Added, index);
     }
 
     @Override

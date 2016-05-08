@@ -34,6 +34,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.firebase.geofire.GeoFire;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -173,6 +174,7 @@ public class DriverEditItemActivity extends AppCompatActivity{
                                                     public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                                                         currentFirebaseDelivery.removeValue();
                                                     }
+
                                                 });
 
                                             }else if (currentDelivery.getStatus() == Constants.STATUS_DELIVERED_NO_FB) {
