@@ -660,9 +660,6 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         LatLng pickupLatLng = pickupPlace.getLatLng();
                         LatLng dropoffLatLng = dropoffPlace.getLatLng();
 
-                        double distance = Constants.distance(pickupLatLng.latitude, pickupLatLng.longitude,
-                                dropoffLatLng.latitude, dropoffLatLng.longitude);
-
                         Delivery myDelivery = new Delivery();
                         myDelivery.setListingName(name);
                         myDelivery.setPickupLocation(pickupLocation);
@@ -672,7 +669,6 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         myDelivery.setPickupTime(pickupTime);
                         myDelivery.setDropoffTime(dropoffTime);
                         myDelivery.setCreatedAt(System.currentTimeMillis() / 1000.0);
-                        myDelivery.setDistance(distance);
 
                         Firebase postRef = ref.child(Constants.FIREBASE_DELIVERIES_ACTIVE_BASE_CHILD);
                         Firebase newPostRef = postRef.push();

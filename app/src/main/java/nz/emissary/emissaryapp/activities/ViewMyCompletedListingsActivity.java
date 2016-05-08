@@ -67,7 +67,7 @@ public class ViewMyCompletedListingsActivity extends AppCompatActivity {
                         viewHolder.mDeliveryDropoffTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getDropoffTime()));
                         viewHolder.mDeliveryPickupLocation.setText(d.getPickupLocation());
                         viewHolder.mDeliveryDropoffLocation.setText(d.getDropoffLocation());
-                        viewHolder.mDeliveryDistance.setText("" + d.getDistance());
+                        viewHolder.mDeliveryDistance.setText(Constants.getDistanceString(d.getDistance()));
 
                         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                             @Override

@@ -104,7 +104,7 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
         viewHolder.mDeliveryDropoffTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getDropoffTime()));
         viewHolder.mDeliveryPickupLocation.setText(d.getPickupLocation());
         viewHolder.mDeliveryDropoffLocation.setText(d.getDropoffLocation());
-        viewHolder.mDeliveryDistance.setText("" + d.getDistance());
+        viewHolder.mDeliveryDistance.setText(Constants.getDistanceString(d.getDistance()));
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
