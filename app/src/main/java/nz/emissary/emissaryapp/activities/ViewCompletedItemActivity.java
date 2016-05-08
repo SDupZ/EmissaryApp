@@ -134,26 +134,30 @@ public class ViewCompletedItemActivity extends AppCompatActivity{
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentDelivery = dataSnapshot.getValue(Delivery.class);
 
-                    toolbar.setTitle(currentDelivery.getListingName());
-                    notesView.setText(currentDelivery.getNotes());
-                    pickupLocationView.setText(currentDelivery.getPickupLocation());
-                    dropOffLocationView.setText(currentDelivery.getDropoffLocation());
+                    if (currentDelivery != null) {
+                        toolbar.setTitle(currentDelivery.getListingName());
+                        notesView.setText(currentDelivery.getNotes());
+                        pickupLocationView.setText(currentDelivery.getPickupLocation());
+                        dropOffLocationView.setText(currentDelivery.getDropoffLocation());
 
-                    dropoffTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getDropoffTime()));
-                    pickupTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getPickupTime()));
+                        dropoffTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getDropoffTime()));
+                        pickupTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getPickupTime()));
 
-                    int currentStatus = currentDelivery.getStatus();
+                        int currentStatus = currentDelivery.getStatus();
 
-                    itemStatusView.setText(Constants.getStatusDescription(currentStatus, getApplicationContext(), false));
+                        itemStatusView.setText(Constants.getStatusDescription(currentStatus, getApplicationContext(), false));
 
-                    Drawable cardBackground = Constants.getStatusBackgroundDrawable(currentStatus, getApplicationContext(), false);
-                    if (cardBackground != null)
-                        deliveryStatusCard.setBackground(cardBackground);
+                        Drawable cardBackground = Constants.getStatusBackgroundDrawable(currentStatus, getApplicationContext(), false);
+                        if (cardBackground != null)
+                            deliveryStatusCard.setBackground(cardBackground);
 
-                    if (currentStatus == Constants.STATUS_DELIVERED_NO_FB || currentStatus == Constants.STATUS_DELIVERED_L_FB){
-                        feedbackLinkView.setVisibility(View.VISIBLE);
+                        if (currentStatus == Constants.STATUS_DELIVERED_NO_FB || currentStatus == Constants.STATUS_DELIVERED_L_FB) {
+                            feedbackLinkView.setVisibility(View.VISIBLE);
+                        } else {
+                            feedbackLinkView.setVisibility(View.GONE);
+                        }
                     }else{
-                        feedbackLinkView.setVisibility(View.GONE);
+                        finish();
                     }
                 }
 

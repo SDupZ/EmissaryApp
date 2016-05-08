@@ -92,16 +92,20 @@ public class ViewItemActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentDelivery = dataSnapshot.getValue(Delivery.class);
-                    toolbar.setTitle(currentDelivery.getListingName());
-                    notesView.setText(currentDelivery.getNotes());
-                    pickupLocationView.setText(currentDelivery.getPickupLocation());
-                    dropOffLocationView.setText(currentDelivery.getDropoffLocation());
+                    if (currentDelivery != null) {
+                        toolbar.setTitle(currentDelivery.getListingName());
+                        notesView.setText(currentDelivery.getNotes());
+                        pickupLocationView.setText(currentDelivery.getPickupLocation());
+                        dropOffLocationView.setText(currentDelivery.getDropoffLocation());
 
-                    dropoffTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getDropoffTime()));
-                    pickupTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getPickupTime()));
+                        dropoffTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getDropoffTime()));
+                        pickupTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getPickupTime()));
 
-                    if (!currentDelivery.getOriginalLister().equals(mRef.getAuth().getUid())){
-                        acceptDeliveryButton.setVisibility(View.VISIBLE);
+                        if (!currentDelivery.getOriginalLister().equals(mRef.getAuth().getUid())) {
+                            acceptDeliveryButton.setVisibility(View.VISIBLE);
+                        }
+                    }else{
+                        finish();
                     }
                 }
 

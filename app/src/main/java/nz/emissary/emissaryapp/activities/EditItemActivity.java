@@ -71,29 +71,33 @@ public class EditItemActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentDelivery = dataSnapshot.getValue(Delivery.class);
-                    notesView.setText(currentDelivery.getNotes());
-                    nameView.setText(currentDelivery.getListingName());
-                    pickupLocationView.setText(currentDelivery.getPickupLocation());
-                    dropOffLocationView.setText(currentDelivery.getDropoffLocation());
+                    if (currentDelivery != null) {
+                        notesView.setText(currentDelivery.getNotes());
+                        nameView.setText(currentDelivery.getListingName());
+                        pickupLocationView.setText(currentDelivery.getPickupLocation());
+                        dropOffLocationView.setText(currentDelivery.getDropoffLocation());
 
-                    if (!currentDelivery.getOriginalLister().equals(mRef.getAuth().getUid())){
-                        acceptDeliveryButton.setVisibility(View.VISIBLE);
-                    }
+                        if (!currentDelivery.getOriginalLister().equals(mRef.getAuth().getUid())) {
+                            acceptDeliveryButton.setVisibility(View.VISIBLE);
+                        }
 
-                    //A driver has accepted this job
-                    if (currentDelivery.getDriver() !=  null ){
-                        currentFirebaseDriver = mRef.child("users").child(currentDelivery.getDriver());
-                        currentFirebaseDriver.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                currentDriver = dataSnapshot.getValue(User.class);
-                            }
+                        //A driver has accepted this job
+                        if (currentDelivery.getDriver() != null) {
+                            currentFirebaseDriver = mRef.child("users").child(currentDelivery.getDriver());
+                            currentFirebaseDriver.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    currentDriver = dataSnapshot.getValue(User.class);
+                                }
 
-                            @Override
-                            public void onCancelled(FirebaseError firebaseError) {
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
+                    }else{
+                        finish();
                     }
                 }
 

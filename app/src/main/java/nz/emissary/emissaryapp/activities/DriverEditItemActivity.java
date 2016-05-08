@@ -215,57 +215,69 @@ public class DriverEditItemActivity extends AppCompatActivity{
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     currentDelivery = dataSnapshot.getValue(Delivery.class);
-                    deliveryStatus = currentDelivery.getStatus();
+                    if (currentDelivery != null) {
+                        deliveryStatus = currentDelivery.getStatus();
 
-                    if (deliveryStatus >= Constants.STATUS_DELIVERED_NO_FB ){
-                        abandonDeliveryButton.setVisibility(View.GONE);
-                        driverUpdateStatusButton.setVisibility(View.GONE);
-                    }else{
-                        abandonDeliveryButton.setVisibility(View.VISIBLE);
-                        driverUpdateStatusButton.setVisibility(View.VISIBLE);
-                    }
-
-                    toolbar.setTitle(currentDelivery.getListingName());
-
-                    notesView.setText(currentDelivery.getNotes());
-                    pickupLocationView.setText(currentDelivery.getPickupLocation());
-                    dropOffLocationView.setText(currentDelivery.getDropoffLocation());
-
-                    dropoffTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getDropoffTime()));
-                    pickupTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getPickupTime()));
-
-                    itemStatusView.setText(Constants.getStatusDescription(deliveryStatus, getApplicationContext(), true));
-
-                    Drawable cardBackground = Constants.getStatusBackgroundDrawable(deliveryStatus, getApplicationContext(), true);
-                    if (cardBackground != null)
-                        deliveryStatusCard.setBackground(cardBackground);
-
-                    driverUpdateStatusButton.setText(Constants.getUpdateButtonText(deliveryStatus, getApplicationContext()));
-                    driverUpdateStatusButton.setEnabled(true);
-
-                    if (deliveryStatus == Constants.STATUS_DELIVERED_NO_FB || deliveryStatus == Constants.STATUS_DELIVERED_D_FB){
-                        feedbackLinkView.setVisibility(View.VISIBLE);
-                    }else{
-                        feedbackLinkView.setVisibility(View.GONE);
-                    }
-
-                    Firebase firebaseMessages = new Firebase(Constants.FIREBASE_MESSAGES).child(itemId);
-                    firebaseMessages.addChildEventListener(new ChildEventListener() {
-                        @Override
-                        public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
-                            SimpleMessage newMessage = snapshot.getValue(SimpleMessage.class);
-                            messagesList.add(newMessage);
-                            arrayAdapter.notifyDataSetChanged();
+                        if (deliveryStatus >= Constants.STATUS_DELIVERED_NO_FB) {
+                            abandonDeliveryButton.setVisibility(View.GONE);
+                            driverUpdateStatusButton.setVisibility(View.GONE);
+                        } else {
+                            abandonDeliveryButton.setVisibility(View.VISIBLE);
+                            driverUpdateStatusButton.setVisibility(View.VISIBLE);
                         }
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {}
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
-                        @Override
-                        public void onCancelled(FirebaseError firebaseError) {}
-                    });
+
+                        toolbar.setTitle(currentDelivery.getListingName());
+
+                        notesView.setText(currentDelivery.getNotes());
+                        pickupLocationView.setText(currentDelivery.getPickupLocation());
+                        dropOffLocationView.setText(currentDelivery.getDropoffLocation());
+
+                        dropoffTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getDropoffTime()));
+                        pickupTimeView.setText(Constants.getFullDateTimeString(currentDelivery.getPickupTime()));
+
+                        itemStatusView.setText(Constants.getStatusDescription(deliveryStatus, getApplicationContext(), true));
+
+                        Drawable cardBackground = Constants.getStatusBackgroundDrawable(deliveryStatus, getApplicationContext(), true);
+                        if (cardBackground != null)
+                            deliveryStatusCard.setBackground(cardBackground);
+
+                        driverUpdateStatusButton.setText(Constants.getUpdateButtonText(deliveryStatus, getApplicationContext()));
+                        driverUpdateStatusButton.setEnabled(true);
+
+                        if (deliveryStatus == Constants.STATUS_DELIVERED_NO_FB || deliveryStatus == Constants.STATUS_DELIVERED_D_FB) {
+                            feedbackLinkView.setVisibility(View.VISIBLE);
+                        } else {
+                            feedbackLinkView.setVisibility(View.GONE);
+                        }
+
+                        Firebase firebaseMessages = new Firebase(Constants.FIREBASE_MESSAGES).child(itemId);
+                        firebaseMessages.addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
+                                SimpleMessage newMessage = snapshot.getValue(SimpleMessage.class);
+                                messagesList.add(newMessage);
+                                arrayAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                            }
+
+                            @Override
+                            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                            }
+
+                            @Override
+                            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+                            }
+
+                            @Override
+                            public void onCancelled(FirebaseError firebaseError) {
+                            }
+                        });
+                    }else{
+                        finish();
+                    }
                 }
 
                 @Override
