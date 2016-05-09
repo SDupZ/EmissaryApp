@@ -664,6 +664,8 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         myDelivery.setListingName(name);
                         myDelivery.setPickupLocation(pickupLocation);
                         myDelivery.setDropoffLocation(dropOffLocation);
+                        myDelivery.setPickupLocationShort(pickupPlace.getName().toString());
+                        myDelivery.setDropoffLocationShort(dropoffPlace.getName().toString());
                         myDelivery.setNotes(notes);
                         myDelivery.setOriginalLister(ref.getAuth().getUid());
                         myDelivery.setPickupTime(pickupTime);

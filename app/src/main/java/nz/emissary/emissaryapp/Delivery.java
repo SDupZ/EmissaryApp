@@ -10,7 +10,10 @@ public class Delivery {
     private String notes;
 
     private String pickupLocation;
+    private String pickupLocationShort;
+
     private String dropoffLocation;
+    private String dropoffLocationShort;
 
     private String pickupTime;
     private String dropoffTime;
@@ -18,6 +21,8 @@ public class Delivery {
     private String messageFromDriver;
 
     private double distance;
+
+
 
     //private String expiryDate;
 
@@ -130,5 +135,21 @@ public class Delivery {
 
     public void setDistance(double distance) {
         this.distance = distance;
+    }
+
+    public String getPickupLocationShort() {
+        return pickupLocationShort;
+    }
+
+    public void setPickupLocationShort(String pickupLocationShort) {
+        this.pickupLocationShort = pickupLocationShort;
+    }
+
+    public String getDropoffLocationShort() {
+        return dropoffLocationShort;
+    }
+
+    public void setDropoffLocationShort(String dropoffLocationShort) {
+        this.dropoffLocationShort = dropoffLocationShort;
     }
 }

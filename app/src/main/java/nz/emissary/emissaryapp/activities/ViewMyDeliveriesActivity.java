@@ -97,8 +97,8 @@ public class ViewMyDeliveriesActivity extends BaseActivity{
                             viewHolder.mDeliveryName.setText(d.getListingName());
                             viewHolder.mDeliveryPickupTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getPickupTime()));
                             viewHolder.mDeliveryDropoffTime.setText(Constants.getEasyToUnderstandDateTimeString(d.getDropoffTime()));
-                            viewHolder.mDeliveryPickupLocation.setText(d.getPickupLocation());
-                            viewHolder.mDeliveryDropoffLocation.setText(d.getDropoffLocation());
+                            viewHolder.mDeliveryPickupLocation.setText(d.getPickupLocationShort());
+                            viewHolder.mDeliveryDropoffLocation.setText(d.getDropoffLocationShort());
                             viewHolder.mDeliveryDistance.setText(Constants.getDistanceString(d.getDistance()));
                             viewHolder.mView.setOnClickListener(new View.OnClickListener() {
                                 @Override
