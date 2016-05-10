@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:showIn="@layout/activity_view_public_listings" tools:context=".activities.ViewPublicListingsActivity">
+    tools:context=".activities.ViewPublicListingsActivity">
 
     <fragment android:name="nz.emissary.emissaryapp.activities.ViewPublicListingsActivity$DeliveryListFragment"
         android:id="@+id/delivery_list_fragment"

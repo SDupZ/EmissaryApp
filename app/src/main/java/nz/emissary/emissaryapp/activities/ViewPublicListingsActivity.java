@@ -3,11 +3,14 @@ package nz.emissary.emissaryapp.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -30,6 +34,8 @@ import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
 import com.firebase.ui.FirebaseRecyclerAdapter;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -51,6 +57,15 @@ public class ViewPublicListingsActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        TextView sortedByInfoText = (TextView) findViewById(R.id.sorted_by_info_text_view);
+        TextView filteredByInfoText = (TextView) findViewById(R.id.filtered_by_info_text_view);
+
+//        Sorted by: Alphabetical
+//        Filtering: 20km from current location
+//
+        sortedByInfoText.setText(Html.fromHtml("Sorted by: <b>Alphabetical</b>"));
+        filteredByInfoText.setText(Html.fromHtml("Filtering: <b>20km</b> from <b>Current Location<b>"));
 
         progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
         progressBar.setVisibility(View.VISIBLE);
