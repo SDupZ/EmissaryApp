@@ -54,22 +54,26 @@ public class ViewPublicListingsActivity extends BaseActivity{
 
     ProgressBar progressBar;
 
+    TextView sortedByInfoText;
+    TextView filteredByInfoText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        TextView sortedByInfoText = (TextView) findViewById(R.id.sorted_by_info_text_view);
-        TextView filteredByInfoText = (TextView) findViewById(R.id.filtered_by_info_text_view);
-
-//        Sorted by: Alphabetical
-//        Filtering: 20km from current location
-//
-        sortedByInfoText.setText(Html.fromHtml("Sorted by: <b>Alphabetical</b>"));
-        filteredByInfoText.setText(Html.fromHtml("Filtering: <b>20km</b> from <b>Current Location<b>"));
-
         progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
         progressBar.setVisibility(View.VISIBLE);
 
+        sortedByInfoText = (TextView) findViewById(R.id.sorted_by_info_text_view);
+        filteredByInfoText = (TextView) findViewById(R.id.filtered_by_info_text_view);
+
+        DeliveryListFragment child = (DeliveryListFragment) getSupportFragmentManager().findFragmentById(R.id.delivery_list_fragment);
+
+        sortedByInfoText.setText(Html.fromHtml("Sorted by: <b>Alphabetical</b>"));
+        filteredByInfoText.setText(Html.fromHtml("Filtering: <b>" + child.radius  + "km</b> from <b>Current Location<b>"));
+    }
+
+    public void setFilterTextDistance(String distanceText, String locationText){
+        filteredByInfoText.setText(Html.fromHtml("Filtering: <b>" + distanceText  + "km</b> from <b>" + locationText + " <b>"));
     }
 
     @Override
@@ -128,6 +132,7 @@ public class ViewPublicListingsActivity extends BaseActivity{
                                 }else{
                                     try {
                                         double radius = Double.parseDouble(radiusString);
+                                        setFilterTextDistance("" + radius, "Current Location");
                                         ((DeliveryListFragment)getSupportFragmentManager().findFragmentById(R.id.delivery_list_fragment)).adapter.updateLocation(radius);
                                     }catch(NumberFormatException e){
                                         error = true;
@@ -182,7 +187,7 @@ public class ViewPublicListingsActivity extends BaseActivity{
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_delivery_list, container, false);
 
-            radius = 10;
+            radius = Constants.DEFAULT_FILTER_RADIUS;
 
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.my_recycler_view);
             mRecyclerView.setHasFixedSize(true);

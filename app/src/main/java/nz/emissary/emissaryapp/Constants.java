@@ -53,6 +53,8 @@ public class Constants {
 
     final public static int MINIMUM_MESSAGE_REQUEST_LENGTH  = 10;
 
+    final public static int DEFAULT_FILTER_RADIUS   =   20;
+
     public static String getFullDateTimeString(String timeString){
         String[] resultArray = timeString.split(Constants.TIME_TOKEN);
 
