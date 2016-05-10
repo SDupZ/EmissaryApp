@@ -116,7 +116,7 @@
             android:id="@+id/driver_update_status_button"
             android:layout_below="@+id/item_notes"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_size"
+            android:layout_height="wrap_content"
             android:text="Status Unknown"
             android:enabled="false"
             android:textStyle="bold"
@@ -302,7 +302,7 @@
     <Button
         android:id="@+id/abandon_delivery"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_size"
+        android:layout_height="wrap_content"
         android:text="Abandon Delivery"
         android:textStyle="bold"
         android:theme="@style/CustomAccentOverlay"

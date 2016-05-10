@@ -22,8 +22,6 @@ public class Delivery {
 
     private double distance;
 
-
-
     //private String expiryDate;
 
     private String driver;
