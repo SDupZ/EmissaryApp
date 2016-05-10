@@ -672,7 +672,7 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         myDelivery.setDropoffTime(dropoffTime);
                         myDelivery.setCreatedAt(System.currentTimeMillis() / 1000.0);
 
-                        Firebase postRef = ref.child(Constants.FIREBASE_DELIVERIES_ACTIVE_BASE_CHILD);
+                        Firebase postRef = ref.child(Constants.FIREBASE_DELIVERIES_PENDING_BASE_CHILD);
                         Firebase newPostRef = postRef.push();
                         newPostRef.setValue(myDelivery);
 
