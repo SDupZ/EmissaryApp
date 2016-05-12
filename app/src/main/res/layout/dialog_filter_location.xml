@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
     android:orientation="vertical">
 
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton android:id="@+id/radio_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All"
+            android:onClick="onRadioButtonClicked"/>
+
+        <RadioButton android:id="@+id/radio_auckland_all"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="All Auckland"
+            android:onClick="onRadioButtonClicked"/>
+
+        <TextView
+            android:layout_marginBottom="15dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="or"/>
+
+        <RadioButton android:id="@+id/radio_current_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Radius around current location"
+            android:onClick="onRadioButtonClicked"/>
+    </RadioGroup>
+
+
     <EditText
         android:layout_marginBottom="15dp"
         android:id="@+id/radius"
-        android:layout_gravity="center"
+        android:layout_gravity="left"
         android:inputType="number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

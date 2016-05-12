@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+import com.firebase.geofire.GeoLocation;
+
 import java.text.DecimalFormat;
 import java.text.Format;
 import java.text.SimpleDateFormat;
@@ -54,6 +56,13 @@ public class Constants {
     final public static int MINIMUM_MESSAGE_REQUEST_LENGTH  = 10;
 
     final public static int DEFAULT_FILTER_RADIUS   =   20;
+
+    final public static double LOCATION_RADIUS_AUCKLAND_ALL = 58;
+
+    final public static GeoLocation LOCATION_COORD_AUCKLAND_ALL = new GeoLocation(-36.655750,174.733086);
+    final public static GeoLocation LOCATION_COORD_DEFAULT = new GeoLocation(-36.724026,174.717979);
+
+
 
     public static String getFullDateTimeString(String timeString){
         String[] resultArray = timeString.split(Constants.TIME_TOKEN);

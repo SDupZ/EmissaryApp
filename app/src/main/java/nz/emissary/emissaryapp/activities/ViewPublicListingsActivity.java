@@ -3,41 +3,27 @@ package nz.emissary.emissaryapp.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
-import com.firebase.client.Query;
-import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
-import com.firebase.geofire.GeoQuery;
-import com.firebase.ui.FirebaseRecyclerAdapter;
-
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.CustomFirebaseListingsAdapter;
@@ -57,6 +43,8 @@ public class ViewPublicListingsActivity extends BaseActivity{
     TextView sortedByInfoText;
     TextView filteredByInfoText;
 
+    View currentlySelected;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +62,10 @@ public class ViewPublicListingsActivity extends BaseActivity{
 
     public void setFilterTextDistance(String distanceText, String locationText){
         filteredByInfoText.setText(Html.fromHtml("Filtering: <b>" + distanceText  + "km</b> from <b>" + locationText + " <b>"));
+    }
+
+    public void setFilterTextDistance(String region){
+        filteredByInfoText.setText(Html.fromHtml("Filtering: <b>" + region  + "</b>"));
     }
 
     @Override
@@ -112,7 +104,7 @@ public class ViewPublicListingsActivity extends BaseActivity{
 
                 final EditText radiusView = (EditText) dialogView.findViewById(R.id.radius);
 
-                builder.setTitle("Search radius around current location");
+                builder.setTitle("Filter by:");
                 builder.setPositiveButton("Confirm", null);
                 builder.setNegativeButton("Cancel", null);
 
@@ -125,20 +117,39 @@ public class ViewPublicListingsActivity extends BaseActivity{
                         b.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                String radiusString = radiusView.getText().toString().trim();
+                                double radius = 0;
                                 boolean error = false;
-                                if (radiusString == ""){
-                                    error = true;
-                                }else{
-                                    try {
-                                        double radius = Double.parseDouble(radiusString);
-                                        setFilterTextDistance("" + radius, "Current Location");
-                                        ((DeliveryListFragment)getSupportFragmentManager().findFragmentById(R.id.delivery_list_fragment)).adapter.updateLocation(radius);
-                                    }catch(NumberFormatException e){
-                                        error = true;
-                                    }
+                                GeoLocation location = null;
+                                String locationString = "";
+                                switch(currentlySelected.getId()) {
+                                    case R.id.radio_all:
+                                        radius = Constants.LOCATION_RADIUS_AUCKLAND_ALL;
+                                        location = Constants.LOCATION_COORD_AUCKLAND_ALL;
+                                        setFilterTextDistance("All");
+                                        break;
+                                    case R.id.radio_auckland_all:
+                                        radius = Constants.LOCATION_RADIUS_AUCKLAND_ALL;
+                                        location = Constants.LOCATION_COORD_AUCKLAND_ALL;
+                                        setFilterTextDistance("All Auckland");
+                                        break;
+                                    case R.id.radio_current_location:
+                                        String radiusString = radiusView.getText().toString().trim();
+                                        if (radiusString == ""){
+                                            error = true;
+                                        }else{
+                                            try {
+                                                radius = Double.parseDouble(radiusString);
+                                                location = Constants.LOCATION_COORD_DEFAULT;
+                                                setFilterTextDistance("" + radius, "Current Location");
+                                            }catch(NumberFormatException e){
+                                                error = true;
+                                            }
+                                         }
+                                        break;
                                 }
+
                                 progressBar.setVisibility(View.GONE);
+
                                 if (error){
                                     radiusView.setError("Must be a valid number");
                                     radiusView.requestFocus();
@@ -159,6 +170,12 @@ public class ViewPublicListingsActivity extends BaseActivity{
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    public void onRadioButtonClicked(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        if (checked)
+            currentlySelected = view;
     }
 
     protected int getLayoutResource(){
@@ -199,12 +216,7 @@ public class ViewPublicListingsActivity extends BaseActivity{
             final TextView noDeliveriesTextView = (TextView) rootView.findViewById(R.id.no_deliveries_text_view);
             noDeliveriesTextView.setVisibility(View.VISIBLE);
 
-
-            GeoFire geoFire = new GeoFire(new Firebase("https://emissary.firebaseio.com/delivery_geofire/pickup_location"));
-            // creates a new query around [37.7832, -122.4056] with a radius of 0.6 kilometers
-            GeoQuery geoQuery = geoFire.queryAtLocation(new GeoLocation(-36.718880, 174.729048), radius);
-
-            adapter = new CustomFirebaseListingsAdapter(geoQuery);
+            adapter = new CustomFirebaseListingsAdapter();
             mRecyclerView.setAdapter(adapter);
 
             mRecyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {

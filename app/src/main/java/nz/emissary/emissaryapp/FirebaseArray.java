@@ -1,51 +1,29 @@
 package nz.emissary.emissaryapp;
 
-import android.os.Debug;
-import android.util.Log;
-
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
-import com.firebase.client.ValueEventListener;
-import com.firebase.geofire.GeoLocation;
-import com.firebase.geofire.GeoQuery;
-import com.firebase.geofire.GeoQueryEventListener;
 
 import java.util.ArrayList;
 
 /**
  * This class implements an array-like collection on top of a Firebase location.
  */
-class FirebaseArray implements GeoQueryEventListener, ValueEventListener{
-
+class FirebaseArray implements ChildEventListener {
     public interface OnChangedListener {
         enum EventType { Added, Changed, Removed, Moved }
         void onChanged(EventType type, int index, int oldIndex);
     }
 
     private Query mQuery;
-    private GeoQuery mGeoQuery;
     private OnChangedListener mListener;
     private ArrayList<DataSnapshot> mSnapshots;
-    Firebase mRef;
 
-    public FirebaseArray(Query ref, GeoQuery geoRef) {
-        mRef = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE);
+    public FirebaseArray(Query ref) {
         mQuery = ref;
-        mGeoQuery = geoRef;
         mSnapshots = new ArrayList<DataSnapshot>();
-
-        //mQuery.addChildEventListener(this);
-        mGeoQuery.addGeoQueryEventListener(this);
-    }
-
-    public void updateGeoQuery(GeoLocation center, double radius){
-        if (center != null){
-            mGeoQuery.setCenter(center);
-        }
-        mGeoQuery.setRadius(radius);
+        mQuery.addChildEventListener(this);
     }
 
     public void cleanup() {
@@ -72,6 +50,41 @@ class FirebaseArray implements GeoQueryEventListener, ValueEventListener{
         throw new IllegalArgumentException("Key not found");
     }
 
+    // Start of ChildEventListener methods
+    public void onChildAdded(DataSnapshot snapshot, String previousChildKey) {
+        int index = 0;
+        if (previousChildKey != null) {
+            index = getIndexForKey(previousChildKey) + 1;
+        }
+        mSnapshots.add(index, snapshot);
+        notifyChangedListeners(OnChangedListener.EventType.Added, index);
+    }
+
+    public void onChildChanged(DataSnapshot snapshot, String previousChildKey) {
+        int index = getIndexForKey(snapshot.getKey());
+        mSnapshots.set(index, snapshot);
+        notifyChangedListeners(OnChangedListener.EventType.Changed, index);
+    }
+
+    public void onChildRemoved(DataSnapshot snapshot) {
+        int index = getIndexForKey(snapshot.getKey());
+        mSnapshots.remove(index);
+        notifyChangedListeners(OnChangedListener.EventType.Removed, index);
+    }
+
+    public void onChildMoved(DataSnapshot snapshot, String previousChildKey) {
+        int oldIndex = getIndexForKey(snapshot.getKey());
+        mSnapshots.remove(oldIndex);
+        int newIndex = previousChildKey == null ? 0 : (getIndexForKey(previousChildKey) + 1);
+        mSnapshots.add(newIndex, snapshot);
+        notifyChangedListeners(OnChangedListener.EventType.Moved, newIndex, oldIndex);
+    }
+
+    public void onCancelled(FirebaseError firebaseError) {
+        // TODO: what do we do with this?
+    }
+    // End of ChildEventListener methods
+
     public void setOnChangedListener(OnChangedListener listener) {
         mListener = listener;
     }
@@ -83,69 +96,4 @@ class FirebaseArray implements GeoQueryEventListener, ValueEventListener{
             mListener.onChanged(type, index, oldIndex);
         }
     }
-
-    // GEO Query Listeners
-
-    @Override
-    public void onKeyEntered(String key, GeoLocation location) {
-        Log.d("EMISSARY", String.format("Key %s entered the search area at [%f,%f]", key, location.latitude, location.longitude));
-        mRef.child(key).addValueEventListener(this);
-    }
-
-    @Override
-    public void onKeyExited(String key) {
-        Log.d("EMISSARY", String.format("Key %s is no longer in the search area", key));
-        mRef.child(key).removeEventListener(this);
-        mSnapshots.remove(getIndexForKey(key));
-    }
-
-    @Override
-    public void onKeyMoved(String key, GeoLocation location) {
-        Log.d("EMISSARY", String.format("Key %s moved within the search area to [%f,%f]", key, location.latitude, location.longitude));
-    }
-
-    @Override
-    public void onGeoQueryReady() {
-        Log.d("EMISSARY", "All initial data has been loaded and events have been fired!");
-    }
-
-    @Override
-    public void onGeoQueryError(FirebaseError error) {
-        Log.d("EMISSARY", "There was an error with this query: " + error);
-    }
-
-    //------------------------Value event listener-----------------------
-    @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        Delivery d = dataSnapshot.getValue(Delivery.class);
-        if (d != null) {
-            int index = getCount();
-            Log.d("EMISSARY", "Adding to list: " + dataSnapshot.getKey());
-
-            if (mSnapshots.contains(dataSnapshot)) {
-                mSnapshots.remove(dataSnapshot);
-                Log.d("EMISSARY", "Already in list: " + dataSnapshot.getKey());
-            }
-
-            for (DataSnapshot s : mSnapshots) {
-                Log.d("EMISSARY", "Iterating over: " + s.getKey());
-
-                String s1 = s.getValue(Delivery.class).getListingName();
-                String s2 = dataSnapshot.getValue(Delivery.class).getListingName();
-
-                if (s1.compareTo(s2) > 0) {
-                    index = getIndexForKey(s.getKey());
-                    break;
-                }
-            }
-            mSnapshots.add(index, dataSnapshot);
-            notifyChangedListeners(OnChangedListener.EventType.Added, index);
-        }
-    }
-
-    @Override
-    public void onCancelled(FirebaseError firebaseError) {
-
-    }
-
 }

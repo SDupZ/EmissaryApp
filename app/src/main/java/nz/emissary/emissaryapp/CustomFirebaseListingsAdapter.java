@@ -11,11 +11,6 @@ import android.widget.TextView;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
-import com.firebase.geofire.GeoLocation;
-import com.firebase.geofire.GeoQuery;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import nz.emissary.emissaryapp.activities.ViewItemActivity;
 
@@ -26,12 +21,12 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
 
     FirebaseArray mSnapshots;
 
-    public CustomFirebaseListingsAdapter(GeoQuery geoQuery){
+    public CustomFirebaseListingsAdapter(){
 
         final Firebase mRef = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE);
         Query queryRef = mRef.orderByChild("status").equalTo(Constants.STATUS_LISTED);
 
-        mSnapshots = new FirebaseArray(queryRef, geoQuery);
+        mSnapshots = new FirebaseArray(queryRef);
         mSnapshots.setOnChangedListener(new FirebaseArray.OnChangedListener() {
             @Override
             public void onChanged(EventType type, int index, int oldIndex) {
@@ -53,13 +48,6 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
                 }
             }
         });
-    }
-
-    public void updateLocation(GeoLocation center, double radius){
-        mSnapshots.updateGeoQuery(center, radius);
-    }
-    public void updateLocation(double radius){
-        mSnapshots.updateGeoQuery(null, radius);
     }
 
     public void cleanup() {

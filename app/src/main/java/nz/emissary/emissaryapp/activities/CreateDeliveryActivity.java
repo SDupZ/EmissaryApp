@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +25,6 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.firebase.geofire.GeoFire;
-import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -677,12 +674,6 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         newPostRef.setValue(myDelivery);
 
                         final String deliveryId = newPostRef.getKey();
-
-                        GeoFire geoFirePickup = new GeoFire(new Firebase("https://emissary.firebaseio.com/delivery_geofire/pickup_location/"));
-                        GeoFire geoFireDropoff = new GeoFire(new Firebase("https://emissary.firebaseio.com/delivery_geofire/dropoff_location/"));
-
-                        geoFirePickup.setLocation(deliveryId, new GeoLocation(pickupLatLng.latitude, pickupLatLng.longitude));
-                        geoFireDropoff.setLocation(deliveryId, new GeoLocation(dropoffLatLng.latitude, dropoffLatLng.longitude));
 
                         currentUser.addNewListing(deliveryId);
                         currentFirebaseUser.setValue(currentUser, new Firebase.CompletionListener() {
