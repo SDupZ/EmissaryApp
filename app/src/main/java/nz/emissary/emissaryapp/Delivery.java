@@ -21,6 +21,10 @@ public class Delivery {
     private String messageFromDriver;
 
     private double distance;
+    private double pickupLat;
+    private double pickupLong;
+    private double dropoffLat;
+    private double dropoffLong;
 
     //private String expiryDate;
 
@@ -149,5 +153,37 @@ public class Delivery {
 
     public void setDropoffLocationShort(String dropoffLocationShort) {
         this.dropoffLocationShort = dropoffLocationShort;
+    }
+
+    public double getPickupLat() {
+        return pickupLat;
+    }
+
+    public void setPickupLat(double pickupLat) {
+        this.pickupLat = pickupLat;
+    }
+
+    public double getPickupLong() {
+        return pickupLong;
+    }
+
+    public void setPickupLong(double pickupLong) {
+        this.pickupLong = pickupLong;
+    }
+
+    public double getDropoffLat() {
+        return dropoffLat;
+    }
+
+    public void setDropoffLat(double dropoffLat) {
+        this.dropoffLat = dropoffLat;
+    }
+
+    public double getDropoffLong() {
+        return dropoffLong;
+    }
+
+    public void setDropoffLong(double dropoffLong) {
+        this.dropoffLong = dropoffLong;
     }
 }

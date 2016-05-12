@@ -579,8 +579,6 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
 
                     String pickupTime = "";
                     String dropoffTime = "";
-                    String pickupTimeEnd = "";
-                    String dropoffTimeEnd = "";
 
                     boolean error = false;
                     deliveryName.setError(null);
@@ -668,6 +666,10 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         myDelivery.setPickupTime(pickupTime);
                         myDelivery.setDropoffTime(dropoffTime);
                         myDelivery.setCreatedAt(System.currentTimeMillis() / 1000.0);
+                        myDelivery.setPickupLat(pickupLatLng.latitude);
+                        myDelivery.setDropoffLat(dropoffLatLng.latitude);
+                        myDelivery.setPickupLong(pickupLatLng.longitude);
+                        myDelivery.setDropoffLong(pickupLatLng.longitude);
 
                         Firebase postRef = ref.child(Constants.FIREBASE_DELIVERIES_PENDING_BASE_CHILD);
                         Firebase newPostRef = postRef.push();
