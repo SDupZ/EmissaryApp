@@ -6,6 +6,7 @@
     android:orientation="vertical">
 
     <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/radio_group_sort"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -47,10 +48,24 @@
         android:text="Sort order"
         android:padding="20dp"/>
 
-    <CheckBox android:id="@+id/checkbox_sort_ascending"
-        android:layout_width="wrap_content"
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/radio_group_sort_order"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Ascending"
-        android:onClick="onCheckboxClicked"/>
+        android:orientation="vertical">
+
+        <RadioButton android:id="@+id/radio_sort_ascending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ascending"
+            android:onClick="onRadioButtonClickedOrder"/>
+
+        <RadioButton android:id="@+id/radio_sort_descending"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descending"
+            android:onClick="onRadioButtonClickedOrder"/>
+
+    </RadioGroup>
 
 </LinearLayout>

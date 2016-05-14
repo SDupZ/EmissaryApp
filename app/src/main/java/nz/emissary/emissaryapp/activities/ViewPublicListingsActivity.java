@@ -20,6 +20,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
@@ -46,10 +47,12 @@ public class ViewPublicListingsActivity extends BaseActivity{
     TextView filteredByInfoText;
 
     View currentlySelected;
+    boolean ascending;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ascending = true;
         progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -176,6 +179,10 @@ public class ViewPublicListingsActivity extends BaseActivity{
                 final View dialogView2 = inflater2.inflate(R.layout.dialog_sort_deliveries, null);
                 builder2.setView(dialogView2);
 
+                RadioGroup radioGroupSort;
+                radioGroupSort = (RadioGroup)dialogView2.findViewById(R.id.radio_group_sort_order);
+                radioGroupSort.check(R.id.radio_sort_ascending);
+
                 builder2.setTitle("Sort by:");
                 builder2.setPositiveButton("Confirm", null);
                 builder2.setNegativeButton("Cancel", null);
@@ -192,11 +199,11 @@ public class ViewPublicListingsActivity extends BaseActivity{
                                 DeliveryListFragment frag = ((DeliveryListFragment) getSupportFragmentManager().findFragmentById(R.id.delivery_list_fragment));
                                 switch(currentlySelected.getId()) {
                                     case R.id.radio_sort_alphabetical:
-                                        frag.adapter.setComparator(new Delivery.AlphabeticalComparator());
+                                        frag.adapter.setComparator(new Delivery.AlphabeticalComparator(), ascending);
                                         break;
 
                                     case R.id.radio_sort_total_distance:
-                                        frag.adapter.setComparator(new Delivery.TotalDistanceComparator());
+                                        frag.adapter.setComparator(new Delivery.TotalDistanceComparator(), ascending);
                                         break;
                                 }
                                 tempDialog2.dismiss();
@@ -218,8 +225,18 @@ public class ViewPublicListingsActivity extends BaseActivity{
             currentlySelected = view;
     }
 
-    public void onCheckboxClicked(View view) {
-        boolean checked = ((CheckBox) view).isChecked();
+    public void onRadioButtonClickedOrder(View view) {
+        boolean checked = ((RadioButton) view).isChecked();
+        if (checked){
+            switch (view.getId()){
+                case R.id.radio_sort_ascending:
+                    this.ascending = true;
+                    break;
+                case R.id.radio_sort_descending:
+                    this.ascending = false;
+                    break;
+            }
+        }
     }
 
     protected int getLayoutResource(){

@@ -55,8 +55,8 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
         });
     }
 
-    public void setComparator(Comparator<DataSnapshot> c){
-        mSnapshots.setComparator(c);
+    public void setComparator(Comparator<DataSnapshot> c, boolean forward){
+        mSnapshots.setComparator(c, forward);
     }
 
     public void cleanup() {

@@ -1,5 +1,7 @@
 package nz.emissary.emissaryapp;
 
+import android.util.Log;
+
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
@@ -32,9 +34,17 @@ class FirebaseArray implements ChildEventListener {
         this.currentSort = currentSort;
     }
 
-    public void setComparator(Comparator<DataSnapshot> c){
+    public void setComparator(Comparator<DataSnapshot> c, boolean forward){
         this.currentSort = c;
-        Collections.sort(mSnapshots, this.currentSort);
+        if (forward) {
+            Collections.sort(mSnapshots, this.currentSort);
+            Log.d("EMISSARY", "FORWARD ORDER");
+        }else{
+            Log.d("EMISSARY", "REVERSE ORDER");
+            Comparator<DataSnapshot> reverseComp = Collections.reverseOrder(this.currentSort);
+            Collections.sort(mSnapshots, reverseComp);
+        }
+
         notifyChangedListeners(OnChangedListener.EventType.Sorted);
     }
 
