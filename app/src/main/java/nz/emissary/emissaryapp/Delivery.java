@@ -215,4 +215,21 @@ public class Delivery {
             }
         }
     }
+
+    public static class LatestComparator implements Comparator<DataSnapshot> {
+        @Override
+        public int compare(DataSnapshot lhsSnapshot, DataSnapshot rhsSnapshot) {
+            Delivery lhs = lhsSnapshot.getValue(Delivery.class);
+            Delivery rhs = rhsSnapshot.getValue(Delivery.class);
+
+            double lhsCreatedAt = lhs.getCreatedAt();
+            double rhsCreatedAt= rhs.getCreatedAt();
+
+            if (lhsCreatedAt == rhsCreatedAt){
+                return 0;
+            }else{
+                return lhsCreatedAt < rhsCreatedAt ? -1:1;
+            }
+        }
+    }
 }

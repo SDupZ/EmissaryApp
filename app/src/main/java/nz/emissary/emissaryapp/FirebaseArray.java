@@ -38,9 +38,7 @@ class FirebaseArray implements ChildEventListener {
         this.currentSort = c;
         if (forward) {
             Collections.sort(mSnapshots, this.currentSort);
-            Log.d("EMISSARY", "FORWARD ORDER");
         }else{
-            Log.d("EMISSARY", "REVERSE ORDER");
             Comparator<DataSnapshot> reverseComp = Collections.reverseOrder(this.currentSort);
             Collections.sort(mSnapshots, reverseComp);
         }

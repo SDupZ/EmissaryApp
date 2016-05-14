@@ -13,33 +13,36 @@
 
         <RadioButton android:id="@+id/radio_sort_alphabetical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="Alphabetical"
             android:onClick="onRadioButtonClicked"/>
 
-        <RadioButton android:id="@+id/radio_sort_total_distance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Total delivery distance"
-            android:onClick="onRadioButtonClicked"/>
-
-        <RadioButton android:id="@+id/radio_sort_distance_from_current"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Distance from current location"
-            android:onClick="onRadioButtonClicked"/>
-
         <RadioButton android:id="@+id/radio_sort_latest_listings"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Latest listings"
+            android:text="Latest"
             android:onClick="onRadioButtonClicked"/>
 
         <RadioButton android:id="@+id/radio_sort_soonest_pickup"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pickup Time"
             android:onClick="onRadioButtonClicked"/>
+
+        <RadioButton android:id="@+id/radio_sort_total_distance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Delivery distance (Total)"
+            android:onClick="onRadioButtonClicked"/>
+
+        <RadioButton android:id="@+id/radio_sort_distance_from_current"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Distance (From your location)"
+            android:onClick="onRadioButtonClicked"/>
+
+
+
     </RadioGroup>
 
     <TextView
@@ -55,13 +58,13 @@
         android:orientation="vertical">
 
         <RadioButton android:id="@+id/radio_sort_ascending"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Ascending"
             android:onClick="onRadioButtonClickedOrder"/>
 
         <RadioButton android:id="@+id/radio_sort_descending"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Descending"
             android:onClick="onRadioButtonClickedOrder"/>

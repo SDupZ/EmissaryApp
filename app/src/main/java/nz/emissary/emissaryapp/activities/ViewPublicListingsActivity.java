@@ -210,8 +210,14 @@ public class ViewPublicListingsActivity extends BaseActivity{
 
                                     case R.id.radio_sort_total_distance:
                                         frag.adapter.setComparator(new Delivery.TotalDistanceComparator(), ascending);
-                                        setSortText("Total Distance");
+                                        setSortText("Distance (Total)");
                                         break;
+
+                                    case R.id.radio_sort_latest_listings:
+                                        frag.adapter.setComparator(new Delivery.LatestComparator(), ascending);
+                                        setSortText("Latest");
+                                        break;
+                                                                        
                                 }
                                 tempDialog2.dismiss();
                             }
