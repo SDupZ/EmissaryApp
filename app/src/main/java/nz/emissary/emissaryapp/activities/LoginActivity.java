@@ -31,6 +31,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -90,6 +92,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mLoginFormView;
     private boolean signup;
 
+    private TextView mBecomeDriverTextView;
+    private CheckBox mBecomeDriverCheckView;
+
     private int count = 0;
 
     protected Toolbar toolbar;
@@ -125,6 +130,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     return true;
                 }
                 return false;
+            }
+        });
+
+        mBecomeDriverTextView = (TextView)findViewById(R.id.become_driver_text);
+        mBecomeDriverCheckView = (CheckBox) findViewById(R.id.become_driver);
+        mBecomeDriverCheckView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+                    mBecomeDriverTextView.setVisibility(View.VISIBLE);
+                }else{
+                    mBecomeDriverTextView.setVisibility(View.GONE);
+                }
             }
         });
 
@@ -188,6 +206,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     mPhoneView.setVisibility(View.VISIBLE);
                     nameLayout.setVisibility(View.VISIBLE);
                     mPasswordConfirmView.setVisibility(View.VISIBLE);
+                    mBecomeDriverCheckView.setVisibility(View.VISIBLE);
                     mEmailSignInButton.setText(R.string.action_signup);
                     mSignupLink.setText("Return to login");
                     mFirstName.requestFocus();
@@ -196,6 +215,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     mPhoneView.setVisibility(View.GONE);
                     nameLayout.setVisibility(View.GONE);
                     mPasswordConfirmView.setVisibility(View.GONE);
+                    mBecomeDriverCheckView.setVisibility(View.GONE);
                     mEmailSignInButton.setText(R.string.action_sign_in);
                     mSignupLink.setText("Register");
                     mEmailView.requestFocus();

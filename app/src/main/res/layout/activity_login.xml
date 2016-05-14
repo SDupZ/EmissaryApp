@@ -171,6 +171,23 @@
 
                 </android.support.design.widget.TextInputLayout>
 
+                <CheckBox
+                    android:visibility="gone"
+                    android:id="@+id/become_driver"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="Become a driver!"/>
+
+                <TextView
+                    android:visibility="gone"
+                    android:id="@+id/become_driver_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="As a driver you will be required to fill in more details after your initial account signup."/>
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
