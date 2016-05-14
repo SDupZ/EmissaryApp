@@ -61,16 +61,21 @@ public class ViewPublicListingsActivity extends BaseActivity{
 
         DeliveryListFragment child = (DeliveryListFragment) getSupportFragmentManager().findFragmentById(R.id.delivery_list_fragment);
 
-        sortedByInfoText.setText(Html.fromHtml("Sorted by: <b>Alphabetical</b>"));
-        filteredByInfoText.setText(Html.fromHtml("Filtering: <b>" + child.radius  + "km</b> from <b>Current Location<b>"));
+        sortedByInfoText.setText(Html.fromHtml("Sorted by: <b>Latest</b>"));
+        filteredByInfoText.setText(Html.fromHtml("Filtered by: <b>All</b>"));
+    }
+
+    public void setSortText(String sort){
+        String ascendingText = this.ascending ? "Ascending" : "Descending";
+        sortedByInfoText.setText(Html.fromHtml("Sorted by: <b>" + sort + "</b>" + ", " + "<b>" + ascendingText + "</b>"));
     }
 
     public void setFilterTextDistance(String distanceText, String locationText){
-        filteredByInfoText.setText(Html.fromHtml("Filtering: <b>" + distanceText  + "km</b> from <b>" + locationText + " <b>"));
+        filteredByInfoText.setText(Html.fromHtml("Filtered by: <b>" + distanceText  + "km</b> from <b>" + locationText + " <b>"));
     }
 
     public void setFilterTextDistance(String region){
-        filteredByInfoText.setText(Html.fromHtml("Filtering: <b>" + region  + "</b>"));
+        filteredByInfoText.setText(Html.fromHtml("Filtered by: <b>" + region  + "</b>"));
     }
 
     @Override
@@ -200,10 +205,12 @@ public class ViewPublicListingsActivity extends BaseActivity{
                                 switch(currentlySelected.getId()) {
                                     case R.id.radio_sort_alphabetical:
                                         frag.adapter.setComparator(new Delivery.AlphabeticalComparator(), ascending);
+                                        setSortText("Alphabetical");
                                         break;
 
                                     case R.id.radio_sort_total_distance:
                                         frag.adapter.setComparator(new Delivery.TotalDistanceComparator(), ascending);
+                                        setSortText("Total Distance");
                                         break;
                                 }
                                 tempDialog2.dismiss();
