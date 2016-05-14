@@ -216,6 +216,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     nameLayout.setVisibility(View.GONE);
                     mPasswordConfirmView.setVisibility(View.GONE);
                     mBecomeDriverCheckView.setVisibility(View.GONE);
+                    mBecomeDriverTextView.setVisibility(View.GONE);
+                    mBecomeDriverCheckView.setChecked(false);
                     mEmailSignInButton.setText(R.string.action_sign_in);
                     mSignupLink.setText("Register");
                     mEmailView.requestFocus();
