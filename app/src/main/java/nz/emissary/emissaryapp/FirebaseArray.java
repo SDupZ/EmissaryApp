@@ -6,13 +6,18 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * This class implements an array-like collection on top of a Firebase location.
  */
 class FirebaseArray implements ChildEventListener {
+    Comparator<DataSnapshot> currentSort;
+
     public interface OnChangedListener {
-        enum EventType { Added, Changed, Removed, Moved }
+        enum EventType { Added, Changed, Removed, Moved, Sorted }
         void onChanged(EventType type, int index, int oldIndex);
     }
 
@@ -20,10 +25,17 @@ class FirebaseArray implements ChildEventListener {
     private OnChangedListener mListener;
     private ArrayList<DataSnapshot> mSnapshots;
 
-    public FirebaseArray(Query ref) {
+    public FirebaseArray(Query ref, Comparator<DataSnapshot> currentSort) {
         mQuery = ref;
         mSnapshots = new ArrayList<DataSnapshot>();
         mQuery.addChildEventListener(this);
+        this.currentSort = currentSort;
+    }
+
+    public void setComparator(Comparator<DataSnapshot> c){
+        this.currentSort = c;
+        Collections.sort(mSnapshots, this.currentSort);
+        notifyChangedListeners(OnChangedListener.EventType.Sorted);
     }
 
     public void cleanup() {
@@ -88,9 +100,15 @@ class FirebaseArray implements ChildEventListener {
     public void setOnChangedListener(OnChangedListener listener) {
         mListener = listener;
     }
+
+    protected void notifyChangedListeners(OnChangedListener.EventType type) {
+        notifyChangedListeners(type, -1, -1);
+    }
+
     protected void notifyChangedListeners(OnChangedListener.EventType type, int index) {
         notifyChangedListeners(type, index, -1);
     }
+
     protected void notifyChangedListeners(OnChangedListener.EventType type, int index, int oldIndex) {
         if (mListener != null) {
             mListener.onChanged(type, index, oldIndex);

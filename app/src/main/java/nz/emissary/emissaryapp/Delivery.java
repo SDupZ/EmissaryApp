@@ -1,5 +1,9 @@
 package nz.emissary.emissaryapp;
 
+import com.firebase.client.DataSnapshot;
+
+import java.util.Comparator;
+
 /**
  * Created by Simon on 3/03/2016.
  */
@@ -185,5 +189,30 @@ public class Delivery {
 
     public void setDropoffLong(double dropoffLong) {
         this.dropoffLong = dropoffLong;
+    }
+
+    public static class AlphabeticalComparator implements Comparator<DataSnapshot> {
+        @Override
+        public int compare(DataSnapshot lhsSnapshot, DataSnapshot rhsSnapshot) {
+            Delivery lhs = lhsSnapshot.getValue(Delivery.class);
+            Delivery rhs = rhsSnapshot.getValue(Delivery.class);
+            return lhs.getListingName().toLowerCase().compareTo(rhs.getListingName().toLowerCase());
+        }
+    }
+
+    public static class TotalDistanceComparator implements Comparator<DataSnapshot> {
+        @Override
+        public int compare(DataSnapshot lhsSnapshot, DataSnapshot rhsSnapshot) {
+            Delivery lhs = lhsSnapshot.getValue(Delivery.class);
+            Delivery rhs = rhsSnapshot.getValue(Delivery.class);
+            double lhsDistance = lhs.getDistance();
+            double rhsDistance = rhs.getDistance();
+
+            if (lhsDistance == rhsDistance){
+                return 0;
+            }else{
+                return lhsDistance < rhsDistance ? -1:1;
+            }
+        }
     }
 }

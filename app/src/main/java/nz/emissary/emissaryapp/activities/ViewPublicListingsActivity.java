@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
@@ -27,6 +28,7 @@ import com.firebase.geofire.GeoLocation;
 
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.CustomFirebaseListingsAdapter;
+import nz.emissary.emissaryapp.Delivery;
 import nz.emissary.emissaryapp.R;
 
 
@@ -92,8 +94,8 @@ public class ViewPublicListingsActivity extends BaseActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
         switch (item.getItemId()) {
+            // Filter items
             case R.id.action_location:
                 AlertDialog.Builder builder =
                         new AlertDialog.Builder(ViewPublicListingsActivity.this, R.style.MyAlertDialogStyle2);
@@ -165,7 +167,45 @@ public class ViewPublicListingsActivity extends BaseActivity{
                 dialog.show();
                 return true;
 
+            //Sort Items
             case R.id.action_sort:
+                AlertDialog.Builder builder2 =
+                        new AlertDialog.Builder(ViewPublicListingsActivity.this, R.style.MyAlertDialogStyle2);
+
+                LayoutInflater inflater2 = getLayoutInflater();
+                final View dialogView2 = inflater2.inflate(R.layout.dialog_sort_deliveries, null);
+                builder2.setView(dialogView2);
+
+                builder2.setTitle("Sort by:");
+                builder2.setPositiveButton("Confirm", null);
+                builder2.setNegativeButton("Cancel", null);
+
+                final AlertDialog tempDialog2 = builder2.create();
+
+                tempDialog2.setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        Button b = tempDialog2.getButton(AlertDialog.BUTTON_POSITIVE);
+                        b.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                DeliveryListFragment frag = ((DeliveryListFragment) getSupportFragmentManager().findFragmentById(R.id.delivery_list_fragment));
+                                switch(currentlySelected.getId()) {
+                                    case R.id.radio_sort_alphabetical:
+                                        frag.adapter.setComparator(new Delivery.AlphabeticalComparator());
+                                        break;
+
+                                    case R.id.radio_sort_total_distance:
+                                        frag.adapter.setComparator(new Delivery.TotalDistanceComparator());
+                                        break;
+                                }
+                                tempDialog2.dismiss();
+                            }
+                        });
+                    }
+                });
+                AppCompatDialog dialog2  = tempDialog2;
+                dialog2.show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -176,6 +216,10 @@ public class ViewPublicListingsActivity extends BaseActivity{
         boolean checked = ((RadioButton) view).isChecked();
         if (checked)
             currentlySelected = view;
+    }
+
+    public void onCheckboxClicked(View view) {
+        boolean checked = ((CheckBox) view).isChecked();
     }
 
     protected int getLayoutResource(){

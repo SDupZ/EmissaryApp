@@ -12,6 +12,8 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.Query;
 
+import java.util.Comparator;
+
 import nz.emissary.emissaryapp.activities.ViewItemActivity;
 
 /**
@@ -26,7 +28,7 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
         final Firebase mRef = new Firebase(Constants.FIREBASE_DELIVERIES_ACTIVE);
         Query queryRef = mRef.orderByChild("status").equalTo(Constants.STATUS_LISTED);
 
-        mSnapshots = new FirebaseArray(queryRef);
+        mSnapshots = new FirebaseArray(queryRef, new Delivery.TotalDistanceComparator());
         mSnapshots.setOnChangedListener(new FirebaseArray.OnChangedListener() {
             @Override
             public void onChanged(EventType type, int index, int oldIndex) {
@@ -43,11 +45,18 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
                     case Moved:
                         notifyItemMoved(oldIndex, index);
                         break;
+                    case Sorted:
+                        notifyDataSetChanged();
+                        break;
                     default:
                         throw new IllegalStateException("Incomplete case statement");
                 }
             }
         });
+    }
+
+    public void setComparator(Comparator<DataSnapshot> c){
+        mSnapshots.setComparator(c);
     }
 
     public void cleanup() {
