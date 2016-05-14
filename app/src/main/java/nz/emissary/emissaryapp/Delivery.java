@@ -232,4 +232,60 @@ public class Delivery {
             }
         }
     }
+
+    public static class PickupTimeComparator implements Comparator<DataSnapshot> {
+        @Override
+        public int compare(DataSnapshot lhsSnapshot, DataSnapshot rhsSnapshot) {
+            Delivery lhs = lhsSnapshot.getValue(Delivery.class);
+            Delivery rhs = rhsSnapshot.getValue(Delivery.class);
+
+            String lhsPickupTime = lhs.getPickupTime();
+            String rhsPickupTime= rhs.getPickupTime();
+
+            Long lhsTime = 0l;
+            Long rhsTime = 0l;
+
+            String[] resultArray = lhsPickupTime.split(Constants.TIME_TOKEN);
+
+            if (resultArray.length == 1 && resultArray[0].equals(Constants.TIME_ASAP)){
+                lhsTime = 0l;
+            }else if(resultArray.length == 2 && resultArray[0].equals(Constants.TIME_SPECIFIC)){
+                try {
+                    Long time = Long.parseLong(resultArray[1]);
+                    lhsTime = time;
+                }catch (NumberFormatException e){
+                }
+            }else if(resultArray.length == 3 && resultArray[0].equals(Constants.TIME_RANGE)){
+                try {
+                    Long timeBegin = Long.parseLong(resultArray[1]);
+                    lhsTime = timeBegin;
+                }catch (NumberFormatException e){
+                }
+            }
+
+            resultArray = rhsPickupTime.split(Constants.TIME_TOKEN);
+
+            if (resultArray.length == 1 && resultArray[0].equals(Constants.TIME_ASAP)){
+                rhsTime = 0l;
+            }else if(resultArray.length == 2 && resultArray[0].equals(Constants.TIME_SPECIFIC)){
+                try {
+                    Long time = Long.parseLong(resultArray[1]);
+                    rhsTime = time;
+                }catch (NumberFormatException e){
+                }
+            }else if(resultArray.length == 3 && resultArray[0].equals(Constants.TIME_RANGE)){
+                try {
+                    Long timeBegin = Long.parseLong(resultArray[1]);
+                    rhsTime = timeBegin;
+                }catch (NumberFormatException e){
+                }
+            }
+
+            if (lhsTime == rhsTime){
+                return 0;
+            }else{
+                return lhsTime < rhsTime ? -1:1;
+            }
+        }
+    }
 }

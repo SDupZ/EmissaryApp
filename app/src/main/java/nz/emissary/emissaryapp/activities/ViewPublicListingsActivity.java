@@ -217,7 +217,12 @@ public class ViewPublicListingsActivity extends BaseActivity{
                                         frag.adapter.setComparator(new Delivery.LatestComparator(), ascending);
                                         setSortText("Latest");
                                         break;
-                                                                        
+
+                                    case R.id.radio_sort_soonest_pickup:
+                                        frag.adapter.setComparator(new Delivery.PickupTimeComparator(), ascending);
+                                        setSortText("Pickup Time");
+                                        break;
+
                                 }
                                 tempDialog2.dismiss();
                             }
