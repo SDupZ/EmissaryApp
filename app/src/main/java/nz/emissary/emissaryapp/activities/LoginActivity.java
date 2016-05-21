@@ -556,22 +556,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     final Long lastLogin = d.getTime();
 
                     final Firebase firebaseUser = ref.child(Constants.FIREBASE_USERS_BASE_CHILD).child(authData.getUid());
-                    firebaseUser.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot snapshot) {
-                            user = snapshot.getValue(User.class);
-                            user.setLastLoginDate("" + lastLogin);
-                            firebaseUser.setValue(user);
-                            Intent result = new Intent(LoginActivity.this, ViewMyListingsActivity.class);
-                            setResult(RESULT_OK, result);
-                            result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
-                            finish();
-                        }
-
-                        @Override
-                        public void onCancelled(FirebaseError firebaseError) {
-                        }
-                    });
+                    firebaseUser.child("lastLoginDate").setValue("" + lastLogin);
+                    Intent result = new Intent(LoginActivity.this, ViewMyListingsActivity.class);
+                    setResult(RESULT_OK, result);
+                    result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
+                    finish();
                 }
 
                 @Override

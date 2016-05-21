@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
+
+import java.util.Date;
 
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.R;
@@ -42,6 +45,10 @@ public class SplashActivity extends Activity implements View.OnTouchListener{
                             Intent loginActivity = new Intent(SplashActivity.this, LoginActivity.class);
                             SplashActivity.this.startActivity(loginActivity);
                         }else{
+                            Date d = new Date();
+                            final Long lastLogin = d.getTime();
+                            final Firebase firebaseUser = ref.child(Constants.FIREBASE_USERS_BASE_CHILD).child(authData.getUid());
+                            firebaseUser.child("lastLoginDate").setValue("" + lastLogin);
                             Intent mainIntent = new Intent(SplashActivity.this, ViewMyListingsActivity.class);
                             SplashActivity.this.startActivity(mainIntent);
                         }
