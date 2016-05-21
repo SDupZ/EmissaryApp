@@ -13,7 +13,6 @@ public class User {
     private String lastName;
     private String phone;
     private String email;
-    private Boolean isDriver;
     private Boolean emailVerified;
 
     private String provider;
@@ -27,6 +26,8 @@ public class User {
     private List<String> previousDeliveries;
     private List<String> availableVehicles;
     private int driverRating;
+
+    private int isDriver;
 
     public User(){
         currentDeliveries = new ArrayList<String>();
@@ -78,6 +79,13 @@ public class User {
         this.lastName = lastName;
     }
 
+    public int getIsDriver() {
+        return isDriver;
+    }
+
+    public void setIsDriver(int isDriver) {
+        this.isDriver = isDriver;
+    }
 
     public String getPhone() {
         return phone;
@@ -93,14 +101,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public Boolean getIsDriver() {
-        return isDriver;
-    }
-
-    public void setIsDriver(Boolean isDriver) {
-        this.isDriver = isDriver;
     }
 
     public Boolean getEmailVerified() {

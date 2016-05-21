@@ -59,10 +59,12 @@ public class Constants {
 
     final public static double LOCATION_RADIUS_AUCKLAND_ALL = 58;
 
+    final public static int DRIVER_NO                   = 0;
+    final public static int DRIVER_PENDING              = 200;
+    final public static int DRIVER_YES                  = 400;
+
     final public static GeoLocation LOCATION_COORD_AUCKLAND_ALL = new GeoLocation(-36.655750,174.733086);
     final public static GeoLocation LOCATION_COORD_DEFAULT = new GeoLocation(-36.724026,174.717979);
-
-
 
     public static String getFullDateTimeString(String timeString){
         String[] resultArray = timeString.split(Constants.TIME_TOKEN);

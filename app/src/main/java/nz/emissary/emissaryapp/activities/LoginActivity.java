@@ -476,26 +476,23 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             ref.createUser(email, password, new Firebase.ValueResultHandler<Map<String, Object>>() {
                 @Override
                 public void onSuccess(Map<String, Object> result) {
+                    boolean driverIsChecked = mBecomeDriverCheckView.isChecked();
+                    mBecomeDriverTextView.setVisibility(View.GONE);
+                    mBecomeDriverCheckView.setChecked(false);
                     String uid = result.get("uid").toString();
 
                     Firebase firebaseUser = ref.child(Constants.FIREBASE_USERS_BASE_CHILD).child(uid);
-                    firebaseUser.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot snapshot) {
-                            user = snapshot.getValue(User.class);
-                        }
-
-                        @Override
-                        public void onCancelled(FirebaseError firebaseError) {
-                            System.out.println("The read failed: " + firebaseError.getMessage());
-                        }
-                    });
 
                     user = new User();
                     user.setEmail(email);
                     user.setFirstName(firstName);
                     user.setLastName(lastName);
                     user.setPhone(phone);
+                    if (driverIsChecked){
+                        user.setIsDriver(Constants.DRIVER_PENDING);
+                    }else{
+                        user.setIsDriver(Constants.DRIVER_NO);
+                    }
 
                     firebaseUser.setValue(user);
 
