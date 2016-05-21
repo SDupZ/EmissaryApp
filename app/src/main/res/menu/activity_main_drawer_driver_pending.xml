@@ -21,6 +21,17 @@
         </menu>
     </item>
 
+    <item
+        android:id="@+id/driver_menu_items"
+        android:title="Driver Settings">
+        <menu>
+            <item
+                android:id="@+id/setup_my_driver_account"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="Setup driver account!" />
+        </menu>
+    </item>
+
     <item android:title="Emissary">
         <menu>
             <item

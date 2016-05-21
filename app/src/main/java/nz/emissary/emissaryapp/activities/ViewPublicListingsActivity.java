@@ -3,6 +3,7 @@ package nz.emissary.emissaryapp.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialog;
@@ -52,6 +53,7 @@ public class ViewPublicListingsActivity extends BaseActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         ascending = true;
         progressBar = (ProgressBar) findViewById(R.id.updateProgressBar);
         progressBar.setVisibility(View.VISIBLE);

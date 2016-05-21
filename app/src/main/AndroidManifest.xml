@@ -51,7 +51,7 @@
             android:name=".activities.CreateDeliveryActivity"
             android:label="Create new delivery"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.ViewPublicListingsActivity"
+            android:parentActivityName=".activities.ViewMyListingsActivity"
             android:launchMode="singleTask">
         </activity>
 
@@ -60,7 +60,7 @@
             android:label="My Account"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.ViewPublicListingsActivity">
+            android:parentActivityName=".activities.ViewMyListingsActivity">
         </activity>
 
         <activity
@@ -76,7 +76,7 @@
             android:label="Contact Us"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.ViewPublicListingsActivity">
+            android:parentActivityName=".activities.ViewMyListingsActivity">
         </activity>
 
         <activity

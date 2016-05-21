@@ -54,7 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
         headerLayout.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +85,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     finish();
                 }else{
                     username.setText("Hi " + user.getFirstName().trim() + "!");
+                    int isDriver = user.getIsDriver();
+                    if (isDriver == Constants.DRIVER_NO){
+                        navigationView.inflateMenu(R.menu.activity_main_drawer);
+                    }else if (isDriver == Constants.DRIVER_PENDING){
+                        navigationView.inflateMenu(R.menu.activity_main_drawer_driver_pending);
+                    }else if (isDriver == Constants.DRIVER_YES){
+                        navigationView.inflateMenu(R.menu.activity_main_drawer_driver);
+                    }
                 }
             }
 
