@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -72,6 +73,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
         username = (TextView) headerLayout.findViewById(R.id.username);
         email = (TextView) headerLayout.findViewById(R.id.email);
+        navigationView.inflateMenu(R.menu.activity_main_drawer);
 
         Firebase currentFirebaseUser = new Firebase(Constants.FIREBASE_USERS).child(mRef.getAuth().getUid());
         currentFirebaseUser.addValueEventListener(new ValueEventListener() {
@@ -85,13 +87,20 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     finish();
                 }else{
                     username.setText("Hi " + user.getFirstName().trim() + "!");
+
                     int isDriver = user.getIsDriver();
                     if (isDriver == Constants.DRIVER_NO){
-                        navigationView.inflateMenu(R.menu.activity_main_drawer);
+                        (navigationView.getMenu().findItem(R.id.driver_menu_items)).setVisible(false);
                     }else if (isDriver == Constants.DRIVER_PENDING){
-                        navigationView.inflateMenu(R.menu.activity_main_drawer_driver_pending);
+                        (navigationView.getMenu().findItem(R.id.driver_menu_items)).setVisible(true);
+                        (navigationView.getMenu().findItem(R.id.view_public_listings)).setVisible(false);
+                        (navigationView.getMenu().findItem(R.id.current_deliveries)).setVisible(false);
+                        (navigationView.getMenu().findItem(R.id.view_driver_dashboard)).setVisible(false);
                     }else if (isDriver == Constants.DRIVER_YES){
-                        navigationView.inflateMenu(R.menu.activity_main_drawer_driver);
+                        (navigationView.getMenu().findItem(R.id.driver_menu_items)).setVisible(true);
+                        (navigationView.getMenu().findItem(R.id.view_public_listings)).setVisible(true);
+                        (navigationView.getMenu().findItem(R.id.current_deliveries)).setVisible(true);
+                        (navigationView.getMenu().findItem(R.id.view_driver_dashboard)).setVisible(true);
                     }
                 }
             }
@@ -129,20 +138,23 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         } else if (id == R.id.listed) {
             Intent intent = new Intent(getApplicationContext(), ViewMyListingsActivity.class);
             startActivity(intent);
-        }else if (id ==R.id.current_deliveries){
+        }else if (id == R.id.current_deliveries){
             Intent intent = new Intent(getApplicationContext(), ViewMyDeliveriesActivity.class);
             startActivity(intent);
-        }else if (id ==R.id.contact_us){
+        }else if (id == R.id.contact_us){
             Intent intent = new Intent(getApplicationContext(), ContactUsActivity.class);
             startActivity(intent);
-        }else if (id ==R.id.previous_listings){
+        }else if (id == R.id.previous_listings){
             Intent intent = new Intent(getApplicationContext(), ViewMyCompletedListingsActivity.class);
             startActivity(intent);
-        }else if (id ==R.id.create_delivery){
+        }else if (id == R.id.create_delivery){
             Intent intent = new Intent(getApplicationContext(), CreateDeliveryActivity.class);
             startActivity(intent);
-        }else if (id ==R.id.view_driver_dashboard){
+        }else if (id == R.id.view_driver_dashboard){
             //TODO implement this
+        }else if (id == R.id.setup_my_driver_account){
+            Intent intent = new Intent(getApplicationContext(), CreateDeliveryActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

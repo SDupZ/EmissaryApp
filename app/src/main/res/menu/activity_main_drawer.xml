@@ -21,6 +21,35 @@
         </menu>
     </item>
 
+    <item
+        android:id="@+id/driver_menu_items"
+        android:title="Driver Settings"
+        android:visible="false">
+        <menu>
+            <item
+                android:id="@+id/view_public_listings"
+                android:icon="@drawable/ic_menu_listed_items"
+                android:title="Find a delivery!" />
+
+            <item
+                android:id="@+id/current_deliveries"
+                android:icon="@drawable/ic_menu_in_transit"
+                android:title="Current Deliveries" />
+
+
+            <item
+                android:id="@+id/view_driver_dashboard"
+                android:icon="@drawable/ic_trending_up_black_24dp"
+                android:title="Driver Dashboard" />
+
+            <item
+                android:id="@+id/setup_my_driver_account"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="My Driver Account" />
+        </menu>
+    </item>
+
+
     <item android:title="Emissary">
         <menu>
             <item
