@@ -121,7 +121,6 @@ public class CustomFirebaseListingsAdapter extends RecyclerView.Adapter<CustomFi
             mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Log.d("EMISSARY", "" + getLayoutPosition());
                     Intent intent = new Intent(v.getContext(), ViewItemActivity.class)
                             .putExtra("object_id", getRef(getLayoutPosition()).getKey());
                     v.getContext().startActivity(intent);

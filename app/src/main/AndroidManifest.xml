@@ -80,6 +80,14 @@
         </activity>
 
         <activity
+            android:name=".activities.SetupDriverAccount"
+            android:label=""
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask"
+            android:parentActivityName=".activities.ViewMyListingsActivity">
+        </activity>
+
+        <activity
             android:name=".activities.ViewItemActivity"
             android:label="View Item"
             android:launchMode="singleTask"

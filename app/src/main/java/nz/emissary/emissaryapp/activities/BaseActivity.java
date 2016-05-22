@@ -33,6 +33,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
     private TextView username;
     private TextView email;
 
+    private User mUser;
+    private String mUserId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,6 +83,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
+                mUser = user;
+                mUserId = dataSnapshot.getKey();
+
                 if (user == null) {
                     mRef.unauth();
                     Intent loginActivity = new Intent(BaseActivity.this, LoginActivity.class);
@@ -153,8 +159,10 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }else if (id == R.id.view_driver_dashboard){
             //TODO implement this
         }else if (id == R.id.setup_my_driver_account){
-            Intent intent = new Intent(getApplicationContext(), CreateDeliveryActivity.class);
+            Intent intent = new Intent(getApplicationContext(), SetupDriverAccount.class)
+                    .putExtra("user_id", mUserId).putExtra("user_name", mUser.getFirstName());
             startActivity(intent);
+
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
