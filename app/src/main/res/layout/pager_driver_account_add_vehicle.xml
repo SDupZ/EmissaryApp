@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.redbooth.WelcomePageLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:text="Add a vehicle"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:padding="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Note: You can add extra vehicles later."
+            android:paddingBottom="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/vehicle_motorcycle"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:onClick="onImageSelected"
+                android:tint="@color/colorGreyedOut"
+                android:padding="10dp"
+                android:src="@drawable/vector_motorcycle"/>
+            <ImageView
+                android:id="@+id/vehicle_car"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:clickable="true"
+                android:onClick="onImageSelected"
+                android:tint="@color/colorGreyedOut"
+                android:padding="10dp"
+                android:src="@drawable/vector_car"/>
+            <ImageView
+                android:id="@+id/vehicle_van"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_gravity="center"
+                android:onClick="onImageSelected"
+                android:clickable="true"
+                android:tint="@color/colorGreyedOut"
+                android:padding="10dp"
+                android:src="@drawable/vector_van"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Tap an image to select" />
+
+        <EditText
+            android:lines="1"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minEms="10"
+            android:hint="Vehicle's license plate"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Your license plate is used to prove your identity during deliveries."
+            android:layout_marginTop="20dp"/>
+
+    </LinearLayout>
+
+</com.redbooth.WelcomePageLayout>

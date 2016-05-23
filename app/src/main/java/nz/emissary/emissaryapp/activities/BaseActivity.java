@@ -160,7 +160,9 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             //TODO implement this
         }else if (id == R.id.setup_my_driver_account){
             Intent intent = new Intent(getApplicationContext(), SetupDriverAccount.class)
-                    .putExtra("user_id", mUserId).putExtra("user_name", mUser.getFirstName());
+                    .putExtra("user_id", mUserId)
+                    .putExtra("user_name", mUser.getFirstName())
+                    .putExtra("user_phone", mUser.getPhone());
             startActivity(intent);
 
         }
