@@ -11,14 +11,18 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.firebase.client.AuthData;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import java.util.Date;
 
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.R;
+import nz.emissary.emissaryapp.User;
 
-public class SplashActivity extends Activity implements View.OnTouchListener{
+public class SplashActivity extends Activity {
 
     private final int SPLASH_DISPLAY_LENGTH = 1000;
 
@@ -49,8 +53,29 @@ public class SplashActivity extends Activity implements View.OnTouchListener{
                             final Long lastLogin = d.getTime();
                             final Firebase firebaseUser = ref.child(Constants.FIREBASE_USERS_BASE_CHILD).child(authData.getUid());
                             firebaseUser.child("lastLoginDate").setValue("" + lastLogin);
-                            Intent mainIntent = new Intent(SplashActivity.this, ViewMyListingsActivity.class);
-                            SplashActivity.this.startActivity(mainIntent);
+                            firebaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    User user = dataSnapshot.getValue(User.class);
+                                    int isDriver = user.getIsDriver();
+
+                                    if (isDriver == Constants.DRIVER_NO){
+                                        Intent result = new Intent(SplashActivity.this, ViewMyListingsActivity.class);
+                                        SplashActivity.this.startActivity(result);
+                                    }else if (isDriver == Constants.DRIVER_PENDING) {
+                                        Intent result = new Intent(SplashActivity.this, SetupDriverAccount.class);
+                                        SplashActivity.this.startActivity(result);
+                                    }else if (isDriver == Constants.DRIVER_YES){
+                                        Intent result = new Intent(SplashActivity.this, ViewPublicListingsActivity.class);
+                                        SplashActivity.this.startActivity(result);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(FirebaseError firebaseError) {
+
+                                }
+                            });
                         }
                         SplashActivity.this.finish();
                     }
@@ -58,13 +83,5 @@ public class SplashActivity extends Activity implements View.OnTouchListener{
             }
         }, SPLASH_DISPLAY_LENGTH);
 
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        Intent mainIntent = new Intent(SplashActivity.this, ViewPublicListingsActivity.class);
-        SplashActivity.this.startActivity(mainIntent);
-        SplashActivity.this.finish();
-        return false;
     }
 }
