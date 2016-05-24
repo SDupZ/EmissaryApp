@@ -557,10 +557,36 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
                     final Firebase firebaseUser = ref.child(Constants.FIREBASE_USERS_BASE_CHILD).child(authData.getUid());
                     firebaseUser.child("lastLoginDate").setValue("" + lastLogin);
-                    Intent result = new Intent(LoginActivity.this, ViewMyListingsActivity.class);
-                    setResult(RESULT_OK, result);
-                    result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
-                    finish();
+
+                    firebaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User user = dataSnapshot.getValue(User.class);
+                            int isDriver = user.getIsDriver();
+
+                            if (isDriver == Constants.DRIVER_NO){
+                                Intent result = new Intent(LoginActivity.this, ViewMyListingsActivity.class);
+                                setResult(RESULT_OK, result);
+                                result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
+                                finish();
+                            }else if (isDriver == Constants.DRIVER_PENDING) {
+                                Intent result = new Intent(LoginActivity.this, SetupDriverAccount.class);
+                                setResult(RESULT_OK, result);
+                                result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
+                                finish();
+                            }else if (isDriver == Constants.DRIVER_YES){
+                                Intent result = new Intent(LoginActivity.this, ViewPublicListingsActivity.class);
+                                setResult(RESULT_OK, result);
+                                result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
+                                finish();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+                    });
                 }
 
                 @Override
