@@ -24,7 +24,7 @@ import nz.emissary.emissaryapp.User;
 
 public class SplashActivity extends Activity {
 
-    private final int SPLASH_DISPLAY_LENGTH = 1000;
+    private final int SPLASH_DISPLAY_LENGTH = 0;
 
     Firebase ref;
 
@@ -38,50 +38,46 @@ public class SplashActivity extends Activity {
                 "fonts/emissary_font_main.ttf");
         tv.setTypeface(face);
 
-        new Handler().postDelayed(new Runnable() {
+        ref = new Firebase(Constants.FIREBASE_BASE);
+        ref.addAuthStateListener(new Firebase.AuthStateListener() {
             @Override
-            public void run() {
-                ref = new Firebase(Constants.FIREBASE_BASE);
-                ref.addAuthStateListener(new Firebase.AuthStateListener() {
-                    @Override
-                    public void onAuthStateChanged(AuthData authData) {
-                        if (authData == null) {
-                            Intent loginActivity = new Intent(SplashActivity.this, LoginActivity.class);
-                            SplashActivity.this.startActivity(loginActivity);
-                        }else{
-                            Date d = new Date();
-                            final Long lastLogin = d.getTime();
-                            final Firebase firebaseUser = ref.child(Constants.FIREBASE_USERS_BASE_CHILD).child(authData.getUid());
-                            firebaseUser.child("lastLoginDate").setValue("" + lastLogin);
-                            firebaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
-                                    User user = dataSnapshot.getValue(User.class);
-                                    int isDriver = user.getIsDriver();
+            public void onAuthStateChanged(AuthData authData) {
+                if (authData == null) {
+                    Intent loginActivity = new Intent(SplashActivity.this, LoginActivity.class);
+                    SplashActivity.this.startActivity(loginActivity);
+                }else{
+                    Date d = new Date();
+                    final Long lastLogin = d.getTime();
+                    final Firebase firebaseUser = ref.child(Constants.FIREBASE_USERS_BASE_CHILD).child(authData.getUid());
+                    firebaseUser.child("lastLoginDate").setValue("" + lastLogin);
+                    firebaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            User user = dataSnapshot.getValue(User.class);
+                            int isDriver = user.getIsDriver();
 
-                                    if (isDriver == Constants.DRIVER_NO){
-                                        Intent result = new Intent(SplashActivity.this, ViewMyListingsActivity.class);
-                                        SplashActivity.this.startActivity(result);
-                                    }else if (isDriver == Constants.DRIVER_PENDING) {
-                                        Intent result = new Intent(SplashActivity.this, SetupDriverAccount.class);
-                                        SplashActivity.this.startActivity(result);
-                                    }else if (isDriver == Constants.DRIVER_YES){
-                                        Intent result = new Intent(SplashActivity.this, ViewPublicListingsActivity.class);
-                                        SplashActivity.this.startActivity(result);
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(FirebaseError firebaseError) {
-
-                                }
-                            });
+                            if (isDriver == Constants.DRIVER_NO){
+                                Intent result = new Intent(SplashActivity.this, ViewMyListingsActivity.class);
+                                SplashActivity.this.startActivity(result);
+                            }else if (isDriver == Constants.DRIVER_PENDING) {
+                                Intent result = new Intent(SplashActivity.this, SetupDriverAccount.class);
+                                SplashActivity.this.startActivity(result);
+                            }else if (isDriver == Constants.DRIVER_YES){
+                                Intent result = new Intent(SplashActivity.this, ViewPublicListingsActivity.class);
+                                SplashActivity.this.startActivity(result);
+                            }
+                            SplashActivity.this.finish();
                         }
-                        SplashActivity.this.finish();
-                    }
-                });
-            }
-        }, SPLASH_DISPLAY_LENGTH);
 
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+                    });
+                }
+            }
+        });
     }
+
+
 }
