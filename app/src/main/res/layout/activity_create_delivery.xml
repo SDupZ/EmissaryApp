@@ -22,6 +22,7 @@
             android:paddingBottom="0dp"
             android:layout_margin="0dp"
             android:visibility="gone"
+            android:indeterminateTint="@android:color/white"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
     </android.support.design.widget.AppBarLayout>

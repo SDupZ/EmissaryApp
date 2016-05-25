@@ -41,5 +41,6 @@ dependencies {
     compile 'com.firebase:geofire:1.1.0+'
     compile 'com.borax12.materialdaterangepicker:library:1.6'
 
+    compile 'com.github.paolorotolo:appintro:3.4.0'
     compile 'com.redbooth:WelcomeCoordinator:1.0.1'
 }

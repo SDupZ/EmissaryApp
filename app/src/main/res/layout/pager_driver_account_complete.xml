@@ -27,14 +27,17 @@
             android:src="@drawable/vector_motorcycle"/>
 
         <TextView
-            android:id="@+id/my_feedback_link"
+            android:id="@+id/complete_driver_signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"
             android:layout_below="@id/my_feedback_title"
             android:textStyle="bold"
             android:gravity="center"
             android:padding="20dp"
             android:textColor="@color/colorLink"
+            android:textSize="18dp"
             android:text="Start Delivering!"/>
     </LinearLayout>
 

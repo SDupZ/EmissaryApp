@@ -32,12 +32,12 @@ public class SetupDriverAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_setup_driver_account);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setBackgroundColor(Color.TRANSPARENT);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        toolbar.setBackgroundColor(Color.TRANSPARENT);
+//        setSupportActionBar(toolbar);
+//
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         final WelcomeCoordinatorLayout coordinatorLayout
                 = (WelcomeCoordinatorLayout)findViewById(R.id.coordinator);
@@ -55,8 +55,17 @@ public class SetupDriverAccount extends AppCompatActivity {
             String phoneNumber = intent.getStringExtra("user_phone");
             ((TextView)coordinatorLayout.findViewById(R.id.welcome_text)).setText("Welcome " + firstName);
             ((TextView)coordinatorLayout.findViewById(R.id.phone_number_view)).setText(phoneNumber);
-
         }
+
+        TextView completeSignup = (TextView) coordinatorLayout.findViewById(R.id.complete_driver_signup);
+        completeSignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent result = new Intent(SetupDriverAccount.this, ViewPublicListingsActivity.class);
+                startActivity(result);
+                finish();
+            }
+        });
 
         carView = (ImageView) coordinatorLayout.findViewById(R.id.vehicle_car);
         vanView = (ImageView) coordinatorLayout.findViewById(R.id.vehicle_van);
