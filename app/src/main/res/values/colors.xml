@@ -5,7 +5,6 @@
     <color name="colorAccent">#689F38</color>
     <color name="colorAccentDark">#558B2F</color>
 
-
     <color name="colorHeaderStart">#0277BD</color>
     <color name="colorHeaderEnd">#01579B</color>
 
@@ -25,5 +24,7 @@
     <color name="colorCancelButton">#B71C1C</color>
     <color name="colorRegisterButton">#B71C1C</color>
 
-    <color name="colorBackgroundGrey">#E0E0E0</color>
+    <color name="colorBackgroundGrey">#EEEEEE</color>
+
+    <color name="colorWelcomeSlides">#FFFFFF</color>
 </resources>

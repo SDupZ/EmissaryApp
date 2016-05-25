@@ -3,15 +3,19 @@ package nz.emissary.emissaryapp.activities;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.github.paolorotolo.appintro.AppIntro;
 import com.redbooth.WelcomeCoordinatorLayout;
 
 import nz.emissary.emissaryapp.R;
@@ -19,94 +23,88 @@ import nz.emissary.emissaryapp.R;
 /**
  * Created by Simon on 3/03/2016.
  */
-public class SetupDriverAccount extends AppCompatActivity {
-    private ProgressBar progressBar;
+public class SetupDriverAccount extends AppIntro {
     private String userId;
 
-    private ImageView carView;
-    private ImageView vanView;
-    private ImageView motorcycleView;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void init(Bundle savedInstanceState) {
+        addSlide(new PagerDriverAccountInitial());
+        addSlide(new PagerDriverAccountVerifyPhone());
+        addSlide(new PagerDriverAccountAddVehicle());
+        addSlide(new PagerDriverAccountPayment());
+        addSlide(new PagerDriverAccountComplete());
 
-        setContentView(R.layout.activity_setup_driver_account);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        toolbar.setBackgroundColor(Color.TRANSPARENT);
-//        setSupportActionBar(toolbar);
-//
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        final WelcomeCoordinatorLayout coordinatorLayout
-                = (WelcomeCoordinatorLayout)findViewById(R.id.coordinator);
-        coordinatorLayout.addPage(
-                R.layout.pager_driver_account_initial,
-                R.layout.pager_driver_account_verify_phone,
-                R.layout.pager_driver_account_add_vehicle,
-                R.layout.pager_driver_account_payment,
-                R.layout.pager_driver_account_complete);
-
-        Intent intent = getIntent();
-        if(intent != null && intent.hasExtra("user_id") && intent.hasExtra("user_name")) {
-            userId = intent.getStringExtra("object_id");
-            String firstName = intent.getStringExtra("user_name");
-            String phoneNumber = intent.getStringExtra("user_phone");
-            ((TextView)coordinatorLayout.findViewById(R.id.welcome_text)).setText("Welcome " + firstName);
-            ((TextView)coordinatorLayout.findViewById(R.id.phone_number_view)).setText(phoneNumber);
-        }
-
-        TextView completeSignup = (TextView) coordinatorLayout.findViewById(R.id.complete_driver_signup);
-        completeSignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent result = new Intent(SetupDriverAccount.this, ViewPublicListingsActivity.class);
-                startActivity(result);
-                finish();
-            }
-        });
-
-        carView = (ImageView) coordinatorLayout.findViewById(R.id.vehicle_car);
-        vanView = (ImageView) coordinatorLayout.findViewById(R.id.vehicle_van);
-        motorcycleView = (ImageView) coordinatorLayout.findViewById(R.id.vehicle_motorcycle);
-
-        carView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-        vanView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-        motorcycleView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                v.getParent().requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
+        setBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
     }
 
-    public void onImageSelected(View view){
-        if (view.getId() == R.id.vehicle_car){
-            carView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-            vanView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorGreyedOut));
-            motorcycleView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorGreyedOut));
-        }else if (view.getId() == R.id.vehicle_motorcycle){
-            carView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorGreyedOut));
-            vanView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorGreyedOut));
-            motorcycleView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-        }else if (view.getId() == R.id.vehicle_van){
-            carView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorGreyedOut));
-            vanView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
-            motorcycleView.setColorFilter(ContextCompat.getColor(getApplicationContext(), R.color.colorGreyedOut));
+    @Override
+    public void onSkipPressed() {
+        // Do something when users tap on Skip button.
+    }
+
+    @Override
+    public void onDonePressed() {
+        // Do something when users tap on Done button.
+    }
+
+    @Override
+    public void onSlideChanged() {
+        // Do something when the slide changes.
+    }
+
+    @Override
+    public void onNextPressed() {
+        // Do something when users tap on Next button.
+    }
+
+    public static class PagerDriverAccountInitial extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            final View rootView = inflater.inflate(R.layout.pager_driver_account_initial, container, false);
+
+            return rootView;
+        }
+    }
+
+    public static class PagerDriverAccountVerifyPhone extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            final View rootView = inflater.inflate(R.layout.pager_driver_account_verify_phone, container, false);
+
+            return rootView;
+        }
+    }
+
+    public static class PagerDriverAccountAddVehicle extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            final View rootView = inflater.inflate(R.layout.pager_driver_account_add_vehicle, container, false);
+
+            return rootView;
+        }
+    }
+
+    public static class PagerDriverAccountPayment extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            final View rootView = inflater.inflate(R.layout.pager_driver_account_payment, container, false);
+
+            return rootView;
+        }
+    }
+
+
+    public static class PagerDriverAccountComplete extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            final View rootView = inflater.inflate(R.layout.pager_driver_account_complete, container, false);
+
+            return rootView;
         }
     }
 }
