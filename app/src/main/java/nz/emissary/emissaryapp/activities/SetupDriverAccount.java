@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -57,6 +58,8 @@ public class SetupDriverAccount extends AppIntro {
     @Override
     public void onSlideChanged() {
         // Do something when the slide changes.
+
+
     }
 
     @Override
@@ -75,7 +78,7 @@ public class SetupDriverAccount extends AppIntro {
                     && intent.hasExtra("user_name")
                     && intent.hasExtra("user_phone")) {
                 String firstName = intent.getStringExtra("user_name");
-                ((TextView) rootView.findViewById(R.id.welcome_text)).setText("Welcome " + firstName);
+                ((TextView) rootView.findViewById(R.id.welcome_text)).setText("Hi " + firstName + ", ");
             }
 
             return rootView;
@@ -101,15 +104,64 @@ public class SetupDriverAccount extends AppIntro {
     }
 
     public static class PagerDriverAccountAddVehicle extends Fragment implements View.OnClickListener{
+        private static final String DATA_LICENSE = "nz.co.emissary.setupdriveraccount.license";
+        private static final String DATA_SELECTED = "nz.co.emissary.setupdriveraccount.selected";
+
         ImageView carView;
         ImageView vanView;
         ImageView motorcycleView;
+
+        EditText licenseView;
+
+        int pictureSelected;
+        String licenseNumber;
+
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setRetainInstance(true);
+        }
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+
+            if(savedInstanceState != null) {
+                pictureSelected = savedInstanceState.getInt(DATA_SELECTED);
+                licenseNumber = savedInstanceState.getString(DATA_LICENSE);
+            }
+        }
+
+        @Override
+        public void onSaveInstanceState(Bundle outState) {
+            super.onSaveInstanceState(outState);
+            outState.putInt(DATA_SELECTED, pictureSelected);
+            outState.putString(DATA_LICENSE, licenseView.getText().toString());
+
+            Log.d("EMISSARY", "" + pictureSelected + ":" + licenseView.getText().toString());
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            licenseView.setText(licenseNumber);
+
+            if (pictureSelected == 1){
+                setColorOfImage(R.id.vehicle_motorcycle);
+            }else if (pictureSelected == 2){
+                setColorOfImage(R.id.vehicle_car);
+            }else{
+                setColorOfImage(R.id.vehicle_van);
+            }
+        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.pager_driver_account_add_vehicle, container, false);
 
+            licenseView = (EditText) rootView.findViewById(R.id.vehicle_license);
             carView = (ImageView) rootView.findViewById(R.id.vehicle_car);
             vanView = (ImageView) rootView.findViewById(R.id.vehicle_van);
             motorcycleView = (ImageView) rootView.findViewById(R.id.vehicle_motorcycle);
@@ -121,15 +173,22 @@ public class SetupDriverAccount extends AppIntro {
         }
         @Override
         public void onClick(View view) {
-            if (view.getId() == R.id.vehicle_car){
+            setColorOfImage(view.getId());
+        }
+
+        public void setColorOfImage(int id) {
+            if (id == R.id.vehicle_car) {
+                pictureSelected = 2;
                 carView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
                 vanView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
                 motorcycleView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
-            }else if (view.getId() == R.id.vehicle_motorcycle){
+            } else if (id == R.id.vehicle_motorcycle) {
+                pictureSelected = 1;
                 carView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
                 vanView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
                 motorcycleView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
-            }else if (view.getId() == R.id.vehicle_van){
+            } else if (id == R.id.vehicle_van) {
+                pictureSelected = 3;
                 carView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
                 vanView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
                 motorcycleView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
