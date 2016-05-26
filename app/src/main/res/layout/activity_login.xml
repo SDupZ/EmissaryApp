@@ -28,7 +28,19 @@
                 android:textAppearance="@android:style/TextAppearance.Large"
                 android:layout_gravity="center"
                 android:id="@+id/toolbar_title" />
+
         </android.support.v7.widget.Toolbar>
+
+        <ProgressBar
+            android:id="@+id/login_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:paddingBottom="0dp"
+            android:layout_margin="0dp"
+            android:visibility="gone"
+            android:indeterminateTint="@android:color/white"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -40,17 +52,6 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
-        <!-- Login progress -->
-        <ProgressBar
-            android:id="@+id/login_progress"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_gravity="center"
-            android:indeterminateTint="@android:color/white"
-            android:visibility="gone" />
-
         <ScrollView
             android:id="@+id/login_form"
             android:layout_width="match_parent"

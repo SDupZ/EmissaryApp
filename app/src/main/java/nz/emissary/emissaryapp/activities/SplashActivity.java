@@ -60,7 +60,10 @@ public class SplashActivity extends Activity {
                                 Intent result = new Intent(SplashActivity.this, ViewMyListingsActivity.class);
                                 SplashActivity.this.startActivity(result);
                             }else if (isDriver == Constants.DRIVER_PENDING) {
-                                Intent result = new Intent(SplashActivity.this, SetupDriverAccount.class);
+                                Intent result = new Intent(SplashActivity.this, SetupDriverAccount.class)
+                                        .putExtra("user_id", dataSnapshot.getKey())
+                                        .putExtra("user_name", user.getFirstName())
+                                        .putExtra("user_phone", user.getPhone());
                                 SplashActivity.this.startActivity(result);
                             }else if (isDriver == Constants.DRIVER_YES){
                                 Intent result = new Intent(SplashActivity.this, ViewPublicListingsActivity.class);

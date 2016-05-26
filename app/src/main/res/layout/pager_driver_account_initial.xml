@@ -28,7 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Continue to become a driver for Emissary"
+        android:text="Let's begin the driver signup"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
         android:paddingBottom="10dp"/>

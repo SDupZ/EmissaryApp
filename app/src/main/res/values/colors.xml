@@ -20,11 +20,12 @@
     <color name="colorGreyedOut">#BDBDBD</color>
     <color name="colorNormalTextView">#000000</color>
 
-
     <color name="colorCancelButton">#B71C1C</color>
     <color name="colorRegisterButton">#B71C1C</color>
 
     <color name="colorBackgroundGrey">#EEEEEE</color>
 
-    <color name="colorWelcomeSlides">#FFFFFF</color>
+    <color name="colorWelcomeSlides">#fafafa</color>
+    <color name="colorBarColor">@color/colorPrimaryDark</color>
+
 </resources>

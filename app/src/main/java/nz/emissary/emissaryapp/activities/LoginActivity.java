@@ -570,7 +570,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
                                 finish();
                             }else if (isDriver == Constants.DRIVER_PENDING) {
-                                Intent result = new Intent(LoginActivity.this, SetupDriverAccount.class);
+                                Intent result = new Intent(LoginActivity.this, SetupDriverAccount.class)
+                                        .putExtra("user_id", dataSnapshot.getKey())
+                                        .putExtra("user_name", user.getFirstName())
+                                        .putExtra("user_phone", user.getPhone());;
                                 setResult(RESULT_OK, result);
                                 result.putExtra(AUTH_TOKEN_EXTRA, authData.getToken());
                                 finish();
