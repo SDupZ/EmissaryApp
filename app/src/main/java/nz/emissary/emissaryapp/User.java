@@ -195,4 +195,9 @@ public class User {
     public void setAvailableVehicles(List<String> availableVehicles) {
         this.availableVehicles = availableVehicles;
     }
+
+    public void addVehicle(int vehicleType, String licenseNumber){
+        this.availableVehicles.add(vehicleType + Constants.ENCODED_STRING_TOKEN + licenseNumber);
+    }
+
 }

@@ -40,7 +40,7 @@ public class Constants {
     final public static String TIME_ASAP = "ASAP";
     final public static String TIME_SPECIFIC = "SPECIFIC";
     final public static String TIME_RANGE = "RANGE";
-    final public static String TIME_TOKEN = ":";
+    final public static String ENCODED_STRING_TOKEN = ":";
 
     final public static int STATUS_LISTED               = 0;
     final public static int STATUS_ACCEPTED             = 100;
@@ -63,11 +63,15 @@ public class Constants {
     final public static int DRIVER_PENDING              = 200;
     final public static int DRIVER_YES                  = 400;
 
+    final public static int VEHICLE_MOTORBIKE           = 0;
+    final public static int VEHICLE_CAR                 = 1;
+    final public static int VEHICLE_VAN                 = 2;
+
     final public static GeoLocation LOCATION_COORD_AUCKLAND_ALL = new GeoLocation(-36.655750,174.733086);
     final public static GeoLocation LOCATION_COORD_DEFAULT = new GeoLocation(-36.724026,174.717979);
 
     public static String getFullDateTimeString(String timeString){
-        String[] resultArray = timeString.split(Constants.TIME_TOKEN);
+        String[] resultArray = timeString.split(Constants.ENCODED_STRING_TOKEN);
 
         if (resultArray.length == 1 && resultArray[0].equals(Constants.TIME_ASAP)){
             return "ASAP";
@@ -119,7 +123,7 @@ public class Constants {
 
 
     public static String getEasyToUnderstandDateTimeString(String timeString){
-        String[] resultArray = timeString.split(Constants.TIME_TOKEN);
+        String[] resultArray = timeString.split(Constants.ENCODED_STRING_TOKEN);
 
         if (resultArray.length == 1 && resultArray[0].equals(Constants.TIME_ASAP)){
             return "ASAP";
@@ -181,7 +185,7 @@ public class Constants {
     }
 
     public static String getTimeStamp(String timeString){
-        String[] resultArray = timeString.split(Constants.TIME_TOKEN);
+        String[] resultArray = timeString.split(Constants.ENCODED_STRING_TOKEN);
 
         if(resultArray.length == 2 && resultArray[0].equals(Constants.TIME_SPECIFIC)){
             try {

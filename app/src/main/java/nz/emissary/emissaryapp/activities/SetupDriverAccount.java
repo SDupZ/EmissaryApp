@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,19 +19,52 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.github.paolorotolo.appintro.AppIntro;
 import com.redbooth.WelcomeCoordinatorLayout;
 
+import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.R;
+import nz.emissary.emissaryapp.User;
 
 /**
  * Created by Simon on 3/03/2016.
  */
 public class SetupDriverAccount extends AppIntro {
     private String userId;
+    private Firebase currentFirebaseUser;
+    private User user;
+
+    protected int vehicleType;
+    protected String licenseNumber;
 
     @Override
     public void init(Bundle savedInstanceState) {
+
+        Intent intent = getIntent();
+        if(intent != null && intent.hasExtra("user_id")
+                && intent.hasExtra("user_name")
+                && intent.hasExtra("user_phone")) {
+            this.userId = intent.getStringExtra("user_id");
+
+            currentFirebaseUser = new Firebase(Constants.FIREBASE_USERS).child(this.userId);
+            currentFirebaseUser.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    user = dataSnapshot.getValue(User.class);
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+
+        }
+
         addSlide(new PagerDriverAccountInitial());
         addSlide(new PagerDriverAccountVerifyPhone());
         addSlide(new PagerDriverAccountAddVehicle());
@@ -50,15 +85,30 @@ public class SetupDriverAccount extends AppIntro {
     @Override
     public void onDonePressed() {
         // Do something when users tap on Done button.
-        Intent result = new Intent(SetupDriverAccount.this, ViewPublicListingsActivity.class);
-        startActivity(result);
-        finish();
+
+        //Add vehicle
+        user.addVehicle(this.vehicleType, this.licenseNumber);
+        user.setIsDriver(Constants.DRIVER_YES);
+
+        //TODO
+        //Add payment methods
+
+        //TODO
+        //Add a progress bar incase the network opeation takes a long time
+
+        currentFirebaseUser.setValue(user, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                Intent result = new Intent(SetupDriverAccount.this, ViewPublicListingsActivity.class);
+                startActivity(result);
+                finish();
+            }
+        });
     }
 
     @Override
     public void onSlideChanged() {
         // Do something when the slide changes.
-
 
     }
 
@@ -166,6 +216,17 @@ public class SetupDriverAccount extends AppIntro {
             vanView = (ImageView) rootView.findViewById(R.id.vehicle_van);
             motorcycleView = (ImageView) rootView.findViewById(R.id.vehicle_motorcycle);
 
+            licenseView.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    ((SetupDriverAccount)getActivity()).licenseNumber = s.toString();
+                }
+            });
             carView.setOnClickListener(this);
             vanView.setOnClickListener(this);
             motorcycleView.setOnClickListener(this);
@@ -179,16 +240,19 @@ public class SetupDriverAccount extends AppIntro {
         public void setColorOfImage(int id) {
             if (id == R.id.vehicle_car) {
                 pictureSelected = 2;
+                ((SetupDriverAccount)getActivity()).vehicleType = Constants.VEHICLE_CAR;
                 carView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
                 vanView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
                 motorcycleView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
             } else if (id == R.id.vehicle_motorcycle) {
                 pictureSelected = 1;
+                ((SetupDriverAccount)getActivity()).vehicleType = Constants.VEHICLE_MOTORBIKE;
                 carView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
                 vanView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
                 motorcycleView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
             } else if (id == R.id.vehicle_van) {
                 pictureSelected = 3;
+                ((SetupDriverAccount)getActivity()).vehicleType = Constants.VEHICLE_VAN;
                 carView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
                 vanView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
                 motorcycleView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));

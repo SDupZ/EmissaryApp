@@ -51,7 +51,7 @@ public class ViewMyFeedbackActivity extends AppCompatActivity {
                     protected void populateViewHolder(ViewHolder viewHolder, Feedback f, final int i) {
                         viewHolder.mRatingView.setRating((float)f.getRating());
                         viewHolder.mFeedbackTextView.setText(f.getFeedbackMessage());
-                        String time = Constants.TIME_SPECIFIC + Constants.TIME_TOKEN + f.getFeedbackPostTime();
+                        String time = Constants.TIME_SPECIFIC + Constants.ENCODED_STRING_TOKEN + f.getFeedbackPostTime();
                         viewHolder.mFeedbackPostTimeView.setText(Constants.getFullDateTimeString(time));
 
                         String message = f.isFeedbackIsForDriver() ? "Delivery Driver" : "Original Lister";

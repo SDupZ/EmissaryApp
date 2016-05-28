@@ -245,7 +245,7 @@ public class Delivery {
             Long lhsTime = 0l;
             Long rhsTime = 0l;
 
-            String[] resultArray = lhsPickupTime.split(Constants.TIME_TOKEN);
+            String[] resultArray = lhsPickupTime.split(Constants.ENCODED_STRING_TOKEN);
 
             if (resultArray.length == 1 && resultArray[0].equals(Constants.TIME_ASAP)){
                 lhsTime = 0l;
@@ -263,7 +263,7 @@ public class Delivery {
                 }
             }
 
-            resultArray = rhsPickupTime.split(Constants.TIME_TOKEN);
+            resultArray = rhsPickupTime.split(Constants.ENCODED_STRING_TOKEN);
 
             if (resultArray.length == 1 && resultArray[0].equals(Constants.TIME_ASAP)){
                 rhsTime = 0l;

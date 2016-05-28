@@ -609,14 +609,14 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         Calendar cal = Calendar.getInstance();
                         cal.set(pickupYear, pickupMonth, pickupDay, pickupHourOfDay, pickupMinute, pickupSecond);
 
-                        pickupTime = Constants.TIME_SPECIFIC + Constants.TIME_TOKEN + cal.getTimeInMillis();
+                        pickupTime = Constants.TIME_SPECIFIC + Constants.ENCODED_STRING_TOKEN + cal.getTimeInMillis();
                     }else if(pickupTimeType == Constants.TIME_RANGE){
                         Calendar cal = Calendar.getInstance();
                         cal.set(pickupYear, pickupMonth, pickupDay, pickupHourOfDay, pickupMinute, pickupSecond);
                         Calendar cal1 = Calendar.getInstance();
                         cal1.set(pickupYear, pickupMonth, pickupDay, pickupHourOfDayEnd, pickupMinuteEnd, 0);
 
-                        pickupTime = Constants.TIME_RANGE + Constants.TIME_TOKEN + cal.getTimeInMillis() + Constants.TIME_TOKEN  + cal1.getTimeInMillis();
+                        pickupTime = Constants.TIME_RANGE + Constants.ENCODED_STRING_TOKEN + cal.getTimeInMillis() + Constants.ENCODED_STRING_TOKEN + cal1.getTimeInMillis();
                     }else{
                         if (!error) {
                             error = true;
@@ -633,14 +633,14 @@ public class CreateDeliveryActivity extends AppCompatActivity implements
                         Calendar cal = Calendar.getInstance();
                         cal.set(dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDay, dropoffMinute, dropoffSecond);
 
-                        dropoffTime = Constants.TIME_SPECIFIC + Constants.TIME_TOKEN + cal.getTimeInMillis();
+                        dropoffTime = Constants.TIME_SPECIFIC + Constants.ENCODED_STRING_TOKEN + cal.getTimeInMillis();
                     }else if(dropoffTimeType == Constants.TIME_RANGE){
                         Calendar cal = Calendar.getInstance();
                         cal.set(dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDay, dropoffMinute, dropoffSecond);
                         Calendar cal1 = Calendar.getInstance();
                         cal1.set(dropoffYear, dropoffMonth, dropoffDay, dropoffHourOfDayEnd, dropoffMinuteEnd, 0);
 
-                        dropoffTime = Constants.TIME_RANGE + Constants.TIME_TOKEN + cal.getTimeInMillis() + Constants.TIME_TOKEN  + cal1.getTimeInMillis();
+                        dropoffTime = Constants.TIME_RANGE + Constants.ENCODED_STRING_TOKEN + cal.getTimeInMillis() + Constants.ENCODED_STRING_TOKEN + cal1.getTimeInMillis();
                     }else{
                         //ERROR
                         if (!error) {

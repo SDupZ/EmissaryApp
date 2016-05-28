@@ -2,8 +2,12 @@
 <resources>
     <color name="colorPrimary">#0277BD</color>
     <color name="colorPrimaryDark">#01579B</color>
-    <color name="colorAccent">#689F38</color>
-    <color name="colorAccentDark">#558B2F</color>
+
+    <color name="colorAccent">#0277BD</color>
+    <color name="colorAccentDark">#01579B</color>
+
+    <color name="colorSecondAccent">#689F38</color>
+    <color name="colorSecondAccentDark">#558B2F</color>
 
     <color name="colorHeaderStart">#0277BD</color>
     <color name="colorHeaderEnd">#01579B</color>
