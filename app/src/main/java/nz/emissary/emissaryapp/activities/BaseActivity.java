@@ -95,6 +95,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                     username.setText("Hi " + user.getFirstName().trim() + "!");
 
                     int isDriver = user.getIsDriver();
+
                     if (isDriver == Constants.DRIVER_NO){
                         (navigationView.getMenu().findItem(R.id.driver_menu_items)).setVisible(false);
                     }else if (isDriver == Constants.DRIVER_PENDING){
@@ -105,6 +106,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         (navigationView.getMenu().findItem(R.id.my_driver_account)).setVisible(false);
                         (navigationView.getMenu().findItem(R.id.setup_my_driver_account)).setVisible(true);
                     }else if (isDriver == Constants.DRIVER_YES){
+                        if(user.getPreviousListings().size() == 0 && user.getCurrentListings().size() == 0){
+                            (navigationView.getMenu().findItem(R.id.previous_listings)).setVisible(false);
+                            (navigationView.getMenu().findItem(R.id.listed)).setVisible(false);
+                        }else{
+                            (navigationView.getMenu().findItem(R.id.previous_listings)).setVisible(true);
+                            (navigationView.getMenu().findItem(R.id.listed)).setVisible(true);
+                        }
+
                         (navigationView.getMenu().findItem(R.id.driver_menu_items)).setVisible(true);
                         (navigationView.getMenu().findItem(R.id.view_public_listings)).setVisible(true);
                         (navigationView.getMenu().findItem(R.id.current_deliveries)).setVisible(true);
