@@ -41,6 +41,8 @@ public class SetupDriverAccount extends AppIntro {
     protected int vehicleType;
     protected String licenseNumber;
 
+    PagerDriverAccountAddVehicle addVehicleFragment;
+
     @Override
     public void init(Bundle savedInstanceState) {
 
@@ -64,12 +66,16 @@ public class SetupDriverAccount extends AppIntro {
             });
 
         }
+        addVehicleFragment = new PagerDriverAccountAddVehicle();
+
 
         addSlide(new PagerDriverAccountInitial());
         addSlide(new PagerDriverAccountVerifyPhone());
-        addSlide(new PagerDriverAccountAddVehicle());
+        addSlide(addVehicleFragment);
         addSlide(new PagerDriverAccountPayment());
         addSlide(new PagerDriverAccountComplete());
+
+
 
         setBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBarColor));
     }
@@ -86,28 +92,37 @@ public class SetupDriverAccount extends AppIntro {
     public void onDonePressed() {
         //Do validation checks here
 
-        if (this.licenseNumber.trim() == ""){
+        boolean error = false;
 
+        if (this.licenseNumber == null || this.licenseNumber.trim().equals("")){
+            error = true;
+            getPager().setCurrentItem(2);
+            addVehicleFragment.setEditTextError();
         }
 
-        //Add vehicle
-        user.addVehicle(this.vehicleType, this.licenseNumber.trim());
-        user.setIsDriver(Constants.DRIVER_YES);
+        if (!error) {
 
-        //TODO
-        //Add payment methods
+            //Add vehicle
+            user.addVehicle(this.vehicleType, this.licenseNumber.trim());
 
-        //TODO
-        //Add a progress bar incase the network opeation takes a long time
+            //TODO
+            //Add payment methods
 
-        currentFirebaseUser.setValue(user, new Firebase.CompletionListener() {
-            @Override
-            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                Intent result = new Intent(SetupDriverAccount.this, ViewPublicListingsActivity.class);
-                startActivity(result);
-                finish();
-            }
-        });
+            //TODO
+            //Add a progress bar incase the network opeation takes a long time
+
+            //Set user as registered driver
+            user.setIsDriver(Constants.DRIVER_YES);
+
+            currentFirebaseUser.setValue(user, new Firebase.CompletionListener() {
+                @Override
+                public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                    Intent result = new Intent(SetupDriverAccount.this, ViewPublicListingsActivity.class);
+                    startActivity(result);
+                    finish();
+                }
+            });
+        }
     }
 
     @Override
@@ -265,6 +280,11 @@ public class SetupDriverAccount extends AppIntro {
                 //vanView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
                 motorcycleView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
             }
+        }
+
+        public void setEditTextError(){
+            licenseView.setError("This field is required");
+            licenseView.requestFocus();
         }
     }
 

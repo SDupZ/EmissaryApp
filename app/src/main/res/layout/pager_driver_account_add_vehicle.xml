@@ -20,8 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="Note: You can add extra vehicles later."
-        android:paddingBottom="20dp"/>
+        android:text="Tap an image to select" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,11 +55,6 @@
             android:src="@drawable/vector_van"/>
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Tap an image to select" />
 
     <EditText
         android:id="@+id/vehicle_license"
@@ -76,8 +70,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="left"
         android:text="Your license plate is used to prove your identity during deliveries."
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:paddingBottom="10dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:text="Note: You can add extra vehicles later."
+        android:paddingBottom="20dp"/>
+
 
 </LinearLayout>
