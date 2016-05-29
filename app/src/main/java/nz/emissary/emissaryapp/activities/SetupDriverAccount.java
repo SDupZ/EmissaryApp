@@ -84,10 +84,14 @@ public class SetupDriverAccount extends AppIntro {
 
     @Override
     public void onDonePressed() {
-        // Do something when users tap on Done button.
+        //Do validation checks here
+
+        if (this.licenseNumber.trim() == ""){
+
+        }
 
         //Add vehicle
-        user.addVehicle(this.vehicleType, this.licenseNumber);
+        user.addVehicle(this.vehicleType, this.licenseNumber.trim());
         user.setIsDriver(Constants.DRIVER_YES);
 
         //TODO
@@ -199,10 +203,11 @@ public class SetupDriverAccount extends AppIntro {
 
             if (pictureSelected == 1){
                 setColorOfImage(R.id.vehicle_motorcycle);
-            }else if (pictureSelected == 2){
-                setColorOfImage(R.id.vehicle_car);
-            }else{
+            }else if (pictureSelected == 3){
                 setColorOfImage(R.id.vehicle_van);
+            }else{
+                setColorOfImage(R.id.vehicle_car);
+
             }
         }
 
@@ -241,7 +246,8 @@ public class SetupDriverAccount extends AppIntro {
             if (id == R.id.vehicle_car) {
                 pictureSelected = 2;
                 ((SetupDriverAccount)getActivity()).vehicleType = Constants.VEHICLE_CAR;
-                carView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                carView.setColorFilter(null);
+                //carView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
                 vanView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
                 motorcycleView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
             } else if (id == R.id.vehicle_motorcycle) {
@@ -249,12 +255,14 @@ public class SetupDriverAccount extends AppIntro {
                 ((SetupDriverAccount)getActivity()).vehicleType = Constants.VEHICLE_MOTORBIKE;
                 carView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
                 vanView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
-                motorcycleView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                motorcycleView.setColorFilter(null);
+                //motorcycleView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
             } else if (id == R.id.vehicle_van) {
                 pictureSelected = 3;
                 ((SetupDriverAccount)getActivity()).vehicleType = Constants.VEHICLE_VAN;
                 carView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
-                vanView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
+                vanView.setColorFilter(null);
+                //vanView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorAccent));
                 motorcycleView.setColorFilter(ContextCompat.getColor(getContext(), R.color.colorGreyedOut));
             }
         }

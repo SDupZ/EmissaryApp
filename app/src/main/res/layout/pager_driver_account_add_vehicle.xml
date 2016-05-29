@@ -34,7 +34,6 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:clickable="true"
-            android:tint="@color/colorGreyedOut"
             android:padding="10dp"
             android:src="@drawable/vector_motorcycle"/>
         <ImageView
@@ -44,7 +43,6 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:clickable="true"
-            android:tint="@color/colorGreyedOut"
             android:padding="10dp"
             android:src="@drawable/vector_car"/>
         <ImageView
@@ -54,7 +52,6 @@
             android:layout_height="100dp"
             android:layout_gravity="center"
             android:clickable="true"
-            android:tint="@color/colorGreyedOut"
             android:padding="10dp"
             android:src="@drawable/vector_van"/>
     </LinearLayout>
