@@ -102,11 +102,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         (navigationView.getMenu().findItem(R.id.view_public_listings)).setVisible(false);
                         (navigationView.getMenu().findItem(R.id.current_deliveries)).setVisible(false);
                         (navigationView.getMenu().findItem(R.id.view_driver_dashboard)).setVisible(false);
+                        (navigationView.getMenu().findItem(R.id.my_driver_account)).setVisible(false);
+                        (navigationView.getMenu().findItem(R.id.setup_my_driver_account)).setVisible(true);
                     }else if (isDriver == Constants.DRIVER_YES){
                         (navigationView.getMenu().findItem(R.id.driver_menu_items)).setVisible(true);
                         (navigationView.getMenu().findItem(R.id.view_public_listings)).setVisible(true);
                         (navigationView.getMenu().findItem(R.id.current_deliveries)).setVisible(true);
                         (navigationView.getMenu().findItem(R.id.view_driver_dashboard)).setVisible(true);
+                        (navigationView.getMenu().findItem(R.id.my_driver_account)).setVisible(true);
+                        (navigationView.getMenu().findItem(R.id.setup_my_driver_account)).setVisible(false);
                     }
                 }
             }
