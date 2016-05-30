@@ -56,6 +56,14 @@
         </activity>
 
         <activity
+            android:name=".activities.ViewDriverAccountActivity"
+            android:label="Driver Settings"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask"
+            android:parentActivityName=".activities.ViewPublicListingsActivity">
+        </activity>
+
+        <activity
             android:name=".activities.ViewAccountActivity"
             android:label="My Account"
             android:theme="@style/AppTheme.NoActionBar"

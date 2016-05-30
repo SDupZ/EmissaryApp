@@ -38,12 +38,6 @@
                 android:icon="@drawable/ic_menu_in_transit"
                 android:title="Current Deliveries" />
 
-
-            <item
-                android:id="@+id/view_driver_dashboard"
-                android:icon="@drawable/ic_trending_up_black_24dp"
-                android:title="Driver Dashboard" />
-
             <item
                 android:id="@+id/setup_my_driver_account"
                 android:icon="@drawable/ic_error_outline_black_24dp"
@@ -51,8 +45,8 @@
 
             <item
                 android:id="@+id/my_driver_account"
-                android:icon="@drawable/ic_settings_black_24dp"
-                android:title="Driver Account Settings" />
+                android:icon="@drawable/ic_trending_up_black_24dp"
+                android:title="Driver Dashboard" />
         </menu>
     </item>
 
