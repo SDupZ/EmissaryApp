@@ -37,6 +37,9 @@ import nz.emissary.emissaryapp.User;
 public class ViewDriverAccountActivity extends AppCompatActivity {
 
     View viewVehiclesView;
+    View viewTripHistoryView;
+    View paymentView;
+    View statisticsAndGraphsView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +52,22 @@ public class ViewDriverAccountActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         viewVehiclesView = findViewById(R.id.vehicle_settings_view);
-
-
+        viewTripHistoryView = findViewById(R.id.trip_history_settings_view);
+        statisticsAndGraphsView = findViewById(R.id.statistics_settings_view);
+        paymentView = findViewById(R.id.payment_settings_view);
 
         viewVehiclesView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ViewDriverVehiclesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        viewTripHistoryView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ViewMyCompletedDeliveriesActivity.class);
                 startActivity(intent);
             }
         });

@@ -72,6 +72,14 @@
         </activity>
 
         <activity
+            android:name=".activities.ViewMyCompletedDeliveriesActivity"
+            android:label="Trip History"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask"
+            android:parentActivityName=".activities.ViewDriverAccountActivity">
+        </activity>
+
+        <activity
             android:name=".activities.ViewAccountActivity"
             android:label="My Account"
             android:theme="@style/AppTheme.NoActionBar"
