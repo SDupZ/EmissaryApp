@@ -17,7 +17,7 @@
 
     <style name="MyAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!-- Used for the buttons -->
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/mdtp_white</item>
         <!-- Used for the title and text -->
         <item name="android:textColorPrimary">@android:color/white</item>
         <!-- Used for the background -->
