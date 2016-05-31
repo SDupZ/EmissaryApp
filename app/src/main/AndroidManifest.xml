@@ -64,6 +64,14 @@
         </activity>
 
         <activity
+            android:name=".activities.ViewDriverStatisticsActivity"
+            android:label="Statistics"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask"
+            android:parentActivityName=".activities.ViewDriverAccountActivity">
+        </activity>
+
+        <activity
             android:name=".activities.ViewDriverVehiclesActivity"
             android:label="Vehicles"
             android:theme="@style/AppTheme.NoActionBar"

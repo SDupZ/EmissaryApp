@@ -39,7 +39,7 @@ public class ViewDriverAccountActivity extends AppCompatActivity {
     View viewVehiclesView;
     View viewTripHistoryView;
     View paymentView;
-    View statisticsAndGraphsView;
+    View statisticsView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class ViewDriverAccountActivity extends AppCompatActivity {
 
         viewVehiclesView = findViewById(R.id.vehicle_settings_view);
         viewTripHistoryView = findViewById(R.id.trip_history_settings_view);
-        statisticsAndGraphsView = findViewById(R.id.statistics_settings_view);
+        statisticsView = findViewById(R.id.statistics_settings_view);
         paymentView = findViewById(R.id.payment_settings_view);
 
         viewVehiclesView.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +68,14 @@ public class ViewDriverAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), ViewMyCompletedDeliveriesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        statisticsView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ViewDriverStatisticsActivity.class);
                 startActivity(intent);
             }
         });
