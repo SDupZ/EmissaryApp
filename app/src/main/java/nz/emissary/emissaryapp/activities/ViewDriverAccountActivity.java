@@ -36,6 +36,8 @@ import nz.emissary.emissaryapp.User;
  */
 public class ViewDriverAccountActivity extends AppCompatActivity {
 
+    View viewVehiclesView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +47,18 @@ public class ViewDriverAccountActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        viewVehiclesView = findViewById(R.id.vehicle_settings_view);
+
+
+
+        viewVehiclesView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ViewDriverVehiclesActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
 }
