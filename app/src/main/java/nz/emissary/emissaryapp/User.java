@@ -24,7 +24,6 @@ public class User {
 
     private List<String> currentDeliveries;
     private List<String> previousDeliveries;
-    private List<String> availableVehicles;
     private int driverRating;
 
     private int isDriver;
@@ -35,8 +34,6 @@ public class User {
 
         currentListings = new ArrayList<String>();
         previousListings =  new ArrayList<String>();
-
-        availableVehicles = new ArrayList<String>();
     }
 
     public String getProvider() {
@@ -184,20 +181,6 @@ public class User {
 
     public void abandonDelivery(String deliveryId){
         this.currentDeliveries.remove(deliveryId);
-    }
-
-    //**********************************************************************************************
-    //Available Vehicles
-    public List<String> getAvailableVehicles() {
-        return availableVehicles;
-    }
-
-    public void setAvailableVehicles(List<String> availableVehicles) {
-        this.availableVehicles = availableVehicles;
-    }
-
-    public void addVehicle(int vehicleType, String licenseNumber){
-        this.availableVehicles.add(vehicleType + Constants.ENCODED_STRING_TOKEN + licenseNumber);
     }
 
 }

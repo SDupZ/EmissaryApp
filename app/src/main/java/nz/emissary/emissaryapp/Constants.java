@@ -27,6 +27,9 @@ public class Constants {
     final public static String FIREBASE_FEEDBACK = "https://emissary.firebaseio.com/feedback";
     final public static String FIREBASE_FEEDBACK_BASE_CHILD = "feedback";
 
+    final public static String FIREBASE_USERS_VEHICLES = "https://emissary.firebaseio.com/users_vehicles";
+    final public static String FIREBASE_USERS_VEHICLES_BASE_CHILD = "users_vehicles";
+
     final public static String FIREBASE_DELIVERIES_ACTIVE = "https://emissary.firebaseio.com/deliveries_active";
     final public static String FIREBASE_DELIVERIES_ACTIVE_BASE_CHILD = "deliveries_active";
 

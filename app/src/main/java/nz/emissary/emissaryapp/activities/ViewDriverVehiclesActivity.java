@@ -19,14 +19,20 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
 import com.firebase.client.Query;
 import com.firebase.ui.FirebaseRecyclerAdapter;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.Feedback;
 import nz.emissary.emissaryapp.R;
+import nz.emissary.emissaryapp.Vehicle;
 
 /**
  * Created by Simon on 3/03/2016.
@@ -38,7 +44,7 @@ public class ViewDriverVehiclesActivity extends AppCompatActivity{
 
     private Button addVehicleButton;
 
-    private int vehicleType;
+    private int vehicleType = -1;
 
 
     @Override
@@ -57,18 +63,16 @@ public class ViewDriverVehiclesActivity extends AppCompatActivity{
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        final Firebase mRef = new Firebase(Constants.FIREBASE_USERS);
-        final Query queryRef = mRef.child(mRef.getAuth().getUid()).child("availableVehicles");
+        final Firebase mRef = new Firebase(Constants.FIREBASE_USERS_VEHICLES);
+        final Query queryRef = mRef.child(mRef.getAuth().getUid());
 
-        final FirebaseRecyclerAdapter<String, ViewHolder> adapter =
-                new FirebaseRecyclerAdapter<String, ViewHolder>(String.class, R.layout.listview_vehicles, ViewHolder.class, queryRef){
+        final FirebaseRecyclerAdapter<Vehicle, ViewHolder> adapter =
+                new FirebaseRecyclerAdapter<Vehicle, ViewHolder>(Vehicle.class, R.layout.listview_vehicles, ViewHolder.class, queryRef){
 
                     @Override
-                    protected void populateViewHolder(ViewHolder viewHolder, String vehicle, final int i) {
-                        String[] resultArray = vehicle.split(Constants.ENCODED_STRING_TOKEN);
-
-                        int vehicleType = Integer.parseInt(resultArray[0]);
-                        String plateNumber = resultArray[1];
+                    protected void populateViewHolder(ViewHolder viewHolder, Vehicle vehicle, final int i) {
+                        int vehicleType = vehicle.getVehicleType();
+                        String plateNumber = vehicle.getVehicleLicenseNumber();
 
                         viewHolder.licenseNumberView.setText(plateNumber);
                         viewHolder.setVehicleType(vehicleType);
@@ -93,6 +97,8 @@ public class ViewDriverVehiclesActivity extends AppCompatActivity{
                 final View dialogView = inflater.inflate(R.layout.pager_driver_account_add_vehicle, null);
                 builder.setView(dialogView);
 
+                final EditText licenseView;
+                licenseView = (EditText) dialogView.findViewById(R.id.vehicle_license);
                 carView = (ImageView) dialogView.findViewById(R.id.vehicle_car);
                 vanView = (ImageView) dialogView.findViewById(R.id.vehicle_van);
                 motorcycleView = (ImageView) dialogView.findViewById(R.id.vehicle_motorcycle);
@@ -121,7 +127,33 @@ public class ViewDriverVehiclesActivity extends AppCompatActivity{
 
                             @Override
                             public void onClick(View view) {
-                                tempDialog.dismiss();
+                                boolean error = false;
+                                
+                                String licensePlate = licenseView.getText().toString().trim();
+                                if (vehicleType == -1){
+                                    error = true;
+                                    Toast.makeText(ViewDriverVehiclesActivity.this, "Choose a vehicle type", Toast.LENGTH_SHORT).show();
+                                }else if (licensePlate == ""){
+                                    error = true;
+                                    licenseView.setError("This value is required");
+                                }
+
+                                if (!error){
+                                    final Firebase mRef = new Firebase(Constants.FIREBASE_USERS_VEHICLES);
+                                    final Firebase firebaseVehicles = mRef.child(mRef.getAuth().getUid());
+
+                                    Vehicle vehicle = new Vehicle();
+                                    vehicle.setVehicleType(vehicleType);
+                                    vehicle.setVehicleLicenseNumber(licensePlate);
+
+                                    Firebase newPostRef = firebaseVehicles.push();
+                                    newPostRef.setValue(vehicle, new Firebase.CompletionListener() {
+                                        @Override
+                                        public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                                            tempDialog.dismiss();
+                                        }
+                                    });
+                                }
                             }
                         });
                     }

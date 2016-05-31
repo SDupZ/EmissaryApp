@@ -29,6 +29,7 @@ import com.redbooth.WelcomeCoordinatorLayout;
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.R;
 import nz.emissary.emissaryapp.User;
+import nz.emissary.emissaryapp.Vehicle;
 
 /**
  * Created by Simon on 3/03/2016.
@@ -103,7 +104,16 @@ public class SetupDriverAccount extends AppIntro {
         if (!error) {
 
             //Add vehicle
-            user.addVehicle(this.vehicleType, this.licenseNumber.trim());
+
+            final Firebase mRef = new Firebase(Constants.FIREBASE_USERS_VEHICLES);
+            final Firebase firebaseVehicles = mRef.child(mRef.getAuth().getUid());
+
+            Vehicle vehicle = new Vehicle();
+            vehicle.setVehicleType(this.vehicleType);
+            vehicle.setVehicleLicenseNumber(this.licenseNumber.trim());
+
+            Firebase newPostRef = firebaseVehicles.push();
+            newPostRef.setValue(vehicle);
 
             //TODO
             //Add payment methods
