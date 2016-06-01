@@ -56,6 +56,14 @@
         </activity>
 
         <activity
+            android:name=".activities.NewDeliveryActivity"
+            android:label="Create new delivery"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.ViewMyListingsActivity"
+            android:launchMode="singleTask">
+        </activity>
+
+        <activity
             android:name=".activities.ViewDriverAccountActivity"
             android:label="Driver Dashboard"
             android:theme="@style/AppTheme.NoActionBar"

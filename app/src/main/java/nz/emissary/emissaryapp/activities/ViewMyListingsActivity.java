@@ -41,7 +41,8 @@ public class ViewMyListingsActivity extends BaseActivity{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ViewMyListingsActivity.this, CreateDeliveryActivity.class);
+                //Intent intent = new Intent(ViewMyListingsActivity.this, CreateDeliveryActivity.class);
+                Intent intent = new Intent(getApplicationContext(), NewDeliveryActivity.class);
                 startActivityForResult(intent, CREATE_DELIVERY);
             }
         });
