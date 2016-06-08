@@ -13,44 +13,65 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="Verify phone number"
+        android:text="Dropoff Time"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:padding="20dp"/>
 
-    <TextView
-        android:id="@+id/phone_number_view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text=""
-        tools:text="021 1687456"/>
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:id="@+id/create_delivery_pickup_date_container">
+        <ImageView
+            android:id="@+id/create_delivery_pickup_date_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/vector_calendar"/>
+        <TextView
+            android:id="@+id/create_delivery_pickup_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Tap to select a day"/>
+    </LinearLayout>
 
-    <!--<TextView-->
-        <!--android:id="@+id/my_feedback_link"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@id/my_feedback_title"-->
-        <!--android:textStyle="bold"-->
-        <!--android:gravity="center"-->
-        <!--android:padding="20dp"-->
-        <!--android:textColor="@color/colorLink"-->
-        <!--android:text="Send verification code"/>-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:background="#E0E0E0"/>
 
-
-    <!--<EditText-->
-        <!--android:lines="1"-->
-        <!--android:layout_gravity="center"-->
-        <!--android:layout_marginTop="20dp"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:minEms="5"-->
-        <!--android:hint="Verification code"/>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:id="@+id/create_delivery_pickup_time_container">
+        <ImageView
+            android:id="@+id/create_delivery_pickup_time_image"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/vector_clock"/>
+        <TextView
+            android:id="@+id/create_delivery_pickup_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Tap to select a time"/>
+    </LinearLayout>
 
     <ImageView
         android:layout_width="140dp"
         android:layout_height="140dp"
         android:layout_gravity="center"
-        android:src="@drawable/vector_phone"/>
+        android:src="@drawable/vector_calendar"/>
 
 </LinearLayout>

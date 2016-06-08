@@ -23,6 +23,8 @@ public class NewDeliveryActivity extends AppIntro {
         addSlide(new PagerNewDeliveryLocation());
         addSlide(new PagerNewDeliveryPickupLocation());
         addSlide(new PagerNewDeliveryDropoffLocation());
+        addSlide(new PagerNewDeliveryPayment());
+        addSlide(new PagerNewDeliveryComplete());
 
         setBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBarColor));
     }
@@ -87,6 +89,24 @@ public class NewDeliveryActivity extends AppIntro {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.pager_new_delivery_dropoff_time, container, false);
+            return rootView;
+        }
+    }
+
+    public static class PagerNewDeliveryPayment extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            final View rootView = inflater.inflate(R.layout.pager_new_delivery_payment, container, false);
+            return rootView;
+        }
+    }
+
+    public static class PagerNewDeliveryComplete extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            final View rootView = inflater.inflate(R.layout.pager_new_delivery_complete, container, false);
             return rootView;
         }
     }

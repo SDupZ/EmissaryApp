@@ -76,8 +76,6 @@ public class SetupDriverAccount extends AppIntro {
         addSlide(new PagerDriverAccountPayment());
         addSlide(new PagerDriverAccountComplete());
 
-
-
         setBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBarColor));
     }
 
