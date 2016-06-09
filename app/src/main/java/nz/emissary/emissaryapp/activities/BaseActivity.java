@@ -9,7 +9,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -98,7 +97,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
 
                     if (isDriver == Constants.DRIVER_NO){
                         (navigationView.getMenu().findItem(R.id.driver_menu_items)).setVisible(false);
-                        (navigationView.getMenu().findItem(R.id.previous_listings)).setVisible(true);
+                        (navigationView.getMenu().findItem(R.id.my_dashboard)).setVisible(true);
                         (navigationView.getMenu().findItem(R.id.listed)).setVisible(true);
                     }else if (isDriver == Constants.DRIVER_PENDING){
                         (navigationView.getMenu().findItem(R.id.driver_menu_items)).setVisible(true);
@@ -106,14 +105,14 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
                         (navigationView.getMenu().findItem(R.id.current_deliveries)).setVisible(false);
                         (navigationView.getMenu().findItem(R.id.my_driver_account)).setVisible(false);
                         (navigationView.getMenu().findItem(R.id.setup_my_driver_account)).setVisible(true);
-                        (navigationView.getMenu().findItem(R.id.previous_listings)).setVisible(true);
+                        (navigationView.getMenu().findItem(R.id.my_dashboard)).setVisible(true);
                         (navigationView.getMenu().findItem(R.id.listed)).setVisible(true);
                     }else if (isDriver == Constants.DRIVER_YES){
                         if(user.getPreviousListings().size() == 0 && user.getCurrentListings().size() == 0){
-                            (navigationView.getMenu().findItem(R.id.previous_listings)).setVisible(false);
+                            (navigationView.getMenu().findItem(R.id.my_dashboard)).setVisible(false);
                             (navigationView.getMenu().findItem(R.id.listed)).setVisible(false);
                         }else{
-                            (navigationView.getMenu().findItem(R.id.previous_listings)).setVisible(true);
+                            (navigationView.getMenu().findItem(R.id.my_dashboard)).setVisible(true);
                             (navigationView.getMenu().findItem(R.id.listed)).setVisible(true);
                         }
 
@@ -165,15 +164,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
         }else if (id == R.id.contact_us){
             Intent intent = new Intent(getApplicationContext(), ContactUsActivity.class);
             startActivity(intent);
-        }else if (id == R.id.previous_listings){
-            Intent intent = new Intent(getApplicationContext(), ViewMyCompletedListingsActivity.class);
+        }else if (id == R.id.my_dashboard){
+            Intent intent = new Intent(getApplicationContext(), ViewMyDashboardActivity.class);
             startActivity(intent);
         }else if (id == R.id.create_delivery){
-            //Intent intent = new Intent(getApplicationContext(), CreateDeliveryActivity.class);
-            Intent intent = new Intent(getApplicationContext(), NewDeliveryActivity.class);
+            Intent intent = new Intent(getApplicationContext(), CreateDeliveryActivity.class);
+//            Intent intent = new Intent(getApplicationContext(), NewDeliveryActivity.class);
             startActivity(intent);
         }else if (id == R.id.my_driver_account){
-            Intent intent = new Intent(getApplicationContext(), ViewDriverAccountActivity.class);
+            Intent intent = new Intent(getApplicationContext(), ViewDriverDashboardActivity.class);
             startActivity(intent);
         }else if (id == R.id.setup_my_driver_account){
             Intent intent = new Intent(getApplicationContext(), SetupDriverAccount.class)

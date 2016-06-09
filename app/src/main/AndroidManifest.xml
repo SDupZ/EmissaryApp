@@ -64,7 +64,15 @@
         </activity>
 
         <activity
-            android:name=".activities.ViewDriverAccountActivity"
+            android:name=".activities.ViewMyDashboardActivity"
+            android:label="My Dashboard"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleTask"
+            android:parentActivityName=".activities.ViewMyListingsActivity">
+        </activity>
+
+        <activity
+            android:name=".activities.ViewDriverDashboardActivity"
             android:label="Driver Dashboard"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"
@@ -76,7 +84,7 @@
             android:label="Statistics"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.ViewDriverAccountActivity">
+            android:parentActivityName=".activities.ViewDriverDashboardActivity">
         </activity>
 
         <activity
@@ -84,7 +92,7 @@
             android:label="Vehicles"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.ViewDriverAccountActivity">
+            android:parentActivityName=".activities.ViewDriverDashboardActivity">
         </activity>
 
         <activity
@@ -92,7 +100,7 @@
             android:label="Trip History"
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"
-            android:parentActivityName=".activities.ViewDriverAccountActivity">
+            android:parentActivityName=".activities.ViewDriverDashboardActivity">
         </activity>
 
         <activity
@@ -161,7 +169,7 @@
             android:label="Completed Deliveries"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".activities.ViewMyListingsActivity">
+            android:parentActivityName=".activities.ViewMyDashboardActivity">
         </activity>
 
         <activity

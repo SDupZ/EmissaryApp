@@ -30,6 +30,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_view_driver_account" />
+    <include layout="@layout/content_view_my_dashboard" />
 
 </android.support.design.widget.CoordinatorLayout>
