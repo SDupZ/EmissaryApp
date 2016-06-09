@@ -11,7 +11,7 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="How big is your item?"
+        android:text="Size of the item"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:padding="20dp"/>
