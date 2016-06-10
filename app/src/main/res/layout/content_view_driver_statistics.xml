@@ -20,61 +20,121 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textColor="#424242"
-                android:padding="10dp"
-                android:text="Completed trips: 47" />
+                android:orientation="vertical"
+                android:padding="50dp">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#424242"
+                    android:gravity="center"
+                    android:text="Completed Deliveries"
+                    />
+                <TextView
+                    android:id="@+id/completed_deliveries_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@android:style/TextAppearance.Large"
+                    android:textColor="#424242"
+                    android:gravity="center"
+                    android:text="0"/>
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textColor="#424242"
-                android:padding="10dp"
-                android:text="Total distance travelled: 439km" />
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:textColor="#424242"
+                    android:gravity="left"
+                    android:text="Total Distance Travelled"
+                    />
+                <TextView
+                    android:id="@+id/distance_travelled_view"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:gravity="center"
+                    android:textColor="#424242"
+                    android:text="0km"/>
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textColor="#424242"
-                android:padding="10dp"
-                android:text="Longest journey: 86km" />
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:textColor="#424242"
+                    android:gravity="left"
+                    android:text="Longest Journey"
+                    />
+                <TextView
+                    android:id="@+id/longest_journey_view"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:gravity="center"
+                    android:textColor="#424242"
+                    android:text="0km"/>
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textColor="#424242"
-                android:padding="10dp"
-                android:text="Total earned: $4743" />
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:textColor="#424242"
+                    android:gravity="left"
+                    android:text="Total Earned"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:gravity="center"
+                    android:textColor="#424242"
+                    android:text="TODO"/>
+            </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textColor="#424242"
-                android:padding="10dp"
-                android:text="Bugs Killed: 1302" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textColor="#424242"
-                android:padding="10dp"
-                android:text="Overall feedback rating: 4.86" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textColor="#424242"
-                android:padding="10dp"
-                android:text="Highest activity streak: 5 days" />
+                android:orientation="horizontal"
+                android:padding="10dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:layout_height="wrap_content"
+                    android:textColor="#424242"
+                    android:gravity="left"
+                    android:text="Highest Activity Streak"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@android:style/TextAppearance.Medium"
+                    android:gravity="center"
+                    android:textColor="#424242"
+                    android:text="TODO"/>
+            </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 </RelativeLayout>

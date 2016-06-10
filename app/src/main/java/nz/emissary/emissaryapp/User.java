@@ -26,6 +26,7 @@ public class User {
     private List<String> previousDeliveries;
     private int driverRating;
 
+
     private int isDriver;
 
     public User(){
