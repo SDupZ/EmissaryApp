@@ -1,6 +1,8 @@
 package nz.emissary.emissaryapp.activities;
 
+import android.animation.ArgbEvaluator;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.github.paolorotolo.appintro.AppIntro;
@@ -350,10 +353,55 @@ public class NewDeliveryActivity extends AppIntro {
     //** Payment
     //**********************************************************************************************
     public static class PagerNewDeliveryPayment extends Fragment {
+
+        SeekBar priceSlider;
+        EditText priceView;
+
+        private int maxPrice;
+        private int currentPrice;
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.pager_new_delivery_payment, container, false);
+
+            this.priceSlider= (SeekBar) rootView.findViewById(R.id.price_slider);
+            this.priceView = (EditText) rootView.findViewById(R.id.price_view);
+
+            this.currentPrice = 0;
+            this.maxPrice = 1000;
+
+            this.priceSlider.setProgress(0);
+            priceView.setText(String.valueOf(this.currentPrice));
+
+            priceSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                    currentPrice = (int)(maxPrice * Math.pow((progress / 100.0), 4));
+                    priceView.setText("$" + String.valueOf(currentPrice));
+
+                    float percentage = ((float)(progress / 50.0));
+
+                    if (percentage > 1){
+                        percentage = 1;
+                    }
+
+                    int decimalColor = (Integer) new ArgbEvaluator().evaluate(percentage, 0xB71C1C, 0x689F38);
+                    String hexColour = "#" + Integer.toHexString(decimalColor);
+                    priceView.setTextColor(Color.parseColor(hexColour));
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+
+                }
+            });
+
             return rootView;
         }
     }
