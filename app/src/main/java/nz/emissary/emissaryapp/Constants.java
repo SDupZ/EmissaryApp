@@ -57,6 +57,7 @@ public class Constants {
     final public static int STATUS_CANCELLED            = -1;
 
     final public static int MINIMUM_MESSAGE_REQUEST_LENGTH  = 10;
+    final public static double DISTANCE_ESTIMATE_FACTOR = 1.2;
 
     final public static int DEFAULT_FILTER_RADIUS   =   20;
 
@@ -310,5 +311,18 @@ public class Constants {
         DecimalFormat df = new DecimalFormat("#0.0");
 
         return "" + df.format(distance) + "km";
+    }
+
+    public static double getRecommendedPrice(double distance){
+        double fuelPerKm    = 0.18392;
+        double timePerHour  = 18.0;
+        double averageSpeed = 40;
+
+        double flatCharge = 0.0;
+
+        double timeCost = (distance / averageSpeed) * timePerHour;
+        double fuelCost = (distance * fuelPerKm);
+
+        return (timeCost + fuelCost + flatCharge);
     }
 }

@@ -26,6 +26,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
+
+import org.w3c.dom.Text;
 
 import nz.emissary.emissaryapp.Constants;
 import nz.emissary.emissaryapp.R;
@@ -37,11 +40,15 @@ public class NewDeliveryActivity extends AppIntro {
 
     protected int vehicleType;
 
-    protected Place pickupPlace;
-    protected Place dropoffPlace;
+    private Place pickupPlace;
+    private Place dropoffPlace;
+    protected double estimatedDistance;
 
     @Override
     public void init(Bundle savedInstanceState) {
+        this.estimatedDistance = -1;
+        pickupPlace = null;
+        dropoffPlace = null;
         addSlide(new PagerNewDeliveryInitial());
         addSlide(new PagerNewDeliveryVehicleType());
         addSlide(new PagerNewDeliveryLocation());
@@ -79,6 +86,45 @@ public class NewDeliveryActivity extends AppIntro {
             final View rootView = inflater.inflate(R.layout.pager_new_delivery_initial, container, false);
             return rootView;
         }
+    }
+
+    protected void setPickupPlace(Place pickupPlace){
+        this.pickupPlace = pickupPlace;
+        if (this.dropoffPlace != null){
+            this.estimatedDistance = Constants.DISTANCE_ESTIMATE_FACTOR * getRoughDistance(this.pickupPlace.getLatLng(), this.dropoffPlace.getLatLng());
+        }
+    }
+
+    protected void setDropoffPlace(Place dropoffPlace){
+        this.dropoffPlace = dropoffPlace;
+        if (this.pickupPlace != null){
+            this.estimatedDistance = Constants.DISTANCE_ESTIMATE_FACTOR *getRoughDistance(this.pickupPlace.getLatLng(), this.dropoffPlace.getLatLng());
+        }
+    }
+
+    protected Place getPickupPlace(){
+        return this.pickupPlace;
+    }
+
+    protected Place getDropoffPlace(){
+        return this.dropoffPlace;
+    }
+
+    private double getRoughDistance(LatLng start, LatLng end){
+        double radius = 6371;           // Radius of the earth in km
+        double dLat = deg2rad(end.latitude - start.latitude);  // deg2rad below
+        double dLon = deg2rad(end.longitude - start.longitude);
+        double a = Math.sin(dLat/2) * Math.sin(dLat/2)
+                        + Math.cos(deg2rad(start.latitude))
+                        * Math.cos(deg2rad(end.latitude))
+                        * Math.sin(dLon/2) * Math.sin(dLon/2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        double d = radius * c; // Distance in km
+        return d;
+    }
+
+    private double deg2rad(double deg) {
+        return deg * (Math.PI/180);
     }
 
     //**********************************************************************************************
@@ -309,11 +355,11 @@ public class NewDeliveryActivity extends AppIntro {
                     String placeMsg = place.getAddress().toString();
 
                     if (requestCode == 1){
-                        ((NewDeliveryActivity)getActivity()).pickupPlace = place;
+                        ((NewDeliveryActivity)getActivity()).setPickupPlace(place);
                         pickupLocationTextView.setText(placeMsg);
                         pickupText = placeMsg;
                     }else if (requestCode == 2){
-                        ((NewDeliveryActivity)getActivity()).dropoffPlace = place;
+                        ((NewDeliveryActivity)getActivity()).setDropoffPlace(place);
                         dropOffLocationTextView.setText(placeMsg);
                         dropoffText = placeMsg;
                     }
@@ -356,9 +402,11 @@ public class NewDeliveryActivity extends AppIntro {
 
         SeekBar priceSlider;
         EditText priceView;
+        TextView recommendedPriceView;
 
         private int maxPrice;
         private int currentPrice;
+        private double recommendedPrice = 50;
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -367,9 +415,10 @@ public class NewDeliveryActivity extends AppIntro {
 
             this.priceSlider= (SeekBar) rootView.findViewById(R.id.price_slider);
             this.priceView = (EditText) rootView.findViewById(R.id.price_view);
+            this.recommendedPriceView = (TextView) rootView.findViewById(R.id.recommended_price);
 
             this.currentPrice = 0;
-            this.maxPrice = 1000;
+            this.maxPrice = 300;
 
             this.priceSlider.setProgress(0);
             priceView.setText(String.valueOf(this.currentPrice));
@@ -380,7 +429,7 @@ public class NewDeliveryActivity extends AppIntro {
                     currentPrice = (int)(maxPrice * Math.pow((progress / 100.0), 4));
                     priceView.setText("$" + String.valueOf(currentPrice));
 
-                    float percentage = ((float)(progress / 50.0));
+                    float percentage = ((float)(progress / recommendedPrice));
 
                     if (percentage > 1){
                         percentage = 1;
@@ -403,6 +452,23 @@ public class NewDeliveryActivity extends AppIntro {
             });
 
             return rootView;
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+
+            if (((NewDeliveryActivity)getActivity()).estimatedDistance != -1){
+                double distance = ((NewDeliveryActivity)getActivity()).estimatedDistance;
+                int recommendedPrice = (int)Constants.getRecommendedPrice(distance);
+                if (recommendedPrice == 0){
+                    recommendedPrice = 1;
+                }
+                this.recommendedPrice = recommendedPrice;
+
+                recommendedPriceView.setText("~ $" + String.valueOf(recommendedPrice));
+            }
+
         }
     }
 
